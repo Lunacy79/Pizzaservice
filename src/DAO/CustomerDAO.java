@@ -1,35 +1,44 @@
-package application;
+package DAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import model.Customer;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 
-public class PizzaDAO {
 
+public class CustomerDAO {
+	private Customer customer = new Customer();
+	private ArrayList<Customer> customers = new ArrayList<Customer>();
 	private Connection dbConnect;
 
+	public ArrayList<Customer> getCustomers(){
 
-	public Pizza addPizza(String size) throws SQLException{
+	}
+
+	public int addCustomer(String fname, String lname, String street, String nr, String plz, String city, String telefon) throws SQLException{
 
 		this.dbConnect = (Connection) ConnectDB.createConnection();
-		Pizza pizza = new Pizza(size);
-		ResultSet erg = null;
+
+		int id = -1;
 
 		if(this.dbConnect != null){
 
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select * from pizza where size='" + size + "'");
+				anweisung.executeUpdate("Insert into customers (fname,lname,street,nr,plz,city,telefon) values ('" + fname + "','" + lname + "','" + street + "','" + nr + "','" + plz + "','" + city + "','" + telefon + "')");
+				Statement anw = this.dbConnect.createStatement();
+				ResultSet erg = anw.executeQuery("select @@IDENTITY");
 				while(erg.next()){
-					pizza=new Pizza(erg.getString(1),erg.getDouble(2));
+					id = erg.getInt(1);
 				}
-
-
+				anweisung.close();
 
 			}
 			catch (SQLException e) {
@@ -37,10 +46,10 @@ public class PizzaDAO {
 			}
 		}
 
-		return pizza;
+		return id;
 	}
 
-	public Customer deletePizza(String lname){
+	public Customer getCustomer(String lname){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		Customer customer = new Customer();

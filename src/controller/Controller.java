@@ -1,4 +1,4 @@
-package application;
+package controller;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import DAO.CustomerDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
