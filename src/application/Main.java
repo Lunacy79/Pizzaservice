@@ -3,7 +3,6 @@ package application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import java.net.URL;
-
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,12 +14,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			final URL fxmlUrl = getClass().getResource("fxml/First.fxml");
+			final URL fxmlUrl = getClass().getResource("test.fxml");
 			final FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
-			fxmlLoader.setController(new FirstController());
+			fxmlLoader.setController(new Controller());
 			final Parent root = fxmlLoader.load();
 
-			Scene scene = new Scene(root,700,500);
+			Scene scene = new Scene(root,400,400);
 
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Hallo");

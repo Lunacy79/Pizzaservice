@@ -19,6 +19,30 @@ public class CustomerDAO {
 	private Connection dbConnect;
 
 	public ArrayList<Customer> getCustomers(){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		Customer customer = new Customer();
+		ResultSet erg = null;
+
+		if(this.dbConnect != null){
+
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select * from customers");
+				while(erg.next()){
+					customer=new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8));
+					customers.add(customer);
+				}
+
+
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+		return customers;
 
 	}
 
