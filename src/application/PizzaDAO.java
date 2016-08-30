@@ -9,29 +9,27 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 
-
-public class CustomerDAO {
+public class PizzaDAO {
 
 	private Connection dbConnect;
 
 
-	public int addCustomer(String fname, String lname, String street, String nr, String plz, String city, String telefon) throws SQLException{
+	public Pizza addPizza(String size) throws SQLException{
 
 		this.dbConnect = (Connection) ConnectDB.createConnection();
-
-		int id = -1;
+		Pizza pizza = new Pizza(size);
+		ResultSet erg = null;
 
 		if(this.dbConnect != null){
 
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				anweisung.executeUpdate("Insert into customers (fname,lname,street,nr,plz,city,telefon) values ('" + fname + "','" + lname + "','" + street + "','" + nr + "','" + plz + "','" + city + "','" + telefon + "')");
-				Statement anw = this.dbConnect.createStatement();
-				ResultSet erg = anw.executeQuery("select @@IDENTITY");
+				erg = anweisung.executeQuery("Select * from pizza where size='" + size + "'");
 				while(erg.next()){
-					id = erg.getInt(1);
+					pizza=new Pizza(erg.getString(1),erg.getDouble(2));
 				}
-				anweisung.close();
+
+
 
 			}
 			catch (SQLException e) {
@@ -39,10 +37,10 @@ public class CustomerDAO {
 			}
 		}
 
-		return id;
+		return pizza;
 	}
 
-	public Customer getCustomer(String lname){
+	public Customer deletePizza(String lname){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		Customer customer = new Customer();

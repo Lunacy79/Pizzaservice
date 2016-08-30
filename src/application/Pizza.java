@@ -7,11 +7,16 @@ public class Pizza {
 
 	private Topping topping;
 	private ArrayList<Topping> toppings = new ArrayList<Topping>();
-	private int size;
+	private String size;
 	private double price;
 
-	public Pizza(int size){
+	public Pizza(String size){
 		this.size = size;
+	}
+
+	public Pizza(String size, double price){
+		this.size = size;
+		this.price = price;
 	}
 
 	public Topping getTopping() {
@@ -30,11 +35,11 @@ public class Pizza {
 		this.toppings = toppings;
 	}
 
-	public int getSize() {
+	public String getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 

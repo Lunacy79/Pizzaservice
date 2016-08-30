@@ -1,7 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-
 public class Customer {
 
 	private int cnr;
@@ -11,19 +9,19 @@ public class Customer {
 	private String nr;
 	private String plz;
 	private String city;
-	private ArrayList<Telefon> telefonliste = new ArrayList<Telefon>();
+	private String telefon;
 
 
-	public Customer(String fname, String lname, String street, String nr, String plz, String city){
+	public Customer(String fname, String lname, String street, String nr, String plz, String city, String telefon){
 		this.fname=fname;
 		this.lname=lname;
 		this.street=street;
 		this.nr=nr;
 		this.plz=plz;
-		this.city=city;
+		this.telefon=telefon;
 	}
 
-	public Customer(int cnr, String fname, String lname, String street, String nr, String plz, String city){
+	public Customer(int cnr, String fname, String lname, String street, String nr, String plz, String city, String telefon){
 		this.cnr=cnr;
 		this.fname=fname;
 		this.lname=lname;
@@ -31,10 +29,7 @@ public class Customer {
 		this.nr=nr;
 		this.plz=plz;
 		this.city=city;
-	}
-
-	public void addTelefon(String number){
-		this.telefonliste.add(new Telefon(number));
+		this.telefon=telefon;
 	}
 
 	public Customer(){
@@ -97,19 +92,18 @@ public class Customer {
 		this.city = city;
 	}
 
-
-	public ArrayList<Telefon> getTelefonliste() {
-		return telefonliste;
+	public String getTelefon() {
+		return telefon;
 	}
 
-	public void setTelefonliste(ArrayList<Telefon> telefonliste) {
-		this.telefonliste = telefonliste;
+	public void setTelefon(String telefon) {
+		this.telefon = telefon;
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [cnr=" + cnr + ", fname=" + fname + ", lname=" + lname + ", street=" + street + ", nr=" + nr
-				+ ", plz=" + plz + ", city=" + city + ", telefonliste=" + telefonliste + "]";
+				+ ", plz=" + plz + ", city=" + city + ", telefon=" + telefon + "]";
 	}
 
 
