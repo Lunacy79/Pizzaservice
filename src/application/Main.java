@@ -29,7 +29,7 @@ public class Main extends Application {
 		Controller controller = loader.getController();
 		controller.setMainApp(this);
 
-		Scene scene = new Scene(root,600,800);
+		Scene scene = new Scene(root,1070,760);
 
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Hallo");
@@ -45,5 +45,12 @@ public class Main extends Application {
 	public ObservableList<Customer> getCustomers(){
 
 		return this.customerlist;
+	}
+
+	public ObservableList<Customer> getCustomer(String name){
+		CustomerDAO cust = new CustomerDAO();
+		customerlist.removeAll(getCustomers());
+		customerlist.addAll(cust.getCustomer(name));
+		return customerlist;
 	}
 }

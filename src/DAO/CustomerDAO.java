@@ -21,8 +21,7 @@ public class CustomerDAO {
 
 	public ArrayList<Customer> getCustomers(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
-		ArrayList<Customer> customers = new ArrayList<Customer>();
-		Customer customer = new Customer();
+
 		ResultSet erg = null;
 
 		if(this.dbConnect != null){
@@ -74,10 +73,9 @@ public class CustomerDAO {
 		return id;
 	}
 
-	public Customer getCustomer(String lname){
+	public ArrayList<Customer> getCustomer(String lname){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
-		Customer customer = new Customer();
 		ResultSet erg = null;
 
 		if(this.dbConnect != null){
@@ -86,7 +84,7 @@ public class CustomerDAO {
 				Statement anweisung = this.dbConnect.createStatement();
 				erg = anweisung.executeQuery("Select * from customers where lname='" + lname + "'");
 				while(erg.next()){
-					customer=new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8));
+					customers.add(new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8)));
 				}
 
 
@@ -97,6 +95,6 @@ public class CustomerDAO {
 		}
 
 
-		return customer;
+		return customers;
 	}
 }

@@ -81,6 +81,9 @@ public class Controller implements Initializable {
 	    private Tab custtab;
 
 	    @FXML
+	    private Button searchbtn;
+
+	    @FXML
 	    private TableColumn<Customer,String> colcity;
 
 	    @FXML
@@ -108,6 +111,16 @@ public class Controller implements Initializable {
 	    @FXML
 	    void searchCustomer(ActionEvent event) {
 
+
+			customertable.setItems(mainApp.getCustomer(searchfield.getText()));
+			colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
+			collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
+			colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
+			colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
+			colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
+			colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
+			colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
+			colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 	    }
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources){
@@ -117,9 +130,9 @@ public class Controller implements Initializable {
 		colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
 		colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
 		colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
-		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("Postleitzahl"));
-		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("Ort"));
-		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("Telefonnummer"));
+		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
+		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
+		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 
 	}
 
