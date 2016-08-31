@@ -45,6 +45,12 @@ public class Controller implements Initializable {
 	    private Button custdel;
 
 	    @FXML
+	    private AnchorPane anchor;
+
+	    @FXML
+	    private TabPane tabpane;
+
+	    @FXML
 	    private TableColumn<Customer,String> colnr;
 
 	    @FXML
@@ -82,6 +88,7 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    private Button custchange;
+	    private Main mainApp;
 
 	    @FXML
 	    void addCustomer(ActionEvent event) {
@@ -105,24 +112,20 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources){
 
-		ArrayList<Customer> customers = new ArrayList<Customer>();
-		  CustomerDAO customer = new CustomerDAO();
-		  customers = customer.getCustomers();
-		  ObservableList<Customer> customerlist = FXCollections.observableArrayList(customers);
+		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
+		collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
+		colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
+		colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
+		colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
+		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("Postleitzahl"));
+		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("Ort"));
+		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("Telefonnummer"));
 
-		  TableView tableView = new TableView();
-		  tableView.getColumns().addAll(colcnr,collname,colfname,colstreet,colnr,colplz,colcity,colphone);
-		  tableView.setItems(customerlist);
+	}
 
-		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("Kundennummer"));
-		  collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("Nachname"));
-		  colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("Vorname"));
-		  colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("Straﬂe"));
-		  colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("Hausnr"));
-		  colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("Postleitzahl"));
-		  colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("Ort"));
-		  colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("Telefonnummer"));
-
+	public void setMainApp(Main mainApp){
+		this.mainApp = mainApp;
+		customertable.setItems(mainApp.getCustomers());
 	}
 
 

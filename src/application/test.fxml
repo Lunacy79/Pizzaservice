@@ -5,11 +5,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="706.0" prefWidth="1032.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<AnchorPane fx:id="anchor" prefHeight="755.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <TabPane layoutY="-30.0" prefHeight="752.0" prefWidth="1055.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabpane" layoutY="2.0" prefHeight="752.0" prefWidth="1055.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="ordertab" text="Bestellung">
             <content>

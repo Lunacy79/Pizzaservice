@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
 import model.Customer;
 
 import java.sql.Connection;
@@ -30,8 +31,8 @@ public class CustomerDAO {
 				Statement anweisung = this.dbConnect.createStatement();
 				erg = anweisung.executeQuery("Select * from customers");
 				while(erg.next()){
-					customer=new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8));
-					customers.add(customer);
+
+					customers.add(new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8)));
 				}
 
 

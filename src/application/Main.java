@@ -1,35 +1,49 @@
 package application;
 
+import java.util.ArrayList;
+
+import DAO.CustomerDAO;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import java.net.URL;
+
 import javafx.stage.Stage;
-import javafx.scene.Parent;
+import model.Customer;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
+
+
 
 
 public class Main extends Application {
+
+	private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		try {
-			final URL fxmlUrl = getClass().getResource("test.fxml");
-			final FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
-			fxmlLoader.setController(new Controller());
-			final Parent root = fxmlLoader.load();
+		FXMLLoader loader = new FXMLLoader();
+		CustomerDAO cust = new CustomerDAO();
+		customerlist.addAll(cust.getCustomers());
+		loader.setLocation(getClass().getResource("test.fxml"));
+		AnchorPane root = (AnchorPane) loader.load();
+		Controller controller = loader.getController();
+		controller.setMainApp(this);
 
-			Scene scene = new Scene(root,400,400);
+		Scene scene = new Scene(root,600,800);
 
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Hallo");
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Hallo");
+		primaryStage.show();
+
+
 	}
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	public ObservableList<Customer> getCustomers(){
+
+		return this.customerlist;
 	}
 }
