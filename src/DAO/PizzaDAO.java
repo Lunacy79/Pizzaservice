@@ -31,7 +31,7 @@ public class PizzaDAO {
 				erg = anweisung.executeQuery("Select * from pizza");
 				while(erg.next()){
 
-					pizzalist.add(new Pizza(erg.getString(1),erg.getDouble(2)));
+					pizzalist.add(new Pizza(erg.getString(1),erg.getDouble(2),erg.getDouble(3),erg.getDouble(4)));
 				}
 
 

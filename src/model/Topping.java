@@ -2,23 +2,18 @@ package model;
 
 public class Topping {
 
-	private String number;
 	private String name;
 	private int priceclass;
 
-	public Topping(String number,String name, int priceclass){
-		this.number=number;
+	public Topping(String name, int priceclass){
+
 		this.name = name;
 		this.priceclass=priceclass;
 
 	}
 
-	public String getNumber() {
-		return number;
-	}
+	public Topping(){
 
-	public void setNumber(String number) {
-		this.number = number;
 	}
 
 	public String getName() {

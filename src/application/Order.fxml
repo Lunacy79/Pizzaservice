@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -12,8 +13,8 @@
             <Label layoutX="72.0" layoutY="43.0" text="Bestellung für:" />
             <TextField fx:id="custshow" layoutX="230.0" layoutY="39.0" />
             <Label layoutX="77.0" layoutY="110.0" text="Pizza" />
-            <Label layoutX="73.0" layoutY="337.0" text="Beläge" />
-            <Label layoutX="67.0" layoutY="460.0" text="Getränke" />
+            <Label layoutX="73.0" layoutY="256.0" text="Beläge" />
+            <Label layoutX="73.0" layoutY="536.0" text="Getränke" />
             <TreeView fx:id="listview" layoutX="516.0" layoutY="114.0" prefHeight="506.0" prefWidth="443.0" />
             <TableView fx:id="tableViewPizza" layoutX="205.0" layoutY="119.0" prefHeight="123.0" prefWidth="200.0">
               <columns>
@@ -22,6 +23,19 @@
               </columns>
             </TableView>
             <Button fx:id="pizzaconfirm" layoutX="435.0" layoutY="217.0" mnemonicParsing="false" onAction="#choosePizza" text="Ok" />
+            <ChoiceBox layoutX="230.0" layoutY="569.0" prefWidth="150.0" />
+            <FlowPane fx:id="containertoppings" hgap="10.0" layoutX="74.0" layoutY="294.0" prefHeight="69.0" prefWidth="409.0" vgap="10.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </FlowPane>
+            <Label fx:id="toppingprice1" layoutX="77.0" layoutY="273.0" text="je xxx Euro" />
+            <Label fx:id="toppingprice2" layoutX="77.0" layoutY="380.0" text="je yyy Euro" />
+            <FlowPane fx:id="containertoppings2" hgap="10.0" layoutX="74.0" layoutY="403.0" prefHeight="69.0" prefWidth="409.0" vgap="10.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </FlowPane>
          </children></AnchorPane>
    </children>
 </AnchorPane>
