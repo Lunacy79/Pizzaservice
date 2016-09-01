@@ -87,14 +87,46 @@ public class CustomerDAO {
 					customers.add(new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8)));
 				}
 
-
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
-
+		
 		return customers;
+	}
+	
+	public void setCustomerForOrder(int knr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung2 = this.dbConnect.createStatement();
+				anweisung2.executeUpdate("Insert into orders (cnr) values (" + knr + ")");
+				anweisung2.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public String getCustomerForOrder(){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		String customer = "";
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orders.cnr,lname,fname from customers,orders where customers.cnr = orders.cnr order by onr");
+				while(erg.next()){
+					customer = erg.getString(2) + ", " + erg.getString(3);
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return customer;
 	}
 }

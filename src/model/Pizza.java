@@ -7,10 +7,11 @@ public class Pizza {
 
 	private Topping topping;
 	private ArrayList<Topping> toppings = new ArrayList<Topping>();
+	private String name;
 	private String size;
 	private double price;
-	private double topping1;
-	private double topping2;
+	private String topping1;
+	private String topping2;
 
 	public Pizza(String size, double price){
 		this.size = size;
@@ -20,7 +21,7 @@ public class Pizza {
 
 	}
 
-	public Pizza(String size, double price, double topping1, double topping2){
+	public Pizza(String size, double price, String topping1, String topping2){
 		this.size = size;
 		this.price = price;
 		this.topping1 = topping1;
@@ -43,6 +44,14 @@ public class Pizza {
 		this.toppings = toppings;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getSize() {
 		return size;
 	}
@@ -57,6 +66,22 @@ public class Pizza {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public String getTopping1() {
+		return topping1;
+	}
+
+	public void setTopping1(String topping1) {
+		this.topping1 = topping1;
+	}
+
+	public String getTopping2() {
+		return topping2;
+	}
+
+	public void setTopping2(String topping2) {
+		this.topping2 = topping2;
 	}
 
 	public void addTopping(String number, String name, int priceclass){

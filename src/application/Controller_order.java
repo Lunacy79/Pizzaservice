@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import DAO.CustomerDAO;
 import DAO.PizzaDAO;
 import DAO.ToppingDAO;
 import model.Order;
@@ -30,7 +31,7 @@ import model.Pizza;
 public class Controller_order implements Initializable {
 
     @FXML
-    private TextField custshow;
+    private Label custshow;
 
     @FXML
     private TableView<Pizza> tableViewPizza;
@@ -61,18 +62,33 @@ public class Controller_order implements Initializable {
     @FXML
     private Button pizzaconfirm;
     private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
+    PizzaDAO pizza = new PizzaDAO();
 
 
     @FXML
     void choosePizza(ActionEvent event) {
-
+    	int selectedIndex = tableViewPizza.getSelectionModel().getSelectedIndex();
+		String topping1 = "";
+		String topping2 = "";
+    	if(selectedIndex >= 0){
+    		topping1 = pizza.getPizzas().get(selectedIndex).getTopping1();
+    		topping2 = pizza.getPizzas().get(selectedIndex).getTopping2();
+    		toppingprice1.setText("je " + topping1 + " Euro");
+    		toppingprice2.setText("je " + topping2 + " Euro");
+    	}
     }
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
+    	
+    	CustomerDAO cust = new CustomerDAO();
+    	
+    	custshow.setText(cust.getCustomerForOrder());
 
 		colpizza.setCellValueFactory(new PropertyValueFactory <Pizza,String>("size"));
 		colprice.setCellValueFactory(new PropertyValueFactory <Pizza,Double>("price"));
+		PizzaDAO pizza = new PizzaDAO();
+		pizzalist.addAll(pizza.getPizzas());
 		getPizzas();
 
 		ToppingDAO topping = new ToppingDAO();
@@ -81,7 +97,6 @@ public class Controller_order implements Initializable {
 			CheckBox check = new CheckBox(toppinglist1.get(i));
 			containertoppings.getChildren().add(check);
 		}
-		toppingprice1.setText("Hallo");
 		toppinglist2 = topping.getToppings2();
 		for( int i = 0; i<toppinglist2.size(); i++){
 			CheckBox check = new CheckBox(toppinglist2.get(i));
@@ -90,8 +105,6 @@ public class Controller_order implements Initializable {
 	}
 
     public void getPizzas(){
-		PizzaDAO pizza = new PizzaDAO();
-		pizzalist.addAll(pizza.getPizzas());
 		tableViewPizza.setItems(pizzalist);
 	}
 

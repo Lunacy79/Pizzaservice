@@ -123,7 +123,6 @@ public class Controller implements Initializable {
 	    @FXML
 	    void searchCustomer(ActionEvent event) {
 
-
 			customertable.setItems(mainApp.getCustomer(searchfield.getText()));
 			colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
 			collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
@@ -134,6 +133,7 @@ public class Controller implements Initializable {
 			colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 			colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 	    }
+	    
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources){
 
@@ -145,11 +145,22 @@ public class Controller implements Initializable {
 		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
 		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
-
 	}
 
 	@FXML
-    void gotoOrder(ActionEvent event) throws IOException {
+    public void gotoOrder(ActionEvent event) throws IOException {
+		int selectedIndex = customertable.getSelectionModel().getSelectedIndex();
+		int knr = 0;
+    	if(selectedIndex >= 0){
+    		knr = customertable.getItems().get(selectedIndex).getCnr();
+    		CustomerDAO cust = new CustomerDAO();
+    		cust.setCustomerForOrder(knr);
+    		openNewScene(event);
+    	}
+	}
+	
+	public void openNewScene(ActionEvent event) throws IOException{
+		
 		FXMLLoader loader = new FXMLLoader();
 		Parent parent_order = FXMLLoader.load(Main.class.getResource("Order.fxml"));
 		Scene order = new Scene(parent_order,1070,760);
@@ -157,13 +168,12 @@ public class Controller implements Initializable {
 		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(order);
 		primaryStage.show();
+		
 	}
-
-
+	
 	public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
 		customertable.setItems(mainApp.getCustomers());
 	}
-
 
 }
