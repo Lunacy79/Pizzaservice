@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="448.0" prefWidth="483.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_order">
+   <children>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1070.0">
+         <children>
+            <Label layoutX="72.0" layoutY="43.0" text="Bestellung für:" />
+            <TextField fx:id="custshow" layoutX="230.0" layoutY="39.0" />
+            <Label layoutX="77.0" layoutY="110.0" text="Pizza" />
+            <Label layoutX="73.0" layoutY="337.0" text="Beläge" />
+            <Label layoutX="67.0" layoutY="460.0" text="Getränke" />
+            <TreeView fx:id="listview" layoutX="516.0" layoutY="114.0" prefHeight="506.0" prefWidth="443.0" />
+            <TableView fx:id="tableViewPizza" layoutX="205.0" layoutY="119.0" prefHeight="123.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="colpizza" prefWidth="120.0" text="Pizza" />
+                <TableColumn fx:id="colprice" prefWidth="79.0" text="Preis" />
+              </columns>
+            </TableView>
+            <Button fx:id="pizzaconfirm" layoutX="435.0" layoutY="217.0" mnemonicParsing="false" onAction="#choosePizza" text="Ok" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,8 +1,10 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import DAO.CustomerDAO;
+import DAO.PizzaDAO;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,8 +12,12 @@ import javafx.fxml.FXMLLoader;
 
 import javafx.stage.Stage;
 import model.Customer;
+import model.Pizza;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.event.ActionEvent;
 
 
 
@@ -19,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 public class Main extends Application {
 
 	private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
@@ -53,4 +60,6 @@ public class Main extends Application {
 		customerlist.addAll(cust.getCustomer(name));
 		return customerlist;
 	}
+
+
 }

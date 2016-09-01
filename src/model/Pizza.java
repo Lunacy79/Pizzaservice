@@ -14,6 +14,10 @@ public class Pizza {
 		this.size = size;
 	}
 
+	public Pizza(){
+
+	}
+
 	public Pizza(String size, double price){
 		this.size = size;
 		this.price = price;

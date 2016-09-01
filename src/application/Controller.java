@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,16 +9,23 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import DAO.CustomerDAO;
+import DAO.PizzaDAO;
+import application.Main;
 import model.Customer;
+import model.Pizza;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
-
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -43,6 +51,9 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    private Button custdel;
+
+	    @FXML
+	    private Button custlistorder;
 
 	    @FXML
 	    private AnchorPane anchor;
@@ -92,6 +103,7 @@ public class Controller implements Initializable {
 	    @FXML
 	    private Button custchange;
 	    private Main mainApp;
+	    private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
 
 	    @FXML
 	    void addCustomer(ActionEvent event) {
@@ -135,6 +147,18 @@ public class Controller implements Initializable {
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 
 	}
+
+	@FXML
+    void gotoOrder(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent_order = FXMLLoader.load(Main.class.getResource("Order.fxml"));
+		Scene order = new Scene(parent_order,1070,760);
+		Controller_order controller = loader.getController();
+		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		primaryStage.setScene(order);
+		primaryStage.show();
+	}
+
 
 	public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
