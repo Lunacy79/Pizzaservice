@@ -92,10 +92,10 @@ public class CustomerDAO {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return customers;
 	}
-	
+
 	public void setCustomerForOrder(int knr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -110,7 +110,7 @@ public class CustomerDAO {
 			}
 		}
 	}
-	
+
 	public String getCustomerForOrder(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -118,9 +118,9 @@ public class CustomerDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select orders.cnr,lname,fname from customers,orders where customers.cnr = orders.cnr order by onr");
+				erg = anweisung.executeQuery("Select orders.cnr,onr,lname,fname from customers,orders where customers.cnr = orders.cnr order by onr");
 				while(erg.next()){
-					customer = erg.getString(2) + ", " + erg.getString(3);
+					customer = erg.getString(3) + ", " + erg.getString(4);
 				}
 			}
 			catch (SQLException e) {

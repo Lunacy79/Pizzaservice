@@ -31,7 +31,7 @@ public class PizzaDAO {
 				erg = anweisung.executeQuery("Select * from pizza");
 				while(erg.next()){
 
-					pizzalist.add(new Pizza(erg.getString(1),erg.getDouble(2),erg.getString(3),erg.getString(4)));
+					pizzalist.add(new Pizza(erg.getString(1),erg.getDouble(2),erg.getDouble(3),erg.getDouble(4)));
 				}
 
 
@@ -46,10 +46,10 @@ public class PizzaDAO {
 	}
 
 
-	public Pizza addPizza(String size) throws SQLException{
+	public Pizza addPizza(String size, double price) throws SQLException{
 
 		this.dbConnect = (Connection) ConnectDB.createConnection();
-		Pizza pizza = new Pizza(size);
+		Pizza pizza = new Pizza(size, price);
 		ResultSet erg = null;
 
 		if(this.dbConnect != null){

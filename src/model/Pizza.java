@@ -10,8 +10,8 @@ public class Pizza {
 	private String name;
 	private String size;
 	private double price;
-	private String topping1;
-	private String topping2;
+	private double topping1;
+	private double topping2;
 
 	public Pizza(String size, double price){
 		this.size = size;
@@ -21,7 +21,7 @@ public class Pizza {
 
 	}
 
-	public Pizza(String size, double price, String topping1, String topping2){
+	public Pizza(String size, double price, double topping1, double topping2){
 		this.size = size;
 		this.price = price;
 		this.topping1 = topping1;
@@ -68,19 +68,19 @@ public class Pizza {
 		this.price = price;
 	}
 
-	public String getTopping1() {
+	public double getTopping1() {
 		return topping1;
 	}
 
-	public void setTopping1(String topping1) {
+	public void setTopping1(double topping1) {
 		this.topping1 = topping1;
 	}
 
-	public String getTopping2() {
+	public double getTopping2() {
 		return topping2;
 	}
 
-	public void setTopping2(String topping2) {
+	public void setTopping2(double topping2) {
 		this.topping2 = topping2;
 	}
 

@@ -21,10 +21,12 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import model.Customer;
 import model.Pizza;
 
@@ -57,7 +59,7 @@ public class Controller_order implements Initializable {
     private Label toppingprice2;
 
     @FXML
-    private TreeView<Order> listview;
+    private TreeView<String> orderlist;
 
     @FXML
     private Button pizzaconfirm;
@@ -66,10 +68,10 @@ public class Controller_order implements Initializable {
 
 
     @FXML
-    void choosePizza(ActionEvent event) {
+    void choosePizza(MouseEvent event) {
     	int selectedIndex = tableViewPizza.getSelectionModel().getSelectedIndex();
-		String topping1 = "";
-		String topping2 = "";
+    	double topping1 = 0;
+    	double topping2 = 0;
     	if(selectedIndex >= 0){
     		topping1 = pizza.getPizzas().get(selectedIndex).getTopping1();
     		topping2 = pizza.getPizzas().get(selectedIndex).getTopping2();
@@ -80,9 +82,9 @@ public class Controller_order implements Initializable {
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
-    	
+
     	CustomerDAO cust = new CustomerDAO();
-    	
+
     	custshow.setText(cust.getCustomerForOrder());
 
 		colpizza.setCellValueFactory(new PropertyValueFactory <Pizza,String>("size"));
@@ -97,11 +99,19 @@ public class Controller_order implements Initializable {
 			CheckBox check = new CheckBox(toppinglist1.get(i));
 			containertoppings.getChildren().add(check);
 		}
+
 		toppinglist2 = topping.getToppings2();
 		for( int i = 0; i<toppinglist2.size(); i++){
 			CheckBox check = new CheckBox(toppinglist2.get(i));
 			containertoppings2.getChildren().add(check);
 		}
+
+		TreeItem<String> root = new TreeItem<>("Root Node");
+		root.setExpanded(true);
+		root.getChildren().addAll(
+				new TreeItem<>("Belag"),new TreeItem<>("Belag2")
+				);
+		orderlist.setRoot(root);
 	}
 
     public void getPizzas(){

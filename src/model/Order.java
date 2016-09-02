@@ -12,8 +12,8 @@ public class Order {
 	private ArrayList<Drinks> drinks = new ArrayList<Drinks>();
 	private double price;
 
-	public void addPizza(ArrayList<Topping> toppings, int size, double price){
-		this.pizzalist.add(new Pizza(toppings, size, price));
+	public void addPizza( String size, double price){
+		this.pizzalist.add(new Pizza(size, price));
 	}
 
 	public int getOrdernumber() {
