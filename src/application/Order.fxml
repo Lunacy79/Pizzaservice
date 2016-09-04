@@ -14,7 +14,7 @@
             <Label layoutX="77.0" layoutY="110.0" text="Pizza" />
             <Label layoutX="73.0" layoutY="256.0" text="Beläge" />
             <Label layoutX="73.0" layoutY="536.0" text="Getränke" />
-            <TableView fx:id="tableViewPizza" layoutX="205.0" layoutY="119.0" onMouseClicked="#choosePizza" prefHeight="123.0" prefWidth="280.0">
+            <TableView fx:id="tableViewPizza" layoutX="191.0" layoutY="110.0" onMouseClicked="#choosePizza" prefHeight="123.0" prefWidth="280.0">
               <columns>
                   <TableColumn prefWidth="16.0" />
                 <TableColumn fx:id="colpizza" prefWidth="120.0" text="Pizza" />
@@ -37,7 +37,12 @@
             </FlowPane>
             <Label fx:id="custshow" layoutX="191.0" layoutY="43.0" text="xxx" />
             <Label layoutX="630.0" layoutY="93.0" text="Ihre Bestellung:" />
-            <TreeView fx:id="orderlist" layoutX="630.0" layoutY="110.0" prefHeight="516.0" prefWidth="354.0" />
+            <TreeTableView fx:id="orderlist" layoutX="630.0" layoutY="110.0" prefHeight="501.0" prefWidth="366.0">
+              <columns>
+                <TreeTableColumn fx:id="ordercol" prefWidth="249.0" text="Bestellung" />
+                <TreeTableColumn fx:id="pricecol" prefWidth="116.0" text="Preis" />
+              </columns>
+            </TreeTableView>
          </children></AnchorPane>
    </children>
 </AnchorPane>

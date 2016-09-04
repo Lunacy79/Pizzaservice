@@ -24,8 +24,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeView;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -69,8 +75,17 @@ public class Controller_order implements Initializable {
     private Pane orderpane;
     
     @FXML
-    private TreeView<String> orderlist;
+    private TreeTableView<String> orderlist;
     TreeItem<String> root = new TreeItem<>("root");
+    
+    @FXML
+    private TreeTableColumn<String,String> ordercol;
+    private ObservableList<Customer> orders = FXCollections.observableArrayList();
+    
+    @FXML
+    private TreeTableColumn<String, Double> pricecol;
+    private ObservableList<Customer> prices = FXCollections.observableArrayList();
+
     
 
     @FXML
@@ -115,7 +130,12 @@ public class Controller_order implements Initializable {
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
-    	TreeItem<String> neu = new TreeItem<> (size);
+    	orderlist.getColumns().setAll(ordercol,pricecol);
+    	ordercol.setCellValueFactory((TreeTableColumn.CellDataFeatures<String, String> param) -> 
+        new ReadOnlyStringWrapper(param.getValue().getValue()));
+//    	pricecol.setCellValueFactory((CellDataFeatures<String, Double> p) -> new ReadOnlyStringWrapper(
+//                p.getValue().getValue()));
+    	TreeItem<String> neu = new TreeItem<> (size,price);
     	root.getChildren().add(neu);
     	for(int i = 0; i<orderedtoppings.size();i++){
     		neu.getChildren().add(new TreeItem<>(orderedtoppings.get(i)));

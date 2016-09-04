@@ -3,18 +3,22 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class Pizza {
 
 	private Topping topping;
 	private ArrayList<Topping> toppings = new ArrayList<Topping>();
-	private String name;
-	private String size;
-	private double price;
+	private SimpleStringProperty name;
+	private SimpleStringProperty size;
+	private SimpleDoubleProperty price;
 	private double topping1;
 	private double topping2;
 
 	public Pizza(String size, double price){
-		this.size = size;
+		this.size = new SimpleStringProperty(size);
+		this.price = new SimpleDoubleProperty(price);
 	}
 
 	public Pizza(){
@@ -22,8 +26,8 @@ public class Pizza {
 	}
 
 	public Pizza(String size, double price, double topping1, double topping2){
-		this.size = size;
-		this.price = price;
+		this.size = new SimpleStringProperty(size);
+		this.price = new SimpleDoubleProperty(price);
 		this.topping1 = topping1;
 		this.topping2 = topping2;
 	}
@@ -44,28 +48,22 @@ public class Pizza {
 		this.toppings = toppings;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 
 	public String getSize() {
-		return size;
+		return size.get();
 	}
 
 	public void setSize(String size) {
-		this.size = size;
+		this.size.set(size);
 	}
 
 	public double getPrice() {
-		return price;
+		return price.get();
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		this.price.set(price);
 	}
 
 	public double getTopping1() {

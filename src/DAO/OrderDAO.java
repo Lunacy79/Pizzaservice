@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.Pizza;
+
 public class OrderDAO {
 
 	private Connection dbConnect;
@@ -95,16 +97,16 @@ public class OrderDAO {
 		}
 	}
 	
-	public String getPizza(int onr){
+	public Pizza getPizza(int onr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
-		String pizza = "";
+		Pizza pizza = new Pizza();
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select size from orderedpizza where onr=" + onr);
+				erg = anweisung.executeQuery("Select size,price from orderedpizza,pizza where onr=" + onr + "and orderedpizza.size = pizza.size");
 				while(erg.next()){
-					pizza = erg.getString(1);
+					pizza = new Pizza(erg.getString(1),erg.getDouble(2));
 				}
 			}
 			catch (SQLException e) {
