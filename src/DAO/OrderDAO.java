@@ -6,12 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.Order;
 import model.Pizza;
+import model.Topping;
 
 public class OrderDAO {
 
 	private Connection dbConnect;
-	
+
 	public void setOnr(int knr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -26,7 +28,7 @@ public class OrderDAO {
 			}
 		}
 	}
-	
+
 	public int getOnr(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -45,7 +47,7 @@ public class OrderDAO {
 		}
 		return onr;
 	}
-	
+
 	public String getCustomerForOrder(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -64,7 +66,7 @@ public class OrderDAO {
 		}
 		return customer;
 	}
-	
+
 	public void setToppings(int pnr, ArrayList<String> toppings){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -81,7 +83,32 @@ public class OrderDAO {
 			}
 		}
 	}
-	
+
+	public ArrayList<Order> getToppings(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		ArrayList<Order> toppings = new ArrayList<Order>();
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping1 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.onr=" + onr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 1");
+				while(erg.next()){
+					toppings.add(new Order(erg.getString(1),erg.getDouble(2)));
+
+				}
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.onr=" + onr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
+				while(erg.next()){
+					toppings.add(new Order(erg.getString(1),erg.getDouble(2)));
+
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return toppings;
+	}
+
 	public void setPizza(int onr, String size){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -96,7 +123,7 @@ public class OrderDAO {
 			}
 		}
 	}
-	
+
 	public Pizza getPizza(int onr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -115,7 +142,7 @@ public class OrderDAO {
 		}
 		return pizza;
 	}
-	
+
 	public int getPnr(int onr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;

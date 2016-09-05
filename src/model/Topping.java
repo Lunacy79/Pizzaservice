@@ -4,6 +4,7 @@ public class Topping {
 
 	private String name;
 	private int priceclass;
+	private double price;
 
 	public Topping(String name, int priceclass){
 
@@ -14,6 +15,11 @@ public class Topping {
 
 	public Topping(){
 
+	}
+
+	public Topping(String name, double price){
+		this.name = name;
+		this.price = price;
 	}
 
 	public String getName() {

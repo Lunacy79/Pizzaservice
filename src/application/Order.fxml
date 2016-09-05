@@ -43,6 +43,8 @@
                 <TreeTableColumn fx:id="pricecol" prefWidth="116.0" text="Preis" />
               </columns>
             </TreeTableView>
+            <Label layoutX="779.0" layoutY="611.0" text="Gesamtpreis:" />
+            <Label fx:id="totalcost" layoutX="885.0" layoutY="611.0" text="0.00" />
          </children></AnchorPane>
    </children>
 </AnchorPane>
