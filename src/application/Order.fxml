@@ -10,17 +10,18 @@
    <children>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1070.0">
          <children>
+            <Label layoutX="72.0" layoutY="43.0" text="Bestellung für:" />
             <Label layoutX="77.0" layoutY="110.0" text="Pizza" />
             <Label layoutX="73.0" layoutY="256.0" text="Beläge" />
             <Label layoutX="73.0" layoutY="536.0" text="Getränke" />
-            <TreeView fx:id="orderlist" layoutX="516.0" layoutY="114.0" prefHeight="506.0" prefWidth="443.0" />
-            <TableView fx:id="tableViewPizza" layoutX="205.0" layoutY="119.0" onMouseClicked="#choosePizza" prefHeight="123.0" prefWidth="200.0">
+            <TableView fx:id="tableViewPizza" layoutX="191.0" layoutY="110.0" onMouseClicked="#choosePizza" prefHeight="123.0" prefWidth="280.0">
               <columns>
+                  <TableColumn prefWidth="16.0" />
                 <TableColumn fx:id="colpizza" prefWidth="120.0" text="Pizza" />
                 <TableColumn fx:id="colprice" prefWidth="79.0" text="Preis" />
               </columns>
             </TableView>
-            <Button fx:id="pizzaconfirm" layoutX="435.0" layoutY="217.0" mnemonicParsing="false" text="Ok" />
+            <Button fx:id="pizzaconfirm" layoutX="265.0" layoutY="484.0" mnemonicParsing="false" onAction="#orderPizza" text="Diese Pizza in Bestellung aufnehmen" />
             <ChoiceBox layoutX="230.0" layoutY="569.0" prefWidth="150.0" />
             <FlowPane fx:id="containertoppings" hgap="10.0" layoutX="74.0" layoutY="294.0" prefHeight="69.0" prefWidth="409.0" vgap="10.0">
                <padding>
@@ -34,7 +35,14 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </FlowPane>
-            <Label fx:id="custshow" layoutX="82.0" layoutY="47.0" text="xxx" />
+            <Label fx:id="custshow" layoutX="191.0" layoutY="43.0" text="xxx" />
+            <Label layoutX="630.0" layoutY="93.0" text="Ihre Bestellung:" />
+            <TreeTableView fx:id="orderlist" layoutX="630.0" layoutY="110.0" prefHeight="501.0" prefWidth="366.0">
+              <columns>
+                <TreeTableColumn fx:id="ordercol" prefWidth="249.0" text="Bestellung" />
+                <TreeTableColumn fx:id="pricecol" prefWidth="116.0" text="Preis" />
+              </columns>
+            </TreeTableView>
          </children></AnchorPane>
    </children>
 </AnchorPane>

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import DAO.CustomerDAO;
+import DAO.OrderDAO;
 import DAO.PizzaDAO;
 import DAO.ToppingDAO;
 import model.Order;
@@ -18,11 +19,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableColumn.CellDataFeatures;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeView;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,6 +41,8 @@ import model.Pizza;
 
 public class Controller_order implements Initializable {
 
+	private OrderDAO order = new OrderDAO();
+	
     @FXML
     private Label custshow;
 
@@ -47,10 +58,12 @@ public class Controller_order implements Initializable {
     @FXML
     private FlowPane containertoppings;
     private ArrayList<String> toppinglist1 = new ArrayList<String>();
+    private CheckBox[] cbs1;
 
     @FXML
     private FlowPane containertoppings2;
     private ArrayList<String> toppinglist2 = new ArrayList<String>();
+    private CheckBox[] cbs2;
 
     @FXML
     private Label toppingprice1;
@@ -59,12 +72,27 @@ public class Controller_order implements Initializable {
     private Label toppingprice2;
 
     @FXML
-    private TreeView<String> orderlist;
+    private Pane orderpane;
+    
+    @FXML
+    private TreeTableView<String> orderlist;
+    TreeItem<String> root = new TreeItem<>("root");
+    
+    @FXML
+    private TreeTableColumn<String,String> ordercol;
+    private ObservableList<Customer> orders = FXCollections.observableArrayList();
+    
+    @FXML
+    private TreeTableColumn<String, Double> pricecol;
+    private ObservableList<Customer> prices = FXCollections.observableArrayList();
+
+    
 
     @FXML
     private Button pizzaconfirm;
     private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
     PizzaDAO pizza = new PizzaDAO();
+    private int onr;
 
 
     @FXML
@@ -79,13 +107,49 @@ public class Controller_order implements Initializable {
     		toppingprice2.setText("je " + topping2 + " Euro");
     	}
     }
+    
+    @FXML
+    void orderPizza(ActionEvent event) {
+    	int selectedIndex = tableViewPizza.getSelectionModel().getSelectedIndex();
+    	String size = pizza.getPizzas().get(selectedIndex).getSize();
+    	order.setPizza(onr,size);
+    	int pnr = order.getPnr(onr);
+    	ArrayList<String> orderedtoppings = new ArrayList<String>();
+    	for(int i=0; i<toppinglist1.size(); i++){
+	    	if(cbs1[i].isSelected()==true){
+	    		orderedtoppings.add(cbs1[i].getText());
+	    	}
+    	}
+    	for(int i = 0; i<toppinglist2.size(); i++){
+    		if(cbs2[i].isSelected()==true){
+        		orderedtoppings.add(cbs2[i].getText());
+        	}
+    	}
+    	order.setToppings(pnr,orderedtoppings);
+    	
+    	root.setExpanded(true);
+    	orderlist.setRoot(root);
+    	orderlist.setShowRoot(false);
+    	orderlist.getColumns().setAll(ordercol,pricecol);
+    	ordercol.setCellValueFactory((TreeTableColumn.CellDataFeatures<String, String> param) -> 
+        new ReadOnlyStringWrapper(param.getValue().getValue()));
+//    	pricecol.setCellValueFactory((CellDataFeatures<String, Double> p) -> new ReadOnlyStringWrapper(
+//                p.getValue().getValue()));
+    	TreeItem<String> neu = new TreeItem<> (size,price);
+    	root.getChildren().add(neu);
+    	for(int i = 0; i<orderedtoppings.size();i++){
+    		neu.getChildren().add(new TreeItem<>(orderedtoppings.get(i)));
+    	}
+    	
+		
+    }
+
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
-
-    	CustomerDAO cust = new CustomerDAO();
-
-    	custshow.setText(cust.getCustomerForOrder());
+    	
+    	custshow.setText(order.getCustomerForOrder());
+    	onr = order.getOnr();
 
 		colpizza.setCellValueFactory(new PropertyValueFactory <Pizza,String>("size"));
 		colprice.setCellValueFactory(new PropertyValueFactory <Pizza,Double>("price"));
@@ -95,23 +159,22 @@ public class Controller_order implements Initializable {
 
 		ToppingDAO topping = new ToppingDAO();
 		toppinglist1 = topping.getToppings1();
+		cbs1 = new CheckBox[toppinglist1.size()];
 		for( int i = 0; i<toppinglist1.size(); i++){
-			CheckBox check = new CheckBox(toppinglist1.get(i));
-			containertoppings.getChildren().add(check);
+			CheckBox check = cbs1[i] = new CheckBox(toppinglist1.get(i));
+			containertoppings.getChildren().add(cbs1[i]);
 		}
-
+		
 		toppinglist2 = topping.getToppings2();
+		cbs2 = new CheckBox[toppinglist2.size()];
 		for( int i = 0; i<toppinglist2.size(); i++){
-			CheckBox check = new CheckBox(toppinglist2.get(i));
-			containertoppings2.getChildren().add(check);
+			CheckBox check = cbs2[i] = new CheckBox(toppinglist2.get(i));
+			containertoppings2.getChildren().add(cbs2[i]);
 		}
-
-		TreeItem<String> root = new TreeItem<>("Root Node");
-		root.setExpanded(true);
-		root.getChildren().addAll(
-				new TreeItem<>("Belag"),new TreeItem<>("Belag2")
-				);
-		orderlist.setRoot(root);
+		
+    	root.setExpanded(true);
+    	orderlist.setRoot(root);
+    	orderlist.setShowRoot(false);
 	}
 
     public void getPizzas(){
