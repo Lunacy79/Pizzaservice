@@ -84,19 +84,19 @@ public class OrderDAO {
 		}
 	}
 
-	public ArrayList<Order> getToppings(int onr){
+	public ArrayList<Order> getToppings(int pnr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
 		ArrayList<Order> toppings = new ArrayList<Order>();
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select orderedtopping.topping,topping1 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.onr=" + onr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 1");
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping1 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 1");
 				while(erg.next()){
 					toppings.add(new Order(erg.getString(1),erg.getDouble(2)));
 
 				}
-				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.onr=" + onr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
 				while(erg.next()){
 					toppings.add(new Order(erg.getString(1),erg.getDouble(2)));
 

@@ -82,16 +82,21 @@ public class Controller_order implements Initializable {
 
     @FXML
     private TreeTableColumn<Order,String> ordercol;
-    private ObservableList<Customer> orders = FXCollections.observableArrayList();
+
 
     @FXML
     private TreeTableColumn<Order, Double> pricecol;
-    private ObservableList<Customer> prices = FXCollections.observableArrayList();
+
 
     @FXML
     private Label totalcost;
     double value = 0;
 
+    @FXML
+    private Button addbtn;
+
+    @FXML
+    private Button deletebtn;
 
     @FXML
     private Button pizzaconfirm;
@@ -102,6 +107,7 @@ public class Controller_order implements Initializable {
 
     @FXML
     void choosePizza(MouseEvent event) {
+
     	int selectedIndex = tableViewPizza.getSelectionModel().getSelectedIndex();
     	double topping1 = 0;
     	double topping2 = 0;
@@ -118,20 +124,25 @@ public class Controller_order implements Initializable {
     	int selectedIndex = tableViewPizza.getSelectionModel().getSelectedIndex();
     	String size = pizza.getPizzas().get(selectedIndex).getSize();
     	double price = pizza.getPizzas().get(selectedIndex).getPrice();
+    	tableViewPizza.getSelectionModel().clearSelection();
     	order.setPizza(onr,size);
     	int pnr = order.getPnr(onr);
     	ArrayList<String> orderedtoppings = new ArrayList<String>();
+    	orderedtoppings.clear();
     	for(int i=0; i<toppinglist1.size(); i++){
 	    	if(cbs1[i].isSelected()==true){
 	    		orderedtoppings.add(cbs1[i].getText());
+	    		cbs1[i].setSelected(false);
 	    	}
     	}
     	for(int i = 0; i<toppinglist2.size(); i++){
     		if(cbs2[i].isSelected()==true){
         		orderedtoppings.add(cbs2[i].getText());
+        		cbs2[i].setSelected(false);
         	}
     	}
     	order.setToppings(pnr,orderedtoppings);
+
 
     	root.setExpanded(true);
     	orderlist.setRoot(root);
@@ -150,7 +161,7 @@ public class Controller_order implements Initializable {
     		 });
 
     	ArrayList<Order> toppings = new ArrayList<Order>();
-    	toppings=order.getToppings(onr);
+    	toppings=order.getToppings(pnr);
     	value = value + price;
     	for(int i = 0; i<orderedtoppings.size();i++){
     		neu.getChildren().add(new TreeItem<>(toppings.get(i)));
@@ -158,6 +169,16 @@ public class Controller_order implements Initializable {
     	}
 
     	totalcost.setText(Double.toString(value));
+
+    }
+
+    @FXML
+    void addTopping(ActionEvent event) {
+
+    }
+
+    @FXML
+    void deleteItem(ActionEvent event) {
 
     }
 
@@ -172,6 +193,7 @@ public class Controller_order implements Initializable {
 		colprice.setCellValueFactory(new PropertyValueFactory <Pizza,Double>("price"));
 		PizzaDAO pizza = new PizzaDAO();
 		pizzalist.addAll(pizza.getPizzas());
+
 		getPizzas();
 
 		ToppingDAO topping = new ToppingDAO();
@@ -192,12 +214,14 @@ public class Controller_order implements Initializable {
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
+
+
 	}
 
     public void getPizzas(){
 		tableViewPizza.setItems(pizzalist);
+
+
 	}
-
-
 
 }
