@@ -39,6 +39,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class Controller implements Initializable {
 
 
+	private Main mainApp;
 	public Controller(){
 
 	}
@@ -66,7 +67,6 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    public TableView<Customer> customertable;
-	    public ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 
 	    @FXML
 	    private TextField searchfield;
@@ -101,11 +101,11 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    private TableColumn<Customer,Integer> colcnr;
-	    public Main mainApp;
 
 	    @FXML
 	    private Button custchange;
 	    private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
+	    private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 
 	    @FXML
 	    void addCustomer(ActionEvent event) throws IOException {
@@ -115,7 +115,7 @@ public class Controller implements Initializable {
 	    @FXML
 	    void deleteCustomer(ActionEvent event) {
 	    	int index = customertable.getSelectionModel().getSelectedIndex();
-	    	int cnr = customerlist.get(index).getCnr();
+	    	int cnr = mainApp.getCustomers().get(index).getCnr();
 	    	CustomerDAO cust = new CustomerDAO();
 	    	cust.deleteCustomer(cnr);
 	    	customertable.getItems().clear();
@@ -152,7 +152,6 @@ public class Controller implements Initializable {
 		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
 		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
-		customertable.setItems(getCustomers());
 	}
 
 	@FXML
@@ -181,15 +180,15 @@ public class Controller implements Initializable {
 
 	public ObservableList<Customer> getCustomers(){
 		CustomerDAO cust = new CustomerDAO();
-		customerlist.addAll(cust.getCustomers());
+		ObservableList<Customer> customerlist = mainApp.getCustomers().addAll(cust.getCustomers());
 		return customerlist;
 	}
 
 	public ObservableList<Customer> getCustomer(String name){
 		CustomerDAO cust = new CustomerDAO();
-		customerlist.removeAll(getCustomers());
-		customerlist.addAll(cust.getCustomer(name));
-		return customerlist;
+		mainApp.getCustomers().removeAll(getCustomers());
+		mainApp.getCustomers().addAll(cust.getCustomer(name));
+		return mainApp.getCustomers();
 	}
 
 	public void openNewStage(ActionEvent event) throws IOException{
@@ -198,17 +197,18 @@ public class Controller implements Initializable {
 		Scene order = new Scene(parent_order,750,450);
 		Controller_NewCustomer controller = loader.getController();
 		secondStage.setScene(order);
-//		secondStage.initOwner(mainApp.getPrimaryStage());
+		secondStage.initOwner(mainApp.getPrimaryStage());
 		secondStage.show();
 	}
 
 	public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
-
+		customertable.setItems(mainApp.getCustomers());
 	}
 
 	public void refresh(){
 
+		customertable.setItems(mainApp.getCustomers());
 		System.out.println(customertable.getItems());
 
 //		customertable.getItems().clear();

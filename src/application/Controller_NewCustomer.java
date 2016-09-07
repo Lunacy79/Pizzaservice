@@ -19,6 +19,7 @@ import application.Main;
 
 public class Controller_NewCustomer {
 
+	
     @FXML
     private TextField fname;
 
@@ -54,14 +55,8 @@ public class Controller_NewCustomer {
 		AnchorPane root = (AnchorPane) loader.load();
 		Controller controller = loader.getController();
 		Scene scene = new Scene(root,1070,850);
-
-
-
-		controller.customertable.getItems().add(new Customer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText()));
-    	controller.refresh();
-
+		controller.refresh();
     	Controller.secondStage.close();
     }
-
-
+    
 }

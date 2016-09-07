@@ -25,18 +25,18 @@ import javafx.event.ActionEvent;
 public class Main extends Application {
 
 	private Stage primaryStage;
+	private ObservableList<Customer>customerlist;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage=primaryStage;
+		
 		FXMLLoader loader = new FXMLLoader();
-
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
 		Controller controller = loader.getController();
 		controller.setMainApp(this);
-
 		Scene scene = new Scene(root,1070,850);
-
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Pizzaservice Alberto");
 		primaryStage.show();
@@ -49,6 +49,10 @@ public class Main extends Application {
 
 	public Stage getPrimaryStage(){
 		return this.primaryStage;
+	}
+	
+	public ObservableList<Customer> getCustomers(){
+		return this.customerlist;
 	}
 
 }
