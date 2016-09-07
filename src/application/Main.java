@@ -36,10 +36,10 @@ public class Main extends Application {
 		Controller controller = loader.getController();
 		controller.setMainApp(this);
 
-		Scene scene = new Scene(root,1070,760);
+		Scene scene = new Scene(root,1070,850);
 
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Hallo");
+		primaryStage.setTitle("Pizzaservice Alberto");
 		primaryStage.show();
 
 

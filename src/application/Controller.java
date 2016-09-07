@@ -65,7 +65,7 @@ public class Controller implements Initializable {
 	    private TableColumn<Customer,String> colnr;
 
 	    @FXML
-	    private TableView<Customer> customertable;
+	    public TableView<Customer> customertable;
 
 	    @FXML
 	    private TextField searchfield;
@@ -81,6 +81,7 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    private Button custadd;
+	    static Stage secondStage = new Stage();
 
 	    @FXML
 	    private Tab ordertab;
@@ -106,8 +107,8 @@ public class Controller implements Initializable {
 	    private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
 
 	    @FXML
-	    void addCustomer(ActionEvent event) {
-
+	    void addCustomer(ActionEvent event) throws IOException {
+	    	openNewStage(event);
 	    }
 
 	    @FXML
@@ -163,12 +164,22 @@ public class Controller implements Initializable {
 		
 		FXMLLoader loader = new FXMLLoader();
 		Parent parent_order = FXMLLoader.load(Main.class.getResource("Order.fxml"));
-		Scene order = new Scene(parent_order,1070,760);
+		Scene order = new Scene(parent_order,1070,850);
 		Controller_order controller = loader.getController();
 		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(order);
 		primaryStage.show();
 		
+	}
+
+	public void openNewStage(ActionEvent event) throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		Parent parent_order = FXMLLoader.load(Main.class.getResource("NewCustomer.fxml"));
+		Scene order = new Scene(parent_order,1070,850);
+		Controller_NewCustomer controller = loader.getController();
+		
+		secondStage.setScene(order);
+		secondStage.show();
 	}
 	
 	public void setMainApp(Main mainApp){
