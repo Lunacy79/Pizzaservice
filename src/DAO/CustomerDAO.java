@@ -96,6 +96,29 @@ public class CustomerDAO {
 		return customers;
 	}
 
+	public Customer getSingleCustomer(String lname){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		ResultSet erg = null;
+
+		if(this.dbConnect != null){
+
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select * from customers where lname='" + lname + "'");
+				while(erg.next()){
+					customer= new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8));
+				}
+
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return customer;
+	}
+
 	public void setCustomerForOrder(int knr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -128,5 +151,20 @@ public class CustomerDAO {
 			}
 		}
 		return customer;
+	}
+
+	public void deleteCustomer(int cnr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung2 = this.dbConnect.createStatement();
+				anweisung2.executeUpdate("Delete from customers where cnr= " + cnr );
+				anweisung2.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="224.0" prefWidth="215.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.Controller_NewCustomer">
+<AnchorPane prefHeight="224.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_NewCustomer">
    <children>
       <AnchorPane prefHeight="412.0" prefWidth="735.0">
          <children>
@@ -19,10 +18,10 @@
             <Label layoutX="39.0" layoutY="157.0" text="Straße" />
             <Label layoutX="392.0" layoutY="224.0" text="Ort" />
             <TextField fx:id="fname" layoutX="144.0" layoutY="85.0" prefHeight="25.0" prefWidth="192.0" />
-            <TextField fx:id="street" layoutX="144.0" layoutY="153.0" prefHeight="25.0" prefWidth="192.0" />
-            <TextField fx:id="plz" layoutX="144.0" layoutY="220.0" prefHeight="25.0" prefWidth="192.0" />
             <TextField fx:id="lname" layoutX="480.0" layoutY="85.0" prefHeight="25.0" prefWidth="192.0" />
+            <TextField fx:id="street" layoutX="144.0" layoutY="153.0" prefHeight="25.0" prefWidth="192.0" />
             <TextField fx:id="nr" layoutX="480.0" layoutY="153.0" prefHeight="25.0" prefWidth="192.0" />
+            <TextField fx:id="plz" layoutX="144.0" layoutY="220.0" prefHeight="25.0" prefWidth="192.0" />
             <TextField fx:id="city" layoutX="480.0" layoutY="220.0" prefHeight="25.0" prefWidth="192.0" />
             <TextField fx:id="telefon" layoutX="144.0" layoutY="290.0" prefHeight="25.0" prefWidth="192.0" />
             <Label layoutX="38.0" layoutY="294.0" text="Telefonnummer" />

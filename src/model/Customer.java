@@ -1,5 +1,8 @@
 package model;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class Customer {
 
 	private int cnr;
@@ -31,6 +34,7 @@ public class Customer {
 		this.city=city;
 		this.telefon=telefon;
 	}
+
 
 	public Customer(){
 

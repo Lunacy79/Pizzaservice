@@ -66,6 +66,7 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    public TableView<Customer> customertable;
+	    public ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 
 	    @FXML
 	    private TextField searchfield;
@@ -100,10 +101,10 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    private TableColumn<Customer,Integer> colcnr;
+	    public Main mainApp;
 
 	    @FXML
 	    private Button custchange;
-	    private Main mainApp;
 	    private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
 
 	    @FXML
@@ -113,7 +114,12 @@ public class Controller implements Initializable {
 
 	    @FXML
 	    void deleteCustomer(ActionEvent event) {
-
+	    	int index = customertable.getSelectionModel().getSelectedIndex();
+	    	int cnr = customerlist.get(index).getCnr();
+	    	CustomerDAO cust = new CustomerDAO();
+	    	cust.deleteCustomer(cnr);
+	    	customertable.getItems().clear();
+	    	customertable.setItems(getCustomers());
 	    }
 
 	    @FXML
@@ -124,7 +130,7 @@ public class Controller implements Initializable {
 	    @FXML
 	    void searchCustomer(ActionEvent event) {
 
-			customertable.setItems(mainApp.getCustomer(searchfield.getText()));
+			customertable.setItems(getCustomer(searchfield.getText()));
 			colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
 			collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
 			colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
@@ -134,7 +140,7 @@ public class Controller implements Initializable {
 			colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 			colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 	    }
-	    
+
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources){
 
@@ -146,6 +152,7 @@ public class Controller implements Initializable {
 		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
 		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
+		customertable.setItems(getCustomers());
 	}
 
 	@FXML
@@ -159,9 +166,9 @@ public class Controller implements Initializable {
     		openNewScene(event);
     	}
 	}
-	
+
 	public void openNewScene(ActionEvent event) throws IOException{
-		
+
 		FXMLLoader loader = new FXMLLoader();
 		Parent parent_order = FXMLLoader.load(Main.class.getResource("Order.fxml"));
 		Scene order = new Scene(parent_order,1070,850);
@@ -169,22 +176,49 @@ public class Controller implements Initializable {
 		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(order);
 		primaryStage.show();
-		
+
+	}
+
+	public ObservableList<Customer> getCustomers(){
+		CustomerDAO cust = new CustomerDAO();
+		customerlist.addAll(cust.getCustomers());
+		return customerlist;
+	}
+
+	public ObservableList<Customer> getCustomer(String name){
+		CustomerDAO cust = new CustomerDAO();
+		customerlist.removeAll(getCustomers());
+		customerlist.addAll(cust.getCustomer(name));
+		return customerlist;
 	}
 
 	public void openNewStage(ActionEvent event) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		Parent parent_order = FXMLLoader.load(Main.class.getResource("NewCustomer.fxml"));
-		Scene order = new Scene(parent_order,1070,850);
+		Scene order = new Scene(parent_order,750,450);
 		Controller_NewCustomer controller = loader.getController();
-		
 		secondStage.setScene(order);
+//		secondStage.initOwner(mainApp.getPrimaryStage());
 		secondStage.show();
 	}
-	
+
 	public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
-		customertable.setItems(mainApp.getCustomers());
+
+	}
+
+	public void refresh(){
+
+		System.out.println(customertable.getItems());
+
+//		customertable.getItems().clear();
+//		System.out.println(customertable.getItems());
+//		CustomerDAO customer = new CustomerDAO();
+//		customerlist.clear();
+//		customerlist.addAll(customer.getCustomers());
+
+//		System.out.println(customertable.getItems());
+
 	}
 
 }
