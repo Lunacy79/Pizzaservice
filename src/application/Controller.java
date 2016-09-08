@@ -180,8 +180,8 @@ public class Controller implements Initializable {
 
 	public ObservableList<Customer> getCustomers(){
 		CustomerDAO cust = new CustomerDAO();
-		ObservableList<Customer> customerlist = mainApp.getCustomers().addAll(cust.getCustomers());
-		return customerlist;
+		mainApp.getCustomers().addAll(cust.getCustomers());
+		return mainApp.getCustomers();
 	}
 
 	public ObservableList<Customer> getCustomer(String name){
@@ -216,7 +216,7 @@ public class Controller implements Initializable {
 //		CustomerDAO customer = new CustomerDAO();
 //		customerlist.clear();
 //		customerlist.addAll(customer.getCustomers());
-
+//
 //		System.out.println(customertable.getItems());
 
 	}

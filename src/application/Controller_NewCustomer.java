@@ -19,7 +19,8 @@ import application.Main;
 
 public class Controller_NewCustomer {
 
-	
+
+
     @FXML
     private TextField fname;
 
@@ -50,6 +51,7 @@ public class Controller_NewCustomer {
     	CustomerDAO customer = new CustomerDAO();
     	String name = lname.getText();
     	customer.addCustomer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
+
     	FXMLLoader loader = new FXMLLoader();
     	loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -58,5 +60,5 @@ public class Controller_NewCustomer {
 		controller.refresh();
     	Controller.secondStage.close();
     }
-    
+
 }

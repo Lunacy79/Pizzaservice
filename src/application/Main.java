@@ -30,7 +30,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage=primaryStage;
-		
+
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -50,9 +50,10 @@ public class Main extends Application {
 	public Stage getPrimaryStage(){
 		return this.primaryStage;
 	}
-	
+
 	public ObservableList<Customer> getCustomers(){
 		return this.customerlist;
+
 	}
 
 }
