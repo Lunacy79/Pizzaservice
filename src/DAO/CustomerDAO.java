@@ -34,13 +34,11 @@ public class CustomerDAO {
 					customers.add(new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8)));
 				}
 
-
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
 
 		return customers;
 
@@ -73,6 +71,29 @@ public class CustomerDAO {
 		return id;
 	}
 
+	public ArrayList<Customer> changeCustomer(int cnr, String fname, String lname, String street, String nr, String plz, String city, String telefon) throws SQLException{
+
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		int id = -1;
+
+		if(this.dbConnect != null){
+
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				anweisung.executeUpdate("Update customers set fname='"+fname+"',lname='"+lname+"',street='"+street+"',nr='"+nr+"',plz='"+plz+"',city='"+city+"',telefon='"+telefon+"' where cnr=" + cnr);
+
+				anweisung.close();
+
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			customers = getCustomers();
+		}
+		return customers;
+	}
+
 	public ArrayList<Customer> getCustomer(String lname){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -96,7 +117,9 @@ public class CustomerDAO {
 		return customers;
 	}
 
-	public Customer getSingleCustomer(String lname){
+
+
+	public Customer getSingleCustomer(int cnr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		ResultSet erg = null;
@@ -105,7 +128,7 @@ public class CustomerDAO {
 
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select * from customers where lname='" + lname + "'");
+				erg = anweisung.executeQuery("Select * from customers where cnr='" + cnr + "'");
 				while(erg.next()){
 					customer= new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8));
 				}

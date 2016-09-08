@@ -103,6 +103,7 @@ public class Controller_order implements Initializable {
     private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
     PizzaDAO pizza = new PizzaDAO();
     private int onr;
+    private Main mainApp;
 
 
     @FXML
@@ -215,12 +216,15 @@ public class Controller_order implements Initializable {
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
 
-
 	}
 
     public void getPizzas(){
 		tableViewPizza.setItems(pizzalist);
 
+	}
+
+    public void setMainApp(Main mainApp){
+		this.mainApp = mainApp;
 
 	}
 
