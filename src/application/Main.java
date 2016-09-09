@@ -63,9 +63,15 @@ public class Main extends Application {
 		return this.customerlist;
 	}
 
+	public void setCustomerlist(){
+		CustomerDAO cust = new CustomerDAO();
+		customerlist.clear();
+		customerlist.addAll(cust.getCustomers());
+	}
+
 	public ObservableList<Customer> getCustomer(String name){
 		CustomerDAO cust = new CustomerDAO();
-		customerlist.removeAll(getCustomerlist());
+		customerlist.clear();
 		customerlist.addAll(cust.getCustomer(name));
 		return customerlist;
 	}
@@ -76,6 +82,7 @@ public class Main extends Application {
 		loader.setLocation(getClass().getResource("Order.fxml"));
 		Parent parent_order = loader.load();
 		Scene order = new Scene(parent_order,1070,850);
+
 		Controller_order controller = loader.getController();
 		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(order);

@@ -114,11 +114,10 @@ public class Controller implements Initializable {
     @FXML
     void deleteCustomer(ActionEvent event) {
     	int index = customertable.getSelectionModel().getSelectedIndex();
-    	int cnr = customerlist.get(index).getCnr();
+    	int cnr = mainApp.getCustomerlist().get(index).getCnr();
     	CustomerDAO cust = new CustomerDAO();
     	cust.deleteCustomer(cnr);
-    	customertable.getItems().clear();
-    	customertable.setItems(mainApp.getCustomerlist());
+    	mainApp.setCustomerlist();
     }
 
     @FXML

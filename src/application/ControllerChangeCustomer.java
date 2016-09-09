@@ -63,6 +63,7 @@ public class ControllerChangeCustomer implements Initializable {
 		Scene scene = new Scene(root,1070,850);
 		int cnr = customer.getCnr();
 		cust.changeCustomer(cnr, fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
+		mainApp.setCustomerlist();
 		((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
@@ -70,13 +71,7 @@ public class ControllerChangeCustomer implements Initializable {
 	public void initialize(final URL location, final ResourceBundle resources){
 
     	System.out.println("hhwe" + this.customer);
-    	fname.setText(this.customer.getFname());
-    	lname.setText(this.customer.getLname());
-    	street.setText(this.customer.getStreet());
-    	nr.setText(this.customer.getNr());
-    	plz.setText(this.customer.getPlz());
-    	city.setText(this.customer.getCity());
-    	telefon.setText(this.customer.getTelefon());
+
 
 
 	}
@@ -89,6 +84,14 @@ public class ControllerChangeCustomer implements Initializable {
     public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
 		customer = mainApp.getCustomer();
+		fname.setText(this.customer.getFname());
+    	lname.setText(this.customer.getLname());
+    	street.setText(this.customer.getStreet());
+    	nr.setText(this.customer.getNr());
+    	plz.setText(this.customer.getPlz());
+    	city.setText(this.customer.getCity());
+    	telefon.setText(this.customer.getTelefon());
+
 
 	}
 

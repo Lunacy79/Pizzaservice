@@ -37,14 +37,14 @@
             </TableView>
             <Button fx:id="pizzaconfirm" layoutX="269.0" layoutY="510.0" mnemonicParsing="false" onAction="#orderPizza" text="Diese Pizza in Bestellung aufnehmen" />
             <ChoiceBox layoutX="230.0" layoutY="569.0" prefWidth="150.0" />
-            <FlowPane fx:id="containertoppings" hgap="10.0" layoutX="78.0" layoutY="320.0" prefHeight="69.0" prefWidth="409.0" vgap="10.0">
+            <FlowPane fx:id="containertoppings" hgap="5.0" layoutX="78.0" layoutY="320.0" prefHeight="69.0" prefWidth="409.0" vgap="5.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </FlowPane>
             <Label fx:id="toppingprice1" layoutX="81.0" layoutY="299.0" text="je xxx Euro" />
             <Label fx:id="toppingprice2" layoutX="81.0" layoutY="406.0" text="je yyy Euro" />
-            <FlowPane fx:id="containertoppings2" hgap="10.0" layoutX="78.0" layoutY="429.0" prefHeight="69.0" prefWidth="409.0" vgap="10.0">
+            <FlowPane fx:id="containertoppings2" hgap="5.0" layoutX="78.0" layoutY="429.0" prefHeight="69.0" prefWidth="409.0" vgap="5.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
@@ -61,6 +61,7 @@
             <Label fx:id="totalcost" layoutX="885.0" layoutY="611.0" text="0.00" />
             <Button fx:id="addbtn" layoutX="794.0" layoutY="655.0" mnemonicParsing="false" onAction="#addTopping" text="Pizza bearbeiten" />
             <Button fx:id="deletebtn" layoutX="686.0" layoutY="655.0" mnemonicParsing="false" onAction="#deleteItem" text="Löschen" />
+            <FlowPane fx:id="pizzacontainer" layoutX="76.0" layoutY="148.0" prefHeight="33.0" prefWidth="492.0" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

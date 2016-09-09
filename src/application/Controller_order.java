@@ -17,7 +17,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
@@ -36,6 +38,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Customer;
@@ -49,7 +52,11 @@ public class Controller_order implements Initializable {
     private Label custshow;
 
     @FXML
+    private FlowPane pizzacontainer;
+
+    @FXML
     private TableView<Pizza> tableViewPizza;
+    private RadioButton[] rbtn;
 
     @FXML
     private TableColumn<Pizza, String> colpizza;
@@ -61,11 +68,18 @@ public class Controller_order implements Initializable {
     private FlowPane containertoppings;
     private ArrayList<String> toppinglist1 = new ArrayList<String>();
     private CheckBox[] cbs1;
+    private Button[] pls1;
+    private Button[] mns1;
+    private Label[] lbl1;
+
 
     @FXML
     private FlowPane containertoppings2;
     private ArrayList<String> toppinglist2 = new ArrayList<String>();
     private CheckBox[] cbs2;
+    private Button[] pls2;
+    private Button[] mns2;
+    private Label[] lbl2;
 
     @FXML
     private Label toppingprice1;
@@ -192,24 +206,53 @@ public class Controller_order implements Initializable {
 
 		colpizza.setCellValueFactory(new PropertyValueFactory <Pizza,String>("size"));
 		colprice.setCellValueFactory(new PropertyValueFactory <Pizza,Double>("price"));
+		rbtn = new RadioButton[pizzalist.size()];
 		PizzaDAO pizza = new PizzaDAO();
 		pizzalist.addAll(pizza.getPizzas());
+		for(int i=0;i<pizzalist.size();i++){
+			RadioButton radiobtn = rbtn[i] = new RadioButton(pizzalist.get(i).getSize() + ", " + pizzalist.get(i).getPrice());
+			pizzacontainer.getChildren().addAll(rbtn[i]);
+		}
 
 		getPizzas();
 
 		ToppingDAO topping = new ToppingDAO();
 		toppinglist1 = topping.getToppings1();
+		pls1 = new Button[toppinglist1.size()];
+		lbl1 = new Label[toppinglist1.size()];
+		mns1 = new Button[toppinglist1.size()];
 		cbs1 = new CheckBox[toppinglist1.size()];
 		for( int i = 0; i<toppinglist1.size(); i++){
+			Button pls = pls1[i] = new Button("+");
+			pls1[i].setPadding(Insets.EMPTY);
+			pls1[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
+			Label lbl = lbl1[i] = new Label(toppinglist1.get(i));
+			Button mns = mns1[i] = new Button("-");
+			mns1[i].setPadding(Insets.EMPTY);
+			mns1[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
+			Label elbl = new Label("");
+			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
 			CheckBox check = cbs1[i] = new CheckBox(toppinglist1.get(i));
-			containertoppings.getChildren().add(cbs1[i]);
+			containertoppings.getChildren().addAll(pls1[i],lbl1[i],mns1[i],elbl);
 		}
 
 		toppinglist2 = topping.getToppings2();
+		pls2 = new Button[toppinglist2.size()];
+		lbl2 = new Label[toppinglist2.size()];
+		mns2 = new Button[toppinglist2.size()];
 		cbs2 = new CheckBox[toppinglist2.size()];
 		for( int i = 0; i<toppinglist2.size(); i++){
+			Button pls = pls2[i] = new Button("+");
+			pls2[i].setPadding(Insets.EMPTY);
+			pls2[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
+			Label lbl = lbl2[i] = new Label(toppinglist2.get(i));
+			Button mns = mns2[i] = new Button("-");
+			mns2[i].setPadding(Insets.EMPTY);
+			mns2[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
+			Label elbl = new Label("");
+			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
 			CheckBox check = cbs2[i] = new CheckBox(toppinglist2.get(i));
-			containertoppings2.getChildren().add(cbs2[i]);
+			containertoppings2.getChildren().addAll(pls2[i],lbl2[i],mns2[i],elbl);
 		}
 
     	root.setExpanded(true);
