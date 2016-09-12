@@ -1,1 +1,6 @@
 /bin/
+/.gitignore
+/.classpath
+/.project
+/build.fxbuild
+/mysql-connector-java-6.0.3.jar

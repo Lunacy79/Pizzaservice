@@ -206,9 +206,9 @@ public class Controller_order implements Initializable {
 
 		colpizza.setCellValueFactory(new PropertyValueFactory <Pizza,String>("size"));
 		colprice.setCellValueFactory(new PropertyValueFactory <Pizza,Double>("price"));
-		rbtn = new RadioButton[pizzalist.size()];
 		PizzaDAO pizza = new PizzaDAO();
 		pizzalist.addAll(pizza.getPizzas());
+		rbtn = new RadioButton[pizzalist.size()];
 		for(int i=0;i<pizzalist.size();i++){
 			RadioButton radiobtn = rbtn[i] = new RadioButton(pizzalist.get(i).getSize() + ", " + pizzalist.get(i).getPrice());
 			pizzacontainer.getChildren().addAll(rbtn[i]);
