@@ -93,6 +93,14 @@ public class Order {
 		this.drinks = drinks;
 	}
 
+	public void setItem(SimpleStringProperty item) {
+		this.item = item;
+	}
+
+	public void setPrice(SimpleDoubleProperty price) {
+		this.price = price;
+	}
+
 
 
 }

@@ -25,43 +25,45 @@
                   </Label>
                </children>
             </Pane>
-            <Label layoutX="76.0" layoutY="130.0" text="Bestellung für:" />
-            <Label layoutX="81.0" layoutY="197.0" text="Pizza" />
-            <Label layoutX="77.0" layoutY="282.0" text="Beläge" />
+            <Label layoutX="68.0" layoutY="115.0" text="Bestellung für:" />
+            <Label layoutX="68.0" layoutY="145.0" text="Pizza" />
+            <Label layoutX="68.0" layoutY="215.0" text="Beläge" />
             <Label layoutX="67.0" layoutY="582.0" text="Getränke" />
-            <TableView fx:id="tableViewPizza" layoutX="280.0" layoutY="187.0" onMouseClicked="#choosePizza" prefHeight="108.0" prefWidth="201.0">
-              <columns>
-                <TableColumn fx:id="colpizza" prefWidth="120.0" text="Pizza" />
-                <TableColumn fx:id="colprice" prefWidth="79.0" text="Preis" />
-              </columns>
-            </TableView>
-            <Button fx:id="pizzaconfirm" layoutX="269.0" layoutY="510.0" mnemonicParsing="false" onAction="#orderPizza" text="Diese Pizza in Bestellung aufnehmen" />
+            <Button fx:id="pizzaconfirm" layoutX="553.0" layoutY="438.0" mnemonicParsing="false" onAction="#orderPizza" text="Diese Pizza bestellen" />
             <ChoiceBox layoutX="230.0" layoutY="569.0" prefWidth="150.0" />
-            <FlowPane fx:id="containertoppings" hgap="5.0" layoutX="78.0" layoutY="320.0" prefHeight="69.0" prefWidth="409.0" vgap="5.0">
+            <FlowPane fx:id="containertoppings" hgap="5.0" layoutX="63.0" layoutY="254.0" prefHeight="94.0" prefWidth="448.0" vgap="5.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </FlowPane>
-            <Label fx:id="toppingprice1" layoutX="81.0" layoutY="299.0" text="je xxx Euro" />
-            <Label fx:id="toppingprice2" layoutX="81.0" layoutY="406.0" text="je yyy Euro" />
-            <FlowPane fx:id="containertoppings2" hgap="5.0" layoutX="78.0" layoutY="429.0" prefHeight="69.0" prefWidth="409.0" vgap="5.0">
+            <Label fx:id="toppingprice1" layoutX="69.0" layoutY="232.0" prefHeight="17.0" prefWidth="69.0" />
+            <Label fx:id="toppingprice2" layoutX="70.0" layoutY="366.0" prefHeight="17.0" prefWidth="76.0" />
+            <FlowPane fx:id="containertoppings2" hgap="5.0" layoutX="62.0" layoutY="388.0" prefHeight="94.0" prefWidth="448.0" vgap="5.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </FlowPane>
-            <Label fx:id="custshow" layoutX="195.0" layoutY="130.0" text="xxx" />
-            <Label layoutX="630.0" layoutY="164.0" text="Ihre Bestellung:" />
-            <TreeTableView fx:id="orderlist" layoutX="630.0" layoutY="187.0" prefHeight="424.0" prefWidth="366.0">
+            <Label fx:id="custshow" layoutX="195.0" layoutY="115.0" text="xxx" />
+            <Label layoutX="750.0" layoutY="110.0" text="Ihre Bestellung:" />
+            <TreeTableView fx:id="orderlist" layoutX="745.0" layoutY="130.0" prefHeight="481.0" prefWidth="251.0">
               <columns>
-                <TreeTableColumn fx:id="ordercol" prefWidth="249.0" text="Bestellung" />
-                <TreeTableColumn fx:id="pricecol" prefWidth="116.0" text="Preis" />
+                <TreeTableColumn fx:id="ordercol" prefWidth="167.0" text="Bestellung" />
+                <TreeTableColumn fx:id="pricecol" prefWidth="82.0" text="Preis" />
               </columns>
             </TreeTableView>
-            <Label layoutX="779.0" layoutY="611.0" text="Gesamtpreis:" />
-            <Label fx:id="totalcost" layoutX="885.0" layoutY="611.0" text="0.00" />
+            <Label layoutX="754.0" layoutY="611.0" text="Gesamtpreis:" />
+            <Label fx:id="totalcost" layoutX="919.0" layoutY="611.0" text="0.00" />
             <Button fx:id="addbtn" layoutX="794.0" layoutY="655.0" mnemonicParsing="false" onAction="#addTopping" text="Pizza bearbeiten" />
             <Button fx:id="deletebtn" layoutX="686.0" layoutY="655.0" mnemonicParsing="false" onAction="#deleteItem" text="Löschen" />
-            <FlowPane fx:id="pizzacontainer" layoutX="76.0" layoutY="148.0" prefHeight="33.0" prefWidth="492.0" />
+            <FlowPane fx:id="pizzacontainer" layoutX="65.0" layoutY="162.0" prefHeight="33.0" prefWidth="448.0" />
+            <TreeTableView fx:id="pizzaorder" layoutX="516.0" layoutY="132.0" prefHeight="262.0" prefWidth="200.0">
+              <columns>
+                <TreeTableColumn fx:id="colpizza" prefWidth="118.0" text="Pizza" />
+                <TreeTableColumn fx:id="colprice" prefWidth="81.0" text="Preis" />
+              </columns>
+            </TreeTableView>
+            <Label layoutX="527.0" layoutY="397.0" text="Gesamtpreis:" />
+            <Label fx:id="pizzacost" layoutX="642.0" layoutY="397.0" text="0.00" />
          </children></AnchorPane>
    </children>
 </AnchorPane>
