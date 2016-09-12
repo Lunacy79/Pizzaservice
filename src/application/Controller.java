@@ -38,108 +38,110 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Controller implements Initializable {
 
-
-	private Main mainApp;
 	public Controller(){
 
 	}
 
-	  @FXML
-	    private TableColumn<Customer,String> colplz;
+	@FXML
+    private TableColumn<Customer,String> colplz;
 
-	    @FXML
-	    private TableColumn<Customer,String> colphone;
+    @FXML
+    private TableColumn<Customer,String> colphone;
 
-	    @FXML
-	    private Button custdel;
+    @FXML
+    private Button custdel;
 
-	    @FXML
-	    private Button custlistorder;
+    @FXML
+    private Button custlistorder;
 
-	    @FXML
-	    private AnchorPane anchor;
+    @FXML
+    private AnchorPane anchor;
 
-	    @FXML
-	    private TabPane tabpane;
+    @FXML
+    private TabPane tabpane;
 
-	    @FXML
-	    private TableColumn<Customer,String> colnr;
+    @FXML
+    private TableColumn<Customer,String> colnr;
 
-	    @FXML
-	    public TableView<Customer> customertable;
+    @FXML
+    public TableView<Customer> customertable;
+    public ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 
-	    @FXML
-	    private TextField searchfield;
+    @FXML
+    private TextField searchfield;
 
-	    @FXML
-	    private TableColumn<Customer,String> colstreet;
+    @FXML
+    private TableColumn<Customer,String> colstreet;
 
-	    @FXML
-	    private TableColumn<Customer,String> collname;
+    @FXML
+    private TableColumn<Customer,String> collname;
 
-	    @FXML
-	    private Tab menutab;
+    @FXML
+    private Tab menutab;
 
-	    @FXML
-	    private Button custadd;
-	    static Stage secondStage = new Stage();
+    @FXML
+    private Button custadd;
 
-	    @FXML
-	    private Tab ordertab;
+    @FXML
+    private Tab ordertab;
 
-	    @FXML
-	    private TableColumn<Customer,String> colfname;
+    @FXML
+    private TableColumn<Customer,String> colfname;
 
-	    @FXML
-	    private Tab custtab;
+    @FXML
+    private Tab custtab;
 
-	    @FXML
-	    private Button searchbtn;
+    @FXML
+    private Button searchbtn;
 
-	    @FXML
-	    private TableColumn<Customer,String> colcity;
+    @FXML
+    private TableColumn<Customer,String> colcity;
 
-	    @FXML
-	    private TableColumn<Customer,Integer> colcnr;
+    @FXML
+    private TableColumn<Customer,Integer> colcnr;
+    public Main mainApp;
 
-	    @FXML
-	    private Button custchange;
-	    private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
-	    private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
+    @FXML
+    private Button custchange;
+    private ObservableList<Pizza> pizzalist = FXCollections.observableArrayList();
 
-	    @FXML
-	    void addCustomer(ActionEvent event) throws IOException {
-	    	openNewStage(event);
-	    }
+    @FXML
+    void addCustomer(ActionEvent event) throws IOException {
+    	mainApp.addCustomer(event);
+    }
 
-	    @FXML
-	    void deleteCustomer(ActionEvent event) {
-	    	int index = customertable.getSelectionModel().getSelectedIndex();
-	    	int cnr = mainApp.getCustomers().get(index).getCnr();
-	    	CustomerDAO cust = new CustomerDAO();
-	    	cust.deleteCustomer(cnr);
-	    	customertable.getItems().clear();
-	    	customertable.setItems(getCustomers());
-	    }
+    @FXML
+    void deleteCustomer(ActionEvent event) {
+    	int index = customertable.getSelectionModel().getSelectedIndex();
+    	int cnr = mainApp.getCustomerlist().get(index).getCnr();
+    	CustomerDAO cust = new CustomerDAO();
+    	cust.deleteCustomer(cnr);
+    	mainApp.setCustomerlist();
+    }
 
-	    @FXML
-	    void changeCustomer(ActionEvent event) {
+    @FXML
+    void changeCustomer(ActionEvent event) throws IOException {
 
-	    }
+    	int index = customertable.getSelectionModel().getSelectedIndex();
+    	int cnr = mainApp.getCustomerlist().get(index).getCnr();
+    	CustomerDAO cust = new CustomerDAO();
+    	Customer customer = cust.getSingleCustomer(cnr);
+    	mainApp.changeCustomer(event, customer);
+    }
 
-	    @FXML
-	    void searchCustomer(ActionEvent event) {
+    @FXML
+    void searchCustomer(ActionEvent event) {
 
-			customertable.setItems(getCustomer(searchfield.getText()));
-			colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
-			collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
-			colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
-			colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
-			colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
-			colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
-			colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
-			colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
-	    }
+		customertable.setItems(mainApp.getCustomer(searchfield.getText()));
+		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
+		collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
+		colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
+		colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
+		colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
+		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
+		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
+		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
+    }
 
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources){
@@ -162,48 +164,13 @@ public class Controller implements Initializable {
     		knr = customertable.getItems().get(selectedIndex).getCnr();
     		CustomerDAO cust = new CustomerDAO();
     		cust.setCustomerForOrder(knr);
-    		openNewScene(event);
+    		mainApp.openOrder(event);
     	}
-	}
-
-	public void openNewScene(ActionEvent event) throws IOException{
-
-		FXMLLoader loader = new FXMLLoader();
-		Parent parent_order = FXMLLoader.load(Main.class.getResource("Order.fxml"));
-		Scene order = new Scene(parent_order,1070,850);
-		Controller_order controller = loader.getController();
-		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		primaryStage.setScene(order);
-		primaryStage.show();
-
-	}
-
-	public ObservableList<Customer> getCustomers(){
-		CustomerDAO cust = new CustomerDAO();
-		mainApp.getCustomers().addAll(cust.getCustomers());
-		return mainApp.getCustomers();
-	}
-
-	public ObservableList<Customer> getCustomer(String name){
-		CustomerDAO cust = new CustomerDAO();
-		mainApp.getCustomers().removeAll(getCustomers());
-		mainApp.getCustomers().addAll(cust.getCustomer(name));
-		return mainApp.getCustomers();
-	}
-
-	public void openNewStage(ActionEvent event) throws IOException{
-		FXMLLoader loader = new FXMLLoader();
-		Parent parent_order = FXMLLoader.load(Main.class.getResource("NewCustomer.fxml"));
-		Scene order = new Scene(parent_order,750,450);
-		Controller_NewCustomer controller = loader.getController();
-		secondStage.setScene(order);
-		secondStage.initOwner(mainApp.getPrimaryStage());
-		secondStage.show();
 	}
 
 	public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
-		customertable.setItems(mainApp.getCustomers());
+		customertable.setItems(mainApp.getCustomerlist());
 	}
 
 	public void refresh(){

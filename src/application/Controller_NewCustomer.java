@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +19,8 @@ import model.Customer;
 import application.Main;
 
 public class Controller_NewCustomer {
+
+	private Main mainApp;
 
 
 
@@ -42,6 +45,8 @@ public class Controller_NewCustomer {
     @FXML
     private Button addcustbtn;
 
+    private Stage secondStage;
+
     @FXML
     private TextField plz;
     private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
@@ -57,8 +62,12 @@ public class Controller_NewCustomer {
 		AnchorPane root = (AnchorPane) loader.load();
 		Controller controller = loader.getController();
 		Scene scene = new Scene(root,1070,850);
-		controller.refresh();
-    	Controller.secondStage.close();
+		mainApp.getCustomerlist().add(new Customer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText()));
+		((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
+    public void setMainApp(Main mainApp){
+		this.mainApp = mainApp;
+
+	}
 }
