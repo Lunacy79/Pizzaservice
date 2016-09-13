@@ -143,6 +143,25 @@ public class OrderDAO {
 		return pizza;
 	}
 
+	public ArrayList<Order> getPizzas(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		ArrayList<Order> pizzas = new ArrayList<>();
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orderedpizza.size,price from orderedpizza,pizza where onr=" + onr);
+				while(erg.next()){
+					pizzas.add(new Order(erg.getString(1),erg.getDouble(2)));
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return pizzas;
+	}
+
 	public int getPnr(int onr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;

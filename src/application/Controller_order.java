@@ -93,6 +93,8 @@ public class Controller_order implements Initializable {
     private TreeTableView<Order> pizzaorder;
     private TreeItem<Order> pizzaroot = new TreeItem<>(new Order("pizzaroot", 0.00));
     TreeItem<Order> neu = new TreeItem<> ();
+    int topps;
+    ArrayList<String> toppslist = new ArrayList<>();
 
     @FXML
     private TreeTableColumn<Order, String> colpizza;
@@ -148,6 +150,7 @@ public class Controller_order implements Initializable {
         		price = pizza.getPizzas().get(i).getPrice();
     		}
     	}
+    	neu.setExpanded(true);
     	neu.setValue(new Order(size,price));
     	pizzaroot.getChildren().add(neu);
 
@@ -184,16 +187,20 @@ public class Controller_order implements Initializable {
     }
 
     void chooseTopping(String name, double price){
+    	toppslist.add(name);
     	TreeItem<Order> topping = new TreeItem<> (new Order(name,price));
     	items=items+1;
     	neu.getChildren().add(topping);
     }
 
     void deleteTopping(String name, double price){
-    	TreeItem<Order> topping = new TreeItem<> (new Order(name,price));
-    	items=items-1;
-    	neu.getChildren().remove(topping);
-    	System.out.println(neu.getChildren().contains(topping));
+    	topps= toppslist.indexOf(name);
+    	System.out.println(topps);
+    	if(topps>=0){
+	    	neu.getChildren().remove(topps);
+	    	toppslist.remove(topps);
+	    	items=items-1;
+    	}
     }
 
     @FXML
@@ -208,6 +215,7 @@ public class Controller_order implements Initializable {
     	order.setPizza(onr,size);
     	Order top = null;
     	TreeItem<Order> neu2 = new TreeItem<> (piz);
+    	neu2.setExpanded(true);
     	root.getChildren().add(neu2);
     	value = value + price;
     	for(int i = 0; i<items;i++){
@@ -225,11 +233,17 @@ public class Controller_order implements Initializable {
     	pizzaroot.getChildren().clear();
 		neu.getChildren().clear();
 		group.getToggles().clear();
+		toppslist.clear();
+
     }
 
     @FXML
     void addTopping(ActionEvent event) {
-
+    	System.out.println(orderlist.getSelectionModel().getSelectedIndex());
+    	int pizzas = order.getPizzas(onr).size();
+    	for(int i = 0;i<pizzas;i++){
+//    		if(orderlist.getSelectionModel().getSelectedIndex())
+    	}
     }
 
     @FXML
@@ -303,6 +317,8 @@ public class Controller_order implements Initializable {
 		}
 
 		pizzaroot.setExpanded(true);
+		pizzaorder.set.getTreeItemLevel(neu).getSelectionModel().setSelectionMode(null);
+		pizzaroot.
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
     	pizzaorder.getColumns().setAll(colpizza,colprice);
