@@ -92,7 +92,7 @@ public class Controller_order implements Initializable {
     @FXML
     private TreeTableView<Order> pizzaorder;
     private TreeItem<Order> pizzaroot = new TreeItem<>(new Order("pizzaroot", 0.00));
-    TreeItem<Order> neu = new TreeItem<> ();
+    TreeItem<Order> neu;
     int topps;
     ArrayList<String> toppslist = new ArrayList<>();
 
@@ -108,6 +108,7 @@ public class Controller_order implements Initializable {
     @FXML
     private TreeTableView<Order> orderlist;
     private TreeItem<Order> root = new TreeItem<>(new Order("root", 0.00));
+    TreeItem<Order> neu2;
 
     @FXML
     private TreeTableColumn<Order,String> ordercol;
@@ -150,8 +151,8 @@ public class Controller_order implements Initializable {
         		price = pizza.getPizzas().get(i).getPrice();
     		}
     	}
+    	neu=new TreeItem<>(new Order(size,price));
     	neu.setExpanded(true);
-    	neu.setValue(new Order(size,price));
     	pizzaroot.getChildren().add(neu);
 
     	ToppingDAO toppings = new ToppingDAO();
@@ -214,7 +215,8 @@ public class Controller_order implements Initializable {
     	double price = piz.getPrice();
     	order.setPizza(onr,size);
     	Order top = null;
-    	TreeItem<Order> neu2 = new TreeItem<> (piz);
+    	neu2 = new TreeItem<> (piz);
+    	neu2.setValue(piz);
     	neu2.setExpanded(true);
     	root.getChildren().add(neu2);
     	value = value + price;
@@ -230,19 +232,34 @@ public class Controller_order implements Initializable {
     	items=0;
     	order.setToppings(pnr,orderedtoppings);
     	totalcost.setText(Double.toString(value));
-    	pizzaroot.getChildren().clear();
 		neu.getChildren().clear();
+		pizzaroot.getChildren().clear();
 		group.getToggles().clear();
 		toppslist.clear();
     }
 
     @FXML
     void addTopping(ActionEvent event) {
-    	System.out.println(orderlist.getSelectionModel().getSelectedIndex());
-    	int pizzas = order.getPizzas(onr).size();
-    	for(int i = 0;i<pizzas;i++){
-//    		if(orderlist.getSelectionModel().getSelectedIndex())
+    	if(orderlist.getTreeItemLevel(orderlist.getSelectionModel().getSelectedItem()) == 1){
+    		System.out.println(orderlist.getSelectionModel().getSelectedIndex());
+    		int index = orderlist.getSelectionModel().getSelectedIndex();
+    		System.out.println("hi" + root.getChildren().get(index));
+    		TreeItem<Order> piz = neu2.getChildren().get(index);
+    		neu.getChildren().add(piz);
+    		TreeItem<Order> piz2 = neu.getChildren().get(0);
+    		ArrayList<Order> tops = new ArrayList<Order>();
+    		Order top = null;
+    		for(int i = index+1; i <= index + piz.getChildren().size(); i++){
+    			piz2.getChildren().add(piz.getChildren().get(i));
+    		}
+    		
+    		
     	}
+
+//    	int pizzas = order.getPizzas(onr).size();
+//    	for(int i = 0;i<pizzas;i++){
+//    		if(orderlist.getSelectionModel().getSelectedIndex())
+//    	}
     }
 
     @FXML
@@ -270,7 +287,7 @@ public class Controller_order implements Initializable {
 		      public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
 		    	  if (group.getSelectedToggle() != null) {
 		    		pizzaroot.getChildren().clear();
-		    		neu.getChildren().clear();
+//		    		neu.getChildren().clear();
 		          	choosePizza();
 		          }
 		      }
@@ -320,7 +337,7 @@ public class Controller_order implements Initializable {
 //		pizzaroot.
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
-    	pizzaorder.getColumns().setAll(colpizza,colprice);
+//    	pizzaorder.getColumns().setAll(colpizza,colprice);
     	colpizza.setCellValueFactory((TreeTableColumn.CellDataFeatures<Order, String> param) ->
         new ReadOnlyStringWrapper(param.getValue().getValue().getItem()));
     	colprice.setCellValueFactory(new Callback<CellDataFeatures<Order, Double>, ObservableValue<Double>>() {
@@ -329,11 +346,12 @@ public class Controller_order implements Initializable {
     		      return p.getValue().getValue().priceProperty().asObject();
     		 }
     		 });
+    	neu = new TreeItem<>();
 
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
-    	orderlist.getColumns().setAll(ordercol,pricecol);
+//    	orderlist.getColumns().setAll(ordercol,pricecol);
     	ordercol.setCellValueFactory((TreeTableColumn.CellDataFeatures<Order, String> param) ->
         new ReadOnlyStringWrapper(param.getValue().getValue().getItem()));
     	pricecol.setCellValueFactory(new Callback<CellDataFeatures<Order, Double>, ObservableValue<Double>>() {
@@ -342,11 +360,15 @@ public class Controller_order implements Initializable {
     		      return p.getValue().getValue().priceProperty().asObject();
     		 }
     		 });
+    	neu2 = new TreeItem<>();
+//    	root.getChildren().add(neu2);
 	}
 
     public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
 
 	}
+    
+    
 
 }
