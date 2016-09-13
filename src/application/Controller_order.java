@@ -243,19 +243,13 @@ public class Controller_order implements Initializable {
 
     	custshow.setText(order.getCustomerForOrder());
     	onr = order.getOnr();
-<<<<<<< Upstream, based on origin/master
 
 		colpizza.setCellValueFactory(new PropertyValueFactory <Pizza,String>("size"));
 		colprice.setCellValueFactory(new PropertyValueFactory <Pizza,Double>("price"));
-=======
->>>>>>> de9238e 1
 		PizzaDAO pizza = new PizzaDAO();
 		pizzalist.addAll(pizza.getPizzas());
 		rbtn = new RadioButton[pizzalist.size()];
-<<<<<<< Upstream, based on origin/master
-=======
 		System.out.println(pizzalist.get(0).getSize());
->>>>>>> de9238e 1
 		for(int i=0;i<pizzalist.size();i++){
 			RadioButton radiobtn = rbtn[i] = new RadioButton(pizzalist.get(i).getSize() + ", " + pizzalist.get(i).getPrice());
 			pizzacontainer.getChildren().add(rbtn[i]);
