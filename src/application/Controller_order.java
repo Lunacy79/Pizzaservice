@@ -225,11 +225,19 @@ public class Controller_order implements Initializable {
     	pizzaroot.getChildren().clear();
 		neu.getChildren().clear();
 		group.getToggles().clear();
+		toppslist.clear();
+    	pizzaroot.getChildren().clear();
+		neu.getChildren().clear();
+		group.getToggles().clear();
     }
 
     @FXML
     void addTopping(ActionEvent event) {
-
+    	System.out.println(orderlist.getSelectionModel().getSelectedIndex());
+    	int pizzas = order.getPizzas(onr).size();
+    	for(int i = 0;i<pizzas;i++){
+//    		if(orderlist.getSelectionModel().getSelectedIndex())
+    	}
     }
 
     @FXML
@@ -306,11 +314,6 @@ public class Controller_order implements Initializable {
 		}
 
 		pizzaroot.setExpanded(true);
-<<<<<<< Upstream, based on origin/master
-=======
-//		pizzaorder.set.getTreeItemLevel(neu).getSelectionModel().setSelectionMode(null);
-//		pizzaroot.
->>>>>>> 6efbc11 1
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
     	pizzaorder.getColumns().setAll(colpizza,colprice);
