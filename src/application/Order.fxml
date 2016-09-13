@@ -53,7 +53,6 @@
             </TreeTableView>
             <Label layoutX="754.0" layoutY="611.0" text="Gesamtpreis:" />
             <Label fx:id="totalcost" layoutX="919.0" layoutY="611.0" text="0.00" />
-            <Button fx:id="addbtn" layoutX="794.0" layoutY="655.0" mnemonicParsing="false" onAction="#addTopping" text="Pizza bearbeiten" />
             <Button fx:id="deletebtn" layoutX="686.0" layoutY="655.0" mnemonicParsing="false" onAction="#deleteItem" text="Löschen" />
             <FlowPane fx:id="pizzacontainer" layoutX="65.0" layoutY="162.0" prefHeight="33.0" prefWidth="448.0" />
             <TreeTableView fx:id="pizzaorder" layoutX="516.0" layoutY="132.0" prefHeight="262.0" prefWidth="200.0">

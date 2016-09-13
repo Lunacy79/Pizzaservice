@@ -239,30 +239,6 @@ public class Controller_order implements Initializable {
     }
 
     @FXML
-    void addTopping(ActionEvent event) {
-    	if(orderlist.getTreeItemLevel(orderlist.getSelectionModel().getSelectedItem()) == 1){
-    		System.out.println(orderlist.getSelectionModel().getSelectedIndex());
-    		int index = orderlist.getSelectionModel().getSelectedIndex();
-    		System.out.println("hi" + root.getChildren().get(index));
-    		TreeItem<Order> piz = neu2.getChildren().get(index);
-    		neu.getChildren().add(piz);
-    		TreeItem<Order> piz2 = neu.getChildren().get(0);
-    		ArrayList<Order> tops = new ArrayList<Order>();
-    		Order top = null;
-    		for(int i = index+1; i <= index + piz.getChildren().size(); i++){
-    			piz2.getChildren().add(piz.getChildren().get(i));
-    		}
-    		
-    		
-    	}
-
-//    	int pizzas = order.getPizzas(onr).size();
-//    	for(int i = 0;i<pizzas;i++){
-//    		if(orderlist.getSelectionModel().getSelectedIndex())
-//    	}
-    }
-
-    @FXML
     void deleteItem(ActionEvent event) {
 
     }
