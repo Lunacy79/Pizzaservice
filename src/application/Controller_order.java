@@ -306,6 +306,11 @@ public class Controller_order implements Initializable {
 		}
 
 		pizzaroot.setExpanded(true);
+<<<<<<< Upstream, based on origin/master
+=======
+//		pizzaorder.set.getTreeItemLevel(neu).getSelectionModel().setSelectionMode(null);
+//		pizzaroot.
+>>>>>>> 6efbc11 1
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
     	pizzaorder.getColumns().setAll(colpizza,colprice);
