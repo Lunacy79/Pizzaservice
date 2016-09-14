@@ -103,7 +103,7 @@ public class ToppingDAO {
 
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select topping from topping where priceclass = 2");
+				erg = anweisung.executeQuery("Select topping,priceclass from topping where priceclass = 2");
 				while(erg.next()){
 
 					toppinglist2.add(new Topping(erg.getString(1),erg.getInt(2)));

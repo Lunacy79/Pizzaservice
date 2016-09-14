@@ -61,6 +61,8 @@ public class Controller_order implements Initializable {
     @FXML
     private RadioButton[] rbtn;
     ToggleGroup group = new ToggleGroup();
+    private ArrayList<Pizza> orderedpizza = new ArrayList<Pizza>();
+    Pizza piz;
 
     @FXML
     private FlowPane containertoppings;
@@ -88,9 +90,10 @@ public class Controller_order implements Initializable {
     @FXML
     private TreeTableView<Order> pizzaorder;
     private TreeItem<Order> pizzaroot = new TreeItem<>(new Order("pizzaroot", 0.00));
-    TreeItem<Order> neu = new TreeItem<> ();
-    int top;
-    ArrayList<String> toplist = new ArrayList<>();
+    private TreeItem<Order> neu = new TreeItem<> ();
+    private Topping top;
+    private ArrayList<Topping> toplist = new ArrayList<>();
+    private ArrayList<Order> topslist = new ArrayList<>();
 
     @FXML
     private TreeTableColumn<Order, String> colpizza;
@@ -104,8 +107,8 @@ public class Controller_order implements Initializable {
     @FXML
     private TreeTableView<Order> orderlist;
     private TreeItem<Order> root = new TreeItem<>(new Order("root", 0.00));
-    int opizza;
-    ArrayList<Order> opizzas;
+    TreeItem<Order> neu2 = new TreeItem<> ();
+    ArrayList<Order> ordereditems;
 
     @FXML
     private TreeTableColumn<Order,String> ordercol;
@@ -148,6 +151,7 @@ public class Controller_order implements Initializable {
         		price = pizzalist.get(i).getPrice();
     		}
     	}
+    	piz=new Pizza(size,price);
     	neu=new TreeItem<>(new Order(size,price));
     	neu.setExpanded(true);
     	pizzaroot.getChildren().add(neu);
@@ -155,14 +159,18 @@ public class Controller_order implements Initializable {
     	for( int i = 0; i<toppinglist1.size(); i++){
     		String name1 = toppinglist1.get(i).getName();
     		double price1 = tprice1;
+    		Topping topp = toppinglist1.get(i);
 			pls1[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	            	chooseTopping(name1, price1);
+	            	toplist.add(topp);
+	            	chooseTopping(name1, price1, topp);
 	            }
 	        });
 			mns1[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	            	deleteTopping(name1, price1);
+	            	int index = toplist.indexOf(topp);
+	            	toplist.remove(topp);
+	            	deleteTopping(name1, price1, index);
 	            }
 	        });
     	}
@@ -170,56 +178,71 @@ public class Controller_order implements Initializable {
     	for( int i = 0; i<toppinglist2.size(); i++){
     		String name2 = toppinglist2.get(i).getName();
     		double price2 = tprice2;
+    		Topping topp = toppinglist2.get(i);
 			pls2[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	                chooseTopping(name2, price2);
+	            	toplist.add(topp);
+	            	System.out.println(topp);
+	                chooseTopping(name2, price2, topp);
 	            }
 	        });
 			mns2[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	                deleteTopping(name2, price2);
+	            	int index = toplist.indexOf(topp);
+	            	toplist.remove(topp);
+	            	System.out.println(topp);
+	                deleteTopping(name2, price2, index);
 	            }
 	        });
     	}
     }
 
-    void chooseTopping(String name, double price){
-    	toplist.add(name);
+    void chooseTopping(String name, double price, Topping topp){
     	items=items+1;
-    	neu.getChildren().add(new TreeItem(new Order(name,price)));
+    	neu.getChildren().add(new TreeItem<Order>(new Order(name,price)));
+    	System.out.println(top);
     }
 
-    void deleteTopping(String name, double price){
-    	top= toplist.indexOf(name);
-    	System.out.println(topps);
-    	if(topps>=0){
-	    	neu.getChildren().remove(top);
-	    	toplist.remove(top);
-	    	items=items-1;
-    	}
+    void deleteTopping(String name, double price, int index){
+    	neu.getChildren().remove(index);
+    	items=items-1;
     }
 
     @FXML
     void orderPizza(ActionEvent event) {
+    	ArrayList<Topping> toplist1 = new ArrayList<>();
+    	ArrayList<Topping> toplist2 = new ArrayList<>();
+    	for(int i = 0;i<toplist.size();i++){
+    		if(toplist.get(i).getPriceclass() == 1){
+    			toplist1.add(toplist.get(i));
+    		}
+    		else{
+    			toplist2.add(toplist.get(i));
+    		}
+    	}
+    	toplist.clear();
+    	toplist.addAll(toplist1);
+    	toplist.addAll(toplist2);
+    	orderedpizza.add(new Pizza(piz.getSize(),piz.getPrice(),toplist));
     	ArrayList<String> orderedtoppings = new ArrayList<String>();
     	ArrayList<Order> tops = new ArrayList<Order>();
     	orderedtoppings.clear();
-    	Order piz = pizzaroot.getChildren().get(0).getValue();
-    	opizzas.add(piz);
-    	String size = piz.getItem();
-    	double price = piz.getPrice();
+    	Order pizza = pizzaroot.getChildren().get(0).getValue();
+    	ordereditems.add(pizza);
+    	String size = pizza.getItem();
+    	double price = pizza.getPrice();
     	order.setPizza(onr,size);
     	int pnr = order.getPnr(onr);
     	Order top = null;
-    	neu2 = new TreeItem<> (piz);
-    	neu2.setValue(piz);
+    	neu2 = new TreeItem<> (pizza);
+    	neu2.setValue(pizza);
     	neu2.setExpanded(true);
     	root.getChildren().add(neu2);
     	value = value + price;
     	for(int i = 0; i<items;i++){
     		top = neu.getChildren().get(i).getValue();
     		tops.add(top);
-    		opizzas.add(top);
+    		ordereditems.add(top);
     		orderedtoppings.add(top.getItem());
     		value = value + top.getPrice();
     	}
@@ -230,33 +253,56 @@ public class Controller_order implements Initializable {
     	order.setToppings(pnr,orderedtoppings);
     	totalcost.setText(Double.toString(value));
 		neu.getChildren().clear();
+		pizzaroot.getChildren().clear();
 		if(group.getSelectedToggle()!= null){
 			group.getSelectedToggle().setSelected(false);
 		}
-		toppslist.clear();
+		toplist.clear();
     }
 
     @FXML
     void addTopping(ActionEvent event) {
     	int index = orderlist.getSelectionModel().getSelectedIndex();
-    	int pizzas = order.getPizzas(onr).size();
-    	System.out.println(opizzas);
-		if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
-			neu.setValue(opizzas.get(index));
-			pizzaroot.getChildren().add(neu);
-			int j = index+1;
-			int count= 0;
-			while(orderlist.getTreeItemLevel(orderlist.getTreeItem(j))==2){
-				neu.getChildren().add(new TreeItem(opizzas.get(j)));
-				j++;
-				count=count + 1;
-			}
-		}
+    	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
+	    	for(int i = 0;i<root.getChildren().size();i++){
+	    		root.getChildren().get(i).setExpanded(false);
+	    	}
+	    	int index2 = orderlist.getSelectionModel().getSelectedIndex();
+	    	for(int i = 0;i<root.getChildren().size();i++){
+	    		root.getChildren().get(i).setExpanded(true);
+	    	}
+	    	int index3 = root.getChildren().get(index2).getChildren().size();
+	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
+	    	pizzaroot.getChildren().get(0).setExpanded(true);
+	    	for(int i = 1;i<=index3;i++){
+	    		pizzaroot.getChildren().get(0).getChildren().add(new TreeItem<Order>(ordereditems.get(index+i)));
+	    	}
+	    	for(int i = 0;i<=index3;i++){
+	    		ordereditems.remove(index);
+	    	}
+	    	root.getChildren().remove(index2);
+	    	orderedpizza.remove(index2);
+    	}
     }
 
     @FXML
     void deleteItem(ActionEvent event) {
-
+    	int index = orderlist.getSelectionModel().getSelectedIndex();
+    	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
+	    	for(int i = 0;i<root.getChildren().size();i++){
+	    		root.getChildren().get(i).setExpanded(false);
+	    	}
+	    	int index2 = orderlist.getSelectionModel().getSelectedIndex();
+	    	for(int i = 0;i<root.getChildren().size();i++){
+	    		root.getChildren().get(i).setExpanded(true);
+	    	}
+	    	int index3 = root.getChildren().get(index2).getChildren().size();
+	    	root.getChildren().remove(index2);
+	    	orderedpizza.remove(index2);
+	    	for(int i = 0;i<=index3;i++){
+	    		ordereditems.remove(index);
+	    	}
+    	}
     }
 
 
@@ -293,7 +339,7 @@ public class Controller_order implements Initializable {
 			Button pls = pls1[i] = new Button("+");
 			pls1[i].setPadding(Insets.EMPTY);
 			pls1[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
-			Label lbl = lbl1[i] = new Label(toppinglist1.get(i));
+			Label lbl = lbl1[i] = new Label(toppinglist1.get(i).getName());
 			Button mns = mns1[i] = new Button("-");
 			mns1[i].setPadding(Insets.EMPTY);
 			mns1[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
@@ -310,7 +356,7 @@ public class Controller_order implements Initializable {
 			Button pls = pls2[i] = new Button("+");
 			pls2[i].setPadding(Insets.EMPTY);
 			pls2[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
-			Label lbl = lbl2[i] = new Label(toppinglist2.get(i));
+			Label lbl = lbl2[i] = new Label(toppinglist2.get(i).getName());
 			Button mns = mns2[i] = new Button("-");
 			mns2[i].setPadding(Insets.EMPTY);
 			mns2[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
@@ -345,7 +391,7 @@ public class Controller_order implements Initializable {
     		      return p.getValue().getValue().priceProperty().asObject();
     		 }
     		 });
-    	opizzas=new ArrayList<Order>();
+    	ordereditems=new ArrayList<Order>();
 	}
 
     public void setMainApp(Main mainApp){

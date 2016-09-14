@@ -20,6 +20,12 @@ public class Pizza {
 		this.size = new SimpleStringProperty(size);
 		this.price = new SimpleDoubleProperty(price);
 	}
+	
+	public Pizza(String size, double price, ArrayList<Topping> toppings){
+		this.size = new SimpleStringProperty(size);
+		this.price = new SimpleDoubleProperty(price);
+		this.toppings = toppings;
+	}
 
 	public Pizza(){
 
