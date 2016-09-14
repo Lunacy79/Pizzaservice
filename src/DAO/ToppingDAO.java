@@ -15,8 +15,9 @@ public class ToppingDAO {
 	private Topping topping = new Topping();
 	private ArrayList<Topping> toppings1 = new ArrayList<Topping>();
 	private ArrayList<Topping> toppings2 = new ArrayList<Topping>();
-	private ArrayList<String> toppinglist1 = new ArrayList<String>();
-	private ArrayList<String> toppinglist2 = new ArrayList<String>();
+	private ArrayList<Topping> toppinglist1 = new ArrayList<Topping>();
+	private ArrayList<Topping> toppinglist2 = new ArrayList<Topping>();
+	private ArrayList<Topping> toppinglist = new ArrayList<Topping>();
 
 	public ArrayList<Topping> getTopping1(String size){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
@@ -68,7 +69,7 @@ public class ToppingDAO {
 		return toppings2;
 	}
 
-	public ArrayList<String> getToppings1(){
+	public ArrayList<Topping> getToppings1(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		ResultSet erg = null;
@@ -77,10 +78,10 @@ public class ToppingDAO {
 
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select topping from topping where priceclass = 1");
+				erg = anweisung.executeQuery("Select topping,priceclass from topping where priceclass = 1");
 				while(erg.next()){
 
-					toppinglist1.add(erg.getString(1));
+					toppinglist1.add(new Topping(erg.getString(1),erg.getInt(2)));
 				}
 
 			}
@@ -93,7 +94,7 @@ public class ToppingDAO {
 		return toppinglist1;
 	}
 
-	public ArrayList<String> getToppings2(){
+	public ArrayList<Topping> getToppings2(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		ResultSet erg = null;
@@ -105,7 +106,7 @@ public class ToppingDAO {
 				erg = anweisung.executeQuery("Select topping from topping where priceclass = 2");
 				while(erg.next()){
 
-					toppinglist2.add(erg.getString(1));
+					toppinglist2.add(new Topping(erg.getString(1),erg.getInt(2)));
 				}
 
 
@@ -116,5 +117,11 @@ public class ToppingDAO {
 		}
 
 		return toppinglist2;
+	}
+
+	public ArrayList<Topping> getToppings(){
+		toppinglist.addAll(getToppings1());
+		toppinglist.addAll(getToppings2());
+		return toppinglist;
 	}
 }

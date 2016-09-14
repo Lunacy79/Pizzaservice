@@ -59,23 +59,19 @@ public class Controller_order implements Initializable {
     private FlowPane pizzacontainer;
 
     @FXML
-    private TableView<Pizza> tableViewPizza;
     private RadioButton[] rbtn;
     ToggleGroup group = new ToggleGroup();
 
     @FXML
     private FlowPane containertoppings;
-    private ArrayList<String> toppinglist1 = new ArrayList<String>();
-    private CheckBox[] cbs1;
+    private ArrayList<Topping> toppinglist1 = new ArrayList<Topping>();
     private Button[] pls1;
     private Button[] mns1;
     private Label[] lbl1;
 
-
     @FXML
     private FlowPane containertoppings2;
-    private ArrayList<String> toppinglist2 = new ArrayList<String>();
-    private CheckBox[] cbs2;
+    private ArrayList<Topping> toppinglist2 = new ArrayList<Topping>();
     private Button[] pls2;
     private Button[] mns2;
     private Label[] lbl2;
@@ -92,9 +88,9 @@ public class Controller_order implements Initializable {
     @FXML
     private TreeTableView<Order> pizzaorder;
     private TreeItem<Order> pizzaroot = new TreeItem<>(new Order("pizzaroot", 0.00));
-    TreeItem<Order> neu;
-    int topps;
-    ArrayList<String> toppslist = new ArrayList<>();
+    TreeItem<Order> neu = new TreeItem<> ();
+    int top;
+    ArrayList<String> toplist = new ArrayList<>();
 
     @FXML
     private TreeTableColumn<Order, String> colpizza;
@@ -108,7 +104,8 @@ public class Controller_order implements Initializable {
     @FXML
     private TreeTableView<Order> orderlist;
     private TreeItem<Order> root = new TreeItem<>(new Order("root", 0.00));
-    TreeItem<Order> neu2;
+    int opizza;
+    ArrayList<Order> opizzas;
 
     @FXML
     private TreeTableColumn<Order,String> ordercol;
@@ -139,67 +136,65 @@ public class Controller_order implements Initializable {
     void choosePizza() {
     	String size = "";
     	double price = 0.00;
-    	double topping1 = 0;
-    	double topping2 = 0;
+    	double tprice1 = 0.00;
+    	double tprice2 = 0.00;
     	for(int i = 0; i<pizzalist.size();i++){
     		if(rbtn[i].isSelected()==true){
-        		topping1 = pizza.getPizzas().get(i).getTopping1();
-        		topping2 = pizza.getPizzas().get(i).getTopping2();
-        		toppingprice1.setText("je " + topping1 + " Euro");
-        		toppingprice2.setText("je " + topping2 + " Euro");
-        		size = pizza.getPizzas().get(i).getSize();
-        		price = pizza.getPizzas().get(i).getPrice();
+        		tprice1 = pizzalist.get(i).getTopping1();
+        		tprice2 = pizzalist.get(i).getTopping2();
+        		toppingprice1.setText("je " + tprice1 + " Euro");
+        		toppingprice2.setText("je " + tprice2 + " Euro");
+        		size = pizzalist.get(i).getSize();
+        		price = pizzalist.get(i).getPrice();
     		}
     	}
     	neu=new TreeItem<>(new Order(size,price));
     	neu.setExpanded(true);
     	pizzaroot.getChildren().add(neu);
 
-    	ToppingDAO toppings = new ToppingDAO();
-    	ArrayList<Topping>top1=toppings.getTopping1(size);
     	for( int i = 0; i<toppinglist1.size(); i++){
-    		Topping topp1 = top1.get(i);
+    		String name1 = toppinglist1.get(i).getName();
+    		double price1 = tprice1;
 			pls1[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	            	chooseTopping(topp1.getName(), topp1.getPrice());
+	            	chooseTopping(name1, price1);
 	            }
 	        });
 			mns1[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	            	deleteTopping(topp1.getName(), topp1.getPrice());
+	            	deleteTopping(name1, price1);
 	            }
 	        });
     	}
 
-    	ArrayList<Topping>top2=toppings.getTopping2(size);
     	for( int i = 0; i<toppinglist2.size(); i++){
-    		Topping topp2 = top2.get(i);
+    		String name2 = toppinglist2.get(i).getName();
+    		double price2 = tprice2;
 			pls2[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	                chooseTopping(topp2.getName(), topp2.getPrice());
+	                chooseTopping(name2, price2);
 	            }
 	        });
 			mns2[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	                deleteTopping(topp2.getName(), topp2.getPrice());
+	                deleteTopping(name2, price2);
 	            }
 	        });
     	}
     }
 
     void chooseTopping(String name, double price){
-    	toppslist.add(name);
-    	TreeItem<Order> topping = new TreeItem<> (new Order(name,price));
+    	toplist.add(name);
     	items=items+1;
-    	neu.getChildren().add(topping);
+    	neu.getChildren().add(new TreeItem(new Order(name,price)));
     }
 
     void deleteTopping(String name, double price){
-    	topps= toppslist.indexOf(name);
+    	top= toplist.indexOf(name);
     	System.out.println(topps);
     	if(topps>=0){
-	    	neu.getChildren().remove(topps);
-	    	toppslist.remove(topps);
+	    	neu.getChildren().remove(top);
+	    	toplist.remove(top);
 	    	items=items-1;
     	}
     }
@@ -210,10 +205,11 @@ public class Controller_order implements Initializable {
     	ArrayList<Order> tops = new ArrayList<Order>();
     	orderedtoppings.clear();
     	Order piz = pizzaroot.getChildren().get(0).getValue();
-    	int pnr = order.getPnr(onr);
+    	opizzas.add(piz);
     	String size = piz.getItem();
     	double price = piz.getPrice();
     	order.setPizza(onr,size);
+    	int pnr = order.getPnr(onr);
     	Order top = null;
     	neu2 = new TreeItem<> (piz);
     	neu2.setValue(piz);
@@ -223,6 +219,7 @@ public class Controller_order implements Initializable {
     	for(int i = 0; i<items;i++){
     		top = neu.getChildren().get(i).getValue();
     		tops.add(top);
+    		opizzas.add(top);
     		orderedtoppings.add(top.getItem());
     		value = value + top.getPrice();
     	}
@@ -233,9 +230,28 @@ public class Controller_order implements Initializable {
     	order.setToppings(pnr,orderedtoppings);
     	totalcost.setText(Double.toString(value));
 		neu.getChildren().clear();
-		pizzaroot.getChildren().clear();
-		group.getToggles().clear();
+		if(group.getSelectedToggle()!= null){
+			group.getSelectedToggle().setSelected(false);
+		}
 		toppslist.clear();
+    }
+
+    @FXML
+    void addTopping(ActionEvent event) {
+    	int index = orderlist.getSelectionModel().getSelectedIndex();
+    	int pizzas = order.getPizzas(onr).size();
+    	System.out.println(opizzas);
+		if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
+			neu.setValue(opizzas.get(index));
+			pizzaroot.getChildren().add(neu);
+			int j = index+1;
+			int count= 0;
+			while(orderlist.getTreeItemLevel(orderlist.getTreeItem(j))==2){
+				neu.getChildren().add(new TreeItem(opizzas.get(j)));
+				j++;
+				count=count + 1;
+			}
+		}
     }
 
     @FXML
@@ -252,7 +268,6 @@ public class Controller_order implements Initializable {
 		PizzaDAO pizza = new PizzaDAO();
 		pizzalist.addAll(pizza.getPizzas());
 		rbtn = new RadioButton[pizzalist.size()];
-		System.out.println(pizzalist.get(0).getSize());
 		for(int i=0;i<pizzalist.size();i++){
 			RadioButton radiobtn = rbtn[i] = new RadioButton(pizzalist.get(i).getSize() + ", " + pizzalist.get(i).getPrice());
 			pizzacontainer.getChildren().add(rbtn[i]);
@@ -274,7 +289,6 @@ public class Controller_order implements Initializable {
 		pls1 = new Button[toppinglist1.size()];
 		lbl1 = new Label[toppinglist1.size()];
 		mns1 = new Button[toppinglist1.size()];
-		cbs1 = new CheckBox[toppinglist1.size()];
 		for( int i = 0; i<toppinglist1.size(); i++){
 			Button pls = pls1[i] = new Button("+");
 			pls1[i].setPadding(Insets.EMPTY);
@@ -285,7 +299,6 @@ public class Controller_order implements Initializable {
 			mns1[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
 			Label elbl = new Label("");
 			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
-			CheckBox check = cbs1[i] = new CheckBox(toppinglist1.get(i));
 			containertoppings.getChildren().addAll(pls1[i],lbl1[i],mns1[i],elbl);
 		}
 
@@ -293,7 +306,6 @@ public class Controller_order implements Initializable {
 		pls2 = new Button[toppinglist2.size()];
 		lbl2 = new Label[toppinglist2.size()];
 		mns2 = new Button[toppinglist2.size()];
-		cbs2 = new CheckBox[toppinglist2.size()];
 		for( int i = 0; i<toppinglist2.size(); i++){
 			Button pls = pls2[i] = new Button("+");
 			pls2[i].setPadding(Insets.EMPTY);
@@ -304,13 +316,10 @@ public class Controller_order implements Initializable {
 			mns2[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
 			Label elbl = new Label("");
 			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
-			CheckBox check = cbs2[i] = new CheckBox(toppinglist2.get(i));
 			containertoppings2.getChildren().addAll(pls2[i],lbl2[i],mns2[i],elbl);
 		}
 
 		pizzaroot.setExpanded(true);
-//		pizzaorder.set.getTreeItemLevel(neu).getSelectionModel().setSelectionMode(null);
-//		pizzaroot.
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
 //    	pizzaorder.getColumns().setAll(colpizza,colprice);
@@ -336,8 +345,7 @@ public class Controller_order implements Initializable {
     		      return p.getValue().getValue().priceProperty().asObject();
     		 }
     		 });
-    	neu2 = new TreeItem<>();
-//    	root.getChildren().add(neu2);
+    	opizzas=new ArrayList<Order>();
 	}
 
     public void setMainApp(Main mainApp){
@@ -346,5 +354,7 @@ public class Controller_order implements Initializable {
 	}
     
     
+
+
 
 }

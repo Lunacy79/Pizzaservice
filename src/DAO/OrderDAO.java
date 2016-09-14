@@ -48,6 +48,30 @@ public class OrderDAO {
 		return onr;
 	}
 
+	public ArrayList<Order> getOrder(int onr){
+		ArrayList<Order> order = new ArrayList<Order>();
+		ResultSet erg = null;
+		ResultSet erg2 = null;
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select size, price from orderedpizzas where onr = " + onr);
+				while(erg.next()){
+					order.add(new Order(erg.getString(1), erg.getDouble(2)));
+				}
+				Statement anweisung2 = this.dbConnect.createStatement();
+				erg2 = anweisung2.executeQuery("Select topping, price from orderedpizzas where onr = " + onr);
+				while(erg2.next()){
+					order.add(new Order(erg.getString(1), erg.getDouble(2)));
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return order;
+	}
+
 	public String getCustomerForOrder(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -150,7 +174,7 @@ public class OrderDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select orderedpizza.size,price from orderedpizza,pizza where onr=" + onr);
+				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where onr=" + onr);
 				while(erg.next()){
 					pizzas.add(new Order(erg.getString(1),erg.getDouble(2)));
 				}
