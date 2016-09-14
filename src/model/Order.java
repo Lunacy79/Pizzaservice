@@ -14,7 +14,6 @@ public class Order {
 	private ArrayList<Topping> toppings1 = new ArrayList<Topping>();
 	private Drinks drink;
 	private ArrayList<Drinks> drinks = new ArrayList<Drinks>();
-
 	private SimpleStringProperty item;
 	private SimpleDoubleProperty price;
 
@@ -37,7 +36,6 @@ public class Order {
         return price;
 	}
 
-
 	public String getItem() {
 		return item.get();
 	}
@@ -53,8 +51,6 @@ public class Order {
 	public Double getPrice() {
 		return price.get();
 	}
-
-
 
 	public int getOrdernumber() {
 		return ordernumber;

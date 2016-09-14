@@ -12,39 +12,28 @@ import model.Pizza;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
 public class PizzaDAO {
-
 	private Connection dbConnect;
 	private Pizza pizza = new Pizza();
 	private ArrayList<Pizza> pizzalist = new ArrayList<Pizza>();
 
 	public ArrayList<Pizza> getPizzas(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
-
 		ResultSet erg = null;
-
 		if(this.dbConnect != null){
-
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
 				erg = anweisung.executeQuery("Select * from pizza");
 				while(erg.next()){
-
 					pizzalist.add(new Pizza(erg.getString(1),erg.getDouble(2),erg.getDouble(3),erg.getDouble(4)));
 				}
-
-
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
-
 		return pizzalist;
 	}
-
 
 	public Pizza addPizza(String size, double price) throws SQLException{
 
@@ -53,22 +42,17 @@ public class PizzaDAO {
 		ResultSet erg = null;
 
 		if(this.dbConnect != null){
-
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
 				erg = anweisung.executeQuery("Select * from pizza where size='" + size + "'");
 				while(erg.next()){
 					pizza=new Pizza(erg.getString(1),erg.getDouble(2));
 				}
-
-
-
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
 		return pizza;
 	}
 
