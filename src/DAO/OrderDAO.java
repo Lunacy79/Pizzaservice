@@ -14,6 +14,8 @@ import model.Topping;
 public class OrderDAO {
 
 	private Connection dbConnect;
+	private ArrayList<Order> orders = new ArrayList<Order>();
+	private Order order = new Order();
 
 	public void setOnr(int knr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
@@ -74,21 +76,20 @@ public class OrderDAO {
 	}
 
 	public ArrayList<Order> getOrders(){
-		ArrayList<Order> order = new ArrayList<Order>();
 		ResultSet erg = null;
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
 				erg = anweisung.executeQuery("Select onr, cnr from orders");
 				while(erg.next()){
-					order.add(new Order(erg.getInt(1),erg.getInt(2)));
+					orders.add(new Order(erg.getInt(1),erg.getInt(2)));
 				}
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return order;
+		return orders;
 	}
 
 	public String getCustomerForOrder(){

@@ -106,8 +106,6 @@
                                             <columns>
                                               <TableColumn fx:id="orderonr" prefWidth="107.0" text="Bestellnummer" />
                                               <TableColumn fx:id="ordercnr" prefWidth="127.0" text="Kundennummer" />
-                                                <TableColumn fx:id="orderlname" prefWidth="155.0" text="Nachname" />
-                                                <TableColumn fx:id="orderfname" prefWidth="139.0" text="Vorname" />
                                             </columns>
                                           </TableView>
                                        </children>

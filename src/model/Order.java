@@ -19,6 +19,9 @@ public class Order {
 	private SimpleStringProperty item;
 	private SimpleDoubleProperty price;
 
+	public Order(){
+	}
+	
 	public Order(String item,Double price){
 		this.item = new SimpleStringProperty(item);
 		this.price = new SimpleDoubleProperty(price);

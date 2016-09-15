@@ -341,20 +341,18 @@ public class Controller_order implements Initializable {
     		System.out.println(orderedpizza.get(i).getToppings());
     		order.setToppings(pnr, orderedpizza.get(i).getToppings());
     	}
-
+    	mainApp.goBack(event);
+    	
     	FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("test.fxml"));
-		AnchorPane root = (AnchorPane) loader.load();
-		Scene scene = new Scene(root,1070,850);
-		Controller controller = loader.getController();
-		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		controller.setMainApp(mainApp);
-		controller.refresh();
-		controller.openBestellung();
+		loader.setLocation(getClass().getResource("Print.fxml"));
+		AnchorPane parent_print = (AnchorPane)loader.load();
+		Scene print = new Scene(parent_print,500,600);
 
-
+		PrintController controller = loader.getController();
+		Stage thirdStage = new Stage();
+		thirdStage.setScene(print);
+		thirdStage.show();
+		controller.setMainApp(this);
     }
 
 

@@ -30,13 +30,15 @@ public class Main extends Application {
 	private Customer customer;
 
 	private ObservableList<Order> orderlist = FXCollections.observableArrayList();
-	private OrderDAO order = new OrderDAO();
+	private OrderDAO orders = new OrderDAO();
+	private Order order = new Order();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		customerlist.addAll(cust.getCustomers());
-		orderlist.addAll(order.getOrders());
-		System.out.println(order.getOrders());
+		orderlist.addAll(orders.getOrders());
+		System.out.println(orders);
+		System.out.println(orders.getOrders());
 		System.out.println(cust.getCustomers());
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
@@ -80,7 +82,7 @@ public class Main extends Application {
 	public void setOrderlist(){
 		OrderDAO order = new OrderDAO();
 		orderlist.clear();
-		orderlist.addAll(order.getOrders());
+		orderlist.addAll(orders.getOrders());
 
 	}
 
@@ -104,6 +106,19 @@ public class Main extends Application {
 		primaryStage.show();
 		controller.setMainApp(this);
 
+	}
+	
+	public void goBack(ActionEvent event) throws IOException{
+
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("test.fxml"));
+		AnchorPane root = (AnchorPane) loader.load();
+		Scene scene = new Scene(root,1070,850);
+		Controller controller = loader.getController();
+		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		controller.setMainApp(this);
 	}
 
 	public void setCustomer(Customer customer){
