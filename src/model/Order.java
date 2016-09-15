@@ -3,12 +3,14 @@ package model;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 
 public class Order {
 
 	private int ordernumber;
+	private int customernumber;
 	private Customer customer;
 	private Pizza pizza;
 	private ArrayList<Topping> toppings1 = new ArrayList<Topping>();
@@ -20,6 +22,11 @@ public class Order {
 	public Order(String item,Double price){
 		this.item = new SimpleStringProperty(item);
 		this.price = new SimpleDoubleProperty(price);
+	}
+
+	public Order(int ordernumber, int customernumber){
+		this.ordernumber = ordernumber;
+		this.setCustomernumber(customernumber);
 	}
 
 	public SimpleStringProperty itemProperty() {
@@ -70,12 +77,12 @@ public class Order {
 	public void setPizza(Pizza pizza) {
 		this.pizza = pizza;
 	}
-	public ArrayList<Pizza> getPizzalist() {
-		return pizzalist;
-	}
-	public void setPizzalist(ArrayList<Pizza> pizzalist) {
-		this.pizzalist = pizzalist;
-	}
+//	public ArrayList<Pizza> getPizzalist() {
+//		return pizzalist;
+//	}
+//	public void setPizzalist(ArrayList<Pizza> pizzalist) {
+//		this.pizzalist = pizzalist;
+//	}
 	public Drinks getDrink() {
 		return drink;
 	}
@@ -95,6 +102,14 @@ public class Order {
 
 	public void setPrice(SimpleDoubleProperty price) {
 		this.price = price;
+	}
+
+	public int getCustomernumber() {
+		return customernumber;
+	}
+
+	public void setCustomernumber(int customernumber) {
+		this.customernumber = customernumber;
 	}
 
 

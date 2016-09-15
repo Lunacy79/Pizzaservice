@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import DAO.CustomerDAO;
+import DAO.OrderDAO;
 import DAO.PizzaDAO;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import model.Customer;
 import model.Pizza;
+import model.Order;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,9 +29,15 @@ public class Main extends Application {
 	private CustomerDAO cust = new CustomerDAO();
 	private Customer customer;
 
+	private ObservableList<Order> orderlist = FXCollections.observableArrayList();
+	private OrderDAO order = new OrderDAO();
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		customerlist.addAll(cust.getCustomers());
+		orderlist.addAll(order.getOrders());
+		System.out.println(order.getOrders());
+		System.out.println(cust.getCustomers());
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -62,6 +70,18 @@ public class Main extends Application {
 		CustomerDAO cust = new CustomerDAO();
 		customerlist.clear();
 		customerlist.addAll(cust.getCustomers());
+	}
+
+	public ObservableList<Order> getOrderlist(){
+		System.out.println(orderlist);
+		return this.orderlist;
+	}
+
+	public void setOrderlist(){
+		OrderDAO order = new OrderDAO();
+		orderlist.clear();
+		orderlist.addAll(order.getOrders());
+
 	}
 
 	public ObservableList<Customer> getCustomer(String name){

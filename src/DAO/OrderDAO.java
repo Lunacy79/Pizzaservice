@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.Customer;
 import model.Order;
 import model.Pizza;
 import model.Topping;
@@ -72,6 +73,24 @@ public class OrderDAO {
 		return order;
 	}
 
+	public ArrayList<Order> getOrders(){
+		ArrayList<Order> order = new ArrayList<Order>();
+		ResultSet erg = null;
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select onr, cnr from orders");
+				while(erg.next()){
+					order.add(new Order(erg.getInt(1),erg.getInt(2)));
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return order;
+	}
+
 	public String getCustomerForOrder(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -91,14 +110,14 @@ public class OrderDAO {
 		return customer;
 	}
 
-	public void setToppings(int pnr, ArrayList<String> toppings){
+	public void setToppings(int pnr, ArrayList<Topping> toppings){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		if(this.dbConnect != null){
 			try{
 				for(int i=0;i<toppings.size(); i++){
 				Statement anweisung2 = this.dbConnect.createStatement();
-				anweisung2.executeUpdate("Insert into orderedtopping (pnr,topping) values (" + pnr + ", '" + toppings.get(i) + "')");
+				anweisung2.executeUpdate("Insert into orderedtopping (pnr,topping) values (" + pnr + ", '" + toppings.get(i).getName() + "')");
 				anweisung2.close();
 				}
 			}

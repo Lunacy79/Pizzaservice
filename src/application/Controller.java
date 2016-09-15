@@ -12,6 +12,7 @@ import DAO.CustomerDAO;
 import DAO.PizzaDAO;
 import application.Main;
 import model.Customer;
+import model.Order;
 import model.Pizza;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,6 +44,28 @@ public class Controller implements Initializable {
 	}
 
 	@FXML
+    private TabPane tabpane;
+
+	@FXML
+    private Tab bestellungstab;
+
+	@FXML
+    private TableView<Order> ordertable;
+	 public ObservableList<Order> orderlist = FXCollections.observableArrayList();
+
+	@FXML
+    private TableColumn<Order, Integer> orderonr;
+
+	@FXML
+	private TableColumn<Order, Integer> ordercnr;
+
+	@FXML
+	private TableColumn<Order, String> orderlname;
+
+	@FXML
+    private TableColumn<Order, String> orderfname;
+
+	@FXML
     private TableColumn<Customer,String> colplz;
 
     @FXML
@@ -56,9 +79,6 @@ public class Controller implements Initializable {
 
     @FXML
     private AnchorPane anchor;
-
-    @FXML
-    private TabPane tabpane;
 
     @FXML
     private TableColumn<Customer,String> colnr;
@@ -154,6 +174,11 @@ public class Controller implements Initializable {
 		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
 		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
+
+		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("onr"));
+		ordercnr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("cnr"));
+
+
 	}
 
 	@FXML
@@ -170,13 +195,18 @@ public class Controller implements Initializable {
 
 	public void setMainApp(Main mainApp){
 		this.mainApp = mainApp;
+		ordertable.setItems(mainApp.getOrderlist());
 		customertable.setItems(mainApp.getCustomerlist());
+
 	}
 
 	public void refresh(){
 
-		customertable.setItems(mainApp.getCustomers());
-		System.out.println(customertable.getItems());
+		customertable.setItems(mainApp.getCustomerlist());
+		ordertable.setItems(mainApp.getOrderlist());
+		System.out.println(mainApp.getOrderlist());
+
+
 
 //		customertable.getItems().clear();
 //		System.out.println(customertable.getItems());
@@ -186,6 +216,10 @@ public class Controller implements Initializable {
 //
 //		System.out.println(customertable.getItems());
 
+	}
+
+	public void openBestellung(){
+		tabpane.getSelectionModel().select(1);
 	}
 
 }

@@ -35,6 +35,11 @@ public class Customer {
 		this.telefon=telefon;
 	}
 
+	public Customer(int cnr, String lname, String fname){
+		this.cnr=cnr;
+		this.lname=lname;
+		this.fname=fname;
+	}
 
 	public Customer(){
 

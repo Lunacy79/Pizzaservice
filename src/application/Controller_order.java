@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Checkbox;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,6 +42,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -88,6 +95,9 @@ public class Controller_order implements Initializable {
     private Pane orderpane;
 
     @FXML
+    private FlowPane containerdrinks;
+
+    @FXML
     private TreeTableView<Order> pizzaorder;
     private TreeItem<Order> pizzaroot = new TreeItem<>(new Order("pizzaroot", 0.00));
     private TreeItem<Order> neu = new TreeItem<> ();
@@ -125,6 +135,9 @@ public class Controller_order implements Initializable {
 
     @FXML
     private Button deletebtn;
+
+    @FXML
+    private Button orderbtn;
 
     @FXML
     private Button pizzaconfirm;
@@ -223,7 +236,9 @@ public class Controller_order implements Initializable {
     	toplist.clear();
     	toplist.addAll(toplist1);
     	toplist.addAll(toplist2);
-    	orderedpizza.add(new Pizza(piz.getSize(),piz.getPrice(),toplist));
+    	ArrayList<Topping> topps = new ArrayList<>(toplist);
+    	toplist.clear();
+    	orderedpizza.add(new Pizza(piz.getSize(),piz.getPrice(),topps));
     	ArrayList<String> orderedtoppings = new ArrayList<String>();
     	ArrayList<Order> tops = new ArrayList<Order>();
     	orderedtoppings.clear();
@@ -231,7 +246,7 @@ public class Controller_order implements Initializable {
     	ordereditems.add(pizza);
     	String size = pizza.getItem();
     	double price = pizza.getPrice();
-    	order.setPizza(onr,size);
+
     	int pnr = order.getPnr(onr);
     	Order top = null;
     	neu2 = new TreeItem<> (pizza);
@@ -250,14 +265,12 @@ public class Controller_order implements Initializable {
     		neu2.getChildren().add(new TreeItem<>(tops.get(i)));
     	}
     	items=0;
-    	order.setToppings(pnr,orderedtoppings);
     	totalcost.setText(Double.toString(value));
 		neu.getChildren().clear();
 		pizzaroot.getChildren().clear();
 		if(group.getSelectedToggle()!= null){
 			group.getSelectedToggle().setSelected(false);
 		}
-		toplist.clear();
     }
 
     @FXML
@@ -272,7 +285,10 @@ public class Controller_order implements Initializable {
 	    		root.getChildren().get(i).setExpanded(true);
 	    	}
 	    	int index3 = root.getChildren().get(index2).getChildren().size();
-	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
+
+	    	group.getToggles().get(1).setSelected(true);
+//	    	pizzaroot.getChildren().clear();
+//	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
 	    	pizzaroot.getChildren().get(0).setExpanded(true);
 	    	for(int i = 1;i<=index3;i++){
 	    		pizzaroot.getChildren().get(0).getChildren().add(new TreeItem<Order>(ordereditems.get(index+i)));
@@ -282,6 +298,7 @@ public class Controller_order implements Initializable {
 	    	}
 	    	root.getChildren().remove(index2);
 	    	orderedpizza.remove(index2);
+
     	}
     }
 
@@ -303,6 +320,35 @@ public class Controller_order implements Initializable {
 	    		ordereditems.remove(index);
 	    	}
     	}
+    }
+
+    @FXML
+    void orderitems(ActionEvent event) throws IOException {
+    	String size = "";
+    	int pnr = -1;
+    	for(int i = 0; i<orderedpizza.size();i++){
+    		size = orderedpizza.get(i).getSize();
+    		order.setPizza(onr, size);
+    		System.out.println(order.getOrders());
+    		pnr = order.getPnr(onr);
+    		System.out.println(orderedpizza.get(i).getToppings());
+    		order.setToppings(pnr, orderedpizza.get(i).getToppings());
+    	}
+
+    	FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("test.fxml"));
+		AnchorPane root = (AnchorPane) loader.load();
+		Scene scene = new Scene(root,1070,850);
+		Controller controller = loader.getController();
+		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		controller.setMainApp(mainApp);
+		controller.refresh();
+		controller.openBestellung();
+		System.out.println(controller.mainApp.getOrderlist());
+
+
     }
 
 
@@ -398,8 +444,8 @@ public class Controller_order implements Initializable {
 		this.mainApp = mainApp;
 
 	}
-    
-    
+
+
 
 
 
