@@ -211,63 +211,70 @@ public class Controller_order implements Initializable {
     }
 
     void chooseTopping(String name, double price, Topping topp){
-    	items=items+1;
+
     	neu.getChildren().add(new TreeItem<Order>(new Order(name,price)));
     	System.out.println(top);
     }
 
     void deleteTopping(String name, double price, int index){
     	neu.getChildren().remove(index);
-    	items=items-1;
+
     }
 
     @FXML
     void orderPizza(ActionEvent event) {
+    	System.out.println(toplist);
+    	ArrayList<Order> tops = new ArrayList<Order>();
+    	ArrayList<Order> tops1 = new ArrayList<Order>();
+    	ArrayList<Order> tops2 = new ArrayList<Order>();
     	ArrayList<Topping> toplist1 = new ArrayList<>();
+    	Order top = null;
+    	for(int i = 0; i<toplist.size();i++){
+    		top = neu.getChildren().get(i).getValue();
+    		tops.add(top);
+
+    	}
+
     	ArrayList<Topping> toplist2 = new ArrayList<>();
     	for(int i = 0;i<toplist.size();i++){
     		if(toplist.get(i).getPriceclass() == 1){
     			toplist1.add(toplist.get(i));
+    			tops1.add(tops.get(i));
     		}
     		else{
     			toplist2.add(toplist.get(i));
+    			tops2.add(tops.get(i));
     		}
     	}
     	toplist.clear();
     	toplist.addAll(toplist1);
     	toplist.addAll(toplist2);
+    	tops.clear();
+    	tops.addAll(tops1);
+    	tops.addAll(tops2);
     	ArrayList<Topping> topps = new ArrayList<>(toplist);
-    	toplist.clear();
-    	orderedpizza.add(new Pizza(piz.getSize(),piz.getPrice(),topps));
-    	ArrayList<String> orderedtoppings = new ArrayList<String>();
-    	ArrayList<Order> tops = new ArrayList<Order>();
-    	orderedtoppings.clear();
+    	System.out.println(toplist);
     	Order pizza = pizzaroot.getChildren().get(0).getValue();
     	ordereditems.add(pizza);
     	String size = pizza.getItem();
     	double price = pizza.getPrice();
-
-    	int pnr = order.getPnr(onr);
-    	Order top = null;
-    	neu2 = new TreeItem<> (pizza);
+    	neu2 = new TreeItem<> ();
     	neu2.setValue(pizza);
     	neu2.setExpanded(true);
     	root.getChildren().add(neu2);
     	value = value + price;
-    	for(int i = 0; i<items;i++){
-    		top = neu.getChildren().get(i).getValue();
-    		tops.add(top);
+    	for(int i = 0; i<toplist.size();i++){
     		ordereditems.add(top);
-    		orderedtoppings.add(top.getItem());
+    		if(i>=3){
+    			tops.get(i).setPrice(tops.get(i).getPrice()*0.9);
+    		}
+    		neu2.getChildren().add(new TreeItem<>(tops.get(i)));
     		value = value + top.getPrice();
     	}
-    	for(int i = 0; i<tops.size();i++){
-    		neu2.getChildren().add(new TreeItem<>(tops.get(i)));
-    	}
-    	items=0;
     	totalcost.setText(Double.toString(value));
 		neu.getChildren().clear();
 		pizzaroot.getChildren().clear();
+		toplist.clear();
 		if(group.getSelectedToggle()!= null){
 			group.getSelectedToggle().setSelected(false);
 		}
@@ -346,7 +353,6 @@ public class Controller_order implements Initializable {
 		controller.setMainApp(mainApp);
 		controller.refresh();
 		controller.openBestellung();
-		System.out.println(controller.mainApp.getOrderlist());
 
 
     }
