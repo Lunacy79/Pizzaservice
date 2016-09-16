@@ -38,14 +38,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		customerlist.addAll(cust.getCustomers());
 		orderlist.addAll(orders.getOrders());
-		System.out.println(orders);
-		System.out.println(orders.getOrders());
-		System.out.println(cust.getCustomers());
+		System.out.println(orderlist);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
 		Controller controller = loader.getController();
-		System.out.println(controller);
 		controller.setMainApp(this);
 		Scene scene = new Scene(root,1070,850);
 		primaryStage.setScene(scene);
@@ -76,14 +73,11 @@ public class Main extends Application {
 	}
 
 	public ObservableList<Order> getOrderlist(){
-		System.out.println(orderlist);
 		return this.orderlist;
 	}
 
-	public void setOrderlist(){
-		OrderDAO order = new OrderDAO();
-		orderlist.clear();
-		orderlist.addAll(orders.getOrders());
+	public void setOrderlist(ObservableList<Order> orderlist){
+		this.orderlist=orderlist;
 
 	}
 
@@ -109,8 +103,8 @@ public class Main extends Application {
 
 	}
 
-	public void goBack(ActionEvent event) throws IOException{
-
+	public void goBack(ActionEvent event,ArrayList<Order> orders) throws IOException{
+		orderlist.addAll(orders);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -120,21 +114,21 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		controller.setMainApp(this);
+		controller.openBestellung(orderlist);
 	}
 
 	public void showPrint(ActionEvent event, int onr) throws IOException{
+		setOnr(onr);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("Print.fxml"));
-		Parent parent_print = loader.load();
+		AnchorPane parent_print =(AnchorPane) loader.load();
 		Scene print = new Scene(parent_print,500,600);
 
 		PrintController controller = loader.getController();
 		Stage thirdStage = new Stage();
 		thirdStage.setScene(print);
-		controller.setOnr(onr);
-		setOnr(onr);
-		controller.setMainApp(this);
 		thirdStage.show();
+		controller.setMainApp(this);
 	}
 
 	public int getOnr() {
@@ -155,7 +149,6 @@ public class Main extends Application {
 
 	public void changeCustomer(ActionEvent event, Customer customer) throws IOException {
 		setCustomer(customer);
-		System.out.println(customer);
     	FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("ChangeCustomer.fxml"));
 		AnchorPane change =(AnchorPane) loader.load();

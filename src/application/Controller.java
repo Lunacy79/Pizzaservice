@@ -180,6 +180,23 @@ public class Controller implements Initializable {
 
 
 	}
+	
+	public void start(){
+
+		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
+		collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
+		colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
+		colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
+		colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
+		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
+		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
+		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
+
+		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("onr"));
+		ordercnr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("cnr"));
+
+
+	}
 
 	@FXML
     public void gotoOrder(ActionEvent event) throws IOException {
@@ -218,8 +235,10 @@ public class Controller implements Initializable {
 
 	}
 
-	public void openBestellung(){
+	public void openBestellung(ObservableList<Order> orderlist){
 		tabpane.getSelectionModel().select(1);
+		ordertable.setItems(mainApp.getOrderlist());
+		start();
 	}
 
 }

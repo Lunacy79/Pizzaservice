@@ -256,7 +256,7 @@ public class OrderDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where onr=" + onr);
+				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where orderedpizza.size = pizza.size and onr=" + onr);
 				while(erg.next()){
 					int pnr = erg.getInt(3);
 					ArrayList<Topping> tops = getToppings(pnr);

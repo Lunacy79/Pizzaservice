@@ -1,13 +1,9 @@
 package application;
 
-import java.awt.Checkbox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import DAO.CustomerDAO;
 import DAO.OrderDAO;
 import DAO.PizzaDAO;
 import DAO.ToppingDAO;
@@ -18,41 +14,23 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.TreeTableView;
-import javafx.scene.control.TreeView;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Toggle;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import model.Customer;
 import model.Pizza;
 
 public class Controller_order implements Initializable {
@@ -145,9 +123,6 @@ public class Controller_order implements Initializable {
     PizzaDAO pizza = new PizzaDAO();
     private int onr;
     private Main mainApp;
-    private int items;
-
-
 
     void choosePizza() {
     	String size = "";
@@ -195,7 +170,6 @@ public class Controller_order implements Initializable {
 			pls2[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
 	            	toplist.add(topp);
-	            	System.out.println(topp);
 	                chooseTopping(name2, price2, topp);
 	            }
 	        });
@@ -203,7 +177,6 @@ public class Controller_order implements Initializable {
 	            @Override public void handle(ActionEvent e) {
 	            	int index = toplist.indexOf(topp);
 	            	toplist.remove(topp);
-	            	System.out.println(topp);
 	                deleteTopping(name2, price2, index);
 	            }
 	        });
@@ -213,17 +186,16 @@ public class Controller_order implements Initializable {
     void chooseTopping(String name, double price, Topping topp){
 
     	neu.getChildren().add(new TreeItem<Order>(new Order(name,price)));
-    	System.out.println(top);
     }
 
     void deleteTopping(String name, double price, int index){
-    	neu.getChildren().remove(index);
-
+    	if(index>=0){
+    		neu.getChildren().remove(index);
+    	}
     }
 
     @FXML
     void orderPizza(ActionEvent event) {
-    	System.out.println(toplist);
     	ArrayList<Order> tops = new ArrayList<Order>();
     	ArrayList<Order> tops1 = new ArrayList<Order>();
     	ArrayList<Order> tops2 = new ArrayList<Order>();
@@ -253,7 +225,6 @@ public class Controller_order implements Initializable {
     	tops.addAll(tops1);
     	tops.addAll(tops2);
     	ArrayList<Topping> topps = new ArrayList<>(toplist);
-    	System.out.println(toplist);
     	Order pizza = pizzaroot.getChildren().get(0).getValue();
     	ordereditems.add(pizza);
     	String size = pizza.getItem();
@@ -266,7 +237,7 @@ public class Controller_order implements Initializable {
     	value = value + price;
     	for(int i = 0; i<toplist.size();i++){
     		ordereditems.add(top);
-    		if(i>=3){
+    		if(i>=2){
     			tops.get(i).setPrice(tops.get(i).getPrice()*0.9);
     		}
     		neu2.getChildren().add(new TreeItem<>(tops.get(i)));
@@ -341,22 +312,17 @@ public class Controller_order implements Initializable {
 
     @FXML
     void orderitems(ActionEvent event) throws IOException {
-    	System.out.println(orderedpizza);
     	String size = "";
     	int pnr = -1;
     	for(int i = 0; i<orderedpizza.size();i++){
     		size = orderedpizza.get(i).getSize();
     		order.setPizza(onr, size);
-    		System.out.println(order.getOrders());
     		pnr = order.getPnr(onr);
-    		System.out.println(orderedpizza.get(i).getToppings());
     		order.setToppings(pnr, orderedpizza.get(i).getToppings());
     	}
-
+    	mainApp.goBack(event,order.getOrders());
 		mainApp.showPrint(event,onr);
-		mainApp.goBack(event);
     }
-
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
@@ -376,7 +342,6 @@ public class Controller_order implements Initializable {
 		      public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
 		    	  if (group.getSelectedToggle() != null) {
 		    		pizzaroot.getChildren().clear();
-//		    		neu.getChildren().clear();
 		          	choosePizza();
 		          }
 		      }
@@ -420,7 +385,6 @@ public class Controller_order implements Initializable {
 		pizzaroot.setExpanded(true);
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
-//    	pizzaorder.getColumns().setAll(colpizza,colprice);
     	colpizza.setCellValueFactory((TreeTableColumn.CellDataFeatures<Order, String> param) ->
         new ReadOnlyStringWrapper(param.getValue().getValue().getItem()));
     	colprice.setCellValueFactory(new Callback<CellDataFeatures<Order, Double>, ObservableValue<Double>>() {
@@ -430,11 +394,9 @@ public class Controller_order implements Initializable {
     		 }
     		 });
     	neu = new TreeItem<>();
-
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
-//    	orderlist.getColumns().setAll(ordercol,pricecol);
     	ordercol.setCellValueFactory((TreeTableColumn.CellDataFeatures<Order, String> param) ->
         new ReadOnlyStringWrapper(param.getValue().getValue().getItem()));
     	pricecol.setCellValueFactory(new Callback<CellDataFeatures<Order, Double>, ObservableValue<Double>>() {
@@ -450,9 +412,5 @@ public class Controller_order implements Initializable {
 		this.mainApp = mainApp;
 
 	}
-
-
-
-
 
 }
