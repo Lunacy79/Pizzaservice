@@ -280,7 +280,15 @@ public class Controller_order implements Initializable {
 		}
     }
 
-    @FXML
+    public int getOnr() {
+		return this.onr;
+	}
+
+	public void setOnr(int onr) {
+		this.onr = onr;
+	}
+
+	@FXML
     void addTopping(ActionEvent event) {
     	int index = orderlist.getSelectionModel().getSelectedIndex();
     	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
@@ -331,6 +339,7 @@ public class Controller_order implements Initializable {
 
     @FXML
     void orderitems(ActionEvent event) throws IOException {
+    	System.out.println(orderedpizza);
     	String size = "";
     	int pnr = -1;
     	for(int i = 0; i<orderedpizza.size();i++){
@@ -342,7 +351,7 @@ public class Controller_order implements Initializable {
     		order.setToppings(pnr, orderedpizza.get(i).getToppings());
     	}
     	mainApp.goBack(event);
-    	
+
     	FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("Print.fxml"));
 		AnchorPane parent_print = (AnchorPane)loader.load();

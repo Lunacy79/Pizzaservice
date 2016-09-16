@@ -1,7 +1,10 @@
 package application;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import DAO.OrderDAO;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -11,9 +14,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.TreeTableColumn.CellDataFeatures;
+import javafx.util.Callback;
 import model.Order;
+import model.Pizza;
 
 public class PrintController implements Initializable {
 
@@ -41,15 +48,43 @@ public class PrintController implements Initializable {
 
     @FXML
     private TreeTableView<Order> orderlist;
+    TreeItem<Order> root = new TreeItem<> (new Order("root",0.00));
 
     private Controller_order mainApp;
-    
+    private int onr=228;
+    OrderDAO order = new OrderDAO();
+
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
+    	custshow.setText(order.getCustomerForOrder(onr));
+    	onrlabel.setText(""+onr);
+    	ArrayList<Pizza> pizzas = new ArrayList<>(order.getPizzas(onr));
+    	System.out.println(pizzas);
+
+    	root.setExpanded(true);
+    	orderlist.setRoot(root);
+    	orderlist.setShowRoot(false);
+    	ordercol.setCellValueFactory((TreeTableColumn.CellDataFeatures<Order, String> param) ->
+        new ReadOnlyStringWrapper(param.getValue().getValue().getItem()));
+    	pricecol.setCellValueFactory(new Callback<CellDataFeatures<Order, Double>, ObservableValue<Double>>() {
+    		  @Override
+    		  public ObservableValue<Double> call(CellDataFeatures<Order, Double> p)          {
+    		      return p.getValue().getValue().priceProperty().asObject();
+    		 }
+    		 });
+    	for(int i=0;i<pizzas.size();i++){
+    		TreeItem<Order> neu = new TreeItem<> (new Order(pizzas.get(i).getSize(), pizzas.get(i).getPrice()));
+    		root.getChildren().add(neu);
+    		for(int j = 0; j<pizzas.get(i).getToppings().size();j++){
+    			neu.getChildren().add(new TreeItem<Order>(new Order(pizzas.get(i).getToppings().get(j).getName(), pizzas.get(i).getToppings().get(j).getPrice())));
+    		}
+    	}
+
+
     	kitchenradiobtn.setToggleGroup(group);
     	customerradiobtn.setToggleGroup(group);
     	kitchenradiobtn.setSelected(true);
-    	
+
     	group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 		      public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
 		    	  if (group.getSelectedToggle() != null) {
@@ -58,17 +93,24 @@ public class PrintController implements Initializable {
 		      }
 		    });
     }
-    
+
     public void choosePrint(){
     	if(customerradiobtn.isSelected() == true){
     		paidcheckbox.setDisable(true);
+    		paidcheckbox.setVisible(false);
     	}
     	else{
     		paidcheckbox.setDisable(false);
+    		paidcheckbox.setVisible(true);
     	}
     }
-    
+
     public void setMainApp(Controller_order mainApp){
     	this.mainApp = mainApp;
+    }
+
+    public void setOnr(int onr){
+    	this.onr=onr;
+    	System.out.println(onr);
     }
 }

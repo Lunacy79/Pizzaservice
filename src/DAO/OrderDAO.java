@@ -111,6 +111,25 @@ public class OrderDAO {
 		return customer;
 	}
 
+	public String getCustomerForOrder(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		String customer = "";
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orders.cnr,onr,lname,fname from customers,orders where customers.cnr = orders.cnr and onr=" +onr);
+				while(erg.next()){
+					customer=erg.getString(3) + ", " + erg.getString(4);
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return customer;
+	}
+
 	public void setToppings(int pnr, ArrayList<Topping> toppings){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
@@ -128,7 +147,7 @@ public class OrderDAO {
 		}
 	}
 
-	public ArrayList<Order> getToppings(int pnr){
+	public ArrayList<Order> getToppingsOrder(int pnr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
 		ArrayList<Order> toppings = new ArrayList<Order>();
@@ -143,6 +162,31 @@ public class OrderDAO {
 				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
 				while(erg.next()){
 					toppings.add(new Order(erg.getString(1),erg.getDouble(2)));
+
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return toppings;
+	}
+
+	public ArrayList<Topping> getToppings(int pnr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		ArrayList<Topping> toppings = new ArrayList<Topping>();
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping1 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 1");
+				while(erg.next()){
+					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
+
+				}
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
+				while(erg.next()){
+					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
 
 				}
 			}
@@ -187,7 +231,7 @@ public class OrderDAO {
 		return pizza;
 	}
 
-	public ArrayList<Order> getPizzas(int onr){
+	public ArrayList<Order> getPizzasOrder(int onr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
 		ArrayList<Order> pizzas = new ArrayList<>();
@@ -197,6 +241,26 @@ public class OrderDAO {
 				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where onr=" + onr);
 				while(erg.next()){
 					pizzas.add(new Order(erg.getString(1),erg.getDouble(2)));
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return pizzas;
+	}
+	public ArrayList<Pizza> getPizzas(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		ArrayList<Pizza> pizzas = new ArrayList<>();
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where onr=" + onr);
+				while(erg.next()){
+					int pnr = erg.getInt(3);
+					ArrayList<Topping> tops = getToppings(pnr);
+					pizzas.add(new Pizza(erg.getString(1),erg.getDouble(2),tops));
 				}
 			}
 			catch (SQLException e) {
