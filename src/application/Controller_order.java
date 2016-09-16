@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import DAO.OrderDAO;
 import DAO.PizzaDAO;
 import DAO.ToppingDAO;
+import model.DrinkDAO;
+import model.Drinks;
 import model.Order;
 import model.Topping;
 import javafx.collections.FXCollections;
@@ -74,6 +76,11 @@ public class Controller_order implements Initializable {
 
     @FXML
     private FlowPane containerdrinks;
+    private ArrayList<Drinks> drinks = new ArrayList<>();
+    private ArrayList<Drinks> drinkslist = new ArrayList<>();
+    private Button[] pls;
+    private Button[] mns;
+    private Label[] lbl;
 
     @FXML
     private TreeTableView<Order> pizzaorder;
@@ -309,6 +316,29 @@ public class Controller_order implements Initializable {
 	    	}
     	}
     }
+    
+    void chooseDrinks(){
+    	for( int i = 0; i<drinks.size(); i++){
+    		String name = drinks.get(i).getName();
+    		double price = drinks.get(i).getPrice();
+    		Drinks drink = drinks.get(i);
+			pls[i].setOnAction(new EventHandler<ActionEvent>() {
+	            @Override public void handle(ActionEvent e) {
+	            	drinkslist.add(new Drinks(name,price));
+	            	root.getChildren().add(new TreeItem<Order>(new Order(name,price)));
+	            }
+	        });
+			mns[i].setOnAction(new EventHandler<ActionEvent>() {
+	            @Override public void handle(ActionEvent e) {
+	            	int index = drinkslist.indexOf(drink);
+	            	drinkslist.remove(drink);
+	            	if(index>=0){
+	            		root.getChildren().remove(index);
+	            	}
+	            }
+	        });
+    	}
+    }
 
     @FXML
     void orderitems(ActionEvent event) throws IOException {
@@ -382,6 +412,24 @@ public class Controller_order implements Initializable {
 			containertoppings2.getChildren().addAll(pls2[i],lbl2[i],mns2[i],elbl);
 		}
 
+		DrinkDAO drink = new DrinkDAO();
+		drinks = drink.getDrinks();
+		pls = new Button[drinks.size()];
+		lbl = new Label[drinks.size()];
+		mns = new Button[drinks.size()];
+		for( int i = 0; i<drinks.size(); i++){
+			Button plus = pls[i] = new Button("+");
+			pls[i].setPadding(Insets.EMPTY);
+			pls[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
+			Label lable = lbl[i] = new Label(drinks.get(i).getName());
+			Button minus = mns[i] = new Button("-");
+			mns[i].setPadding(Insets.EMPTY);
+			mns[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
+			Label elbl = new Label("");
+			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
+			containerdrinks.getChildren().addAll(pls[i],lbl[i],mns[i],elbl);
+		}
+		
 		pizzaroot.setExpanded(true);
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
