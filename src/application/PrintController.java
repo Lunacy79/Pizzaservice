@@ -50,17 +50,18 @@ public class PrintController implements Initializable {
     private TreeTableView<Order> orderlist;
     TreeItem<Order> root = new TreeItem<> (new Order("root",0.00));
 
-    private Controller_order mainApp;
-    private int onr=228;
+    private Main mainApp;
+    private int onr;
     OrderDAO order = new OrderDAO();
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
+    	onr = mainApp.getOnr();
     	custshow.setText(order.getCustomerForOrder(onr));
     	onrlabel.setText(""+onr);
     	ArrayList<Pizza> pizzas = new ArrayList<>(order.getPizzas(onr));
     	System.out.println(pizzas);
-
+    	System.out.println(onr);
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
@@ -105,12 +106,11 @@ public class PrintController implements Initializable {
     	}
     }
 
-    public void setMainApp(Controller_order mainApp){
+    public void setMainApp(Main mainApp){
     	this.mainApp = mainApp;
     }
 
     public void setOnr(int onr){
     	this.onr=onr;
-    	System.out.println(onr);
     }
 }

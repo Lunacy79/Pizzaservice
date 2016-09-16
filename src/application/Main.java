@@ -32,6 +32,7 @@ public class Main extends Application {
 	private ObservableList<Order> orderlist = FXCollections.observableArrayList();
 	private OrderDAO orders = new OrderDAO();
 	private Order order = new Order();
+	private int onr;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -107,7 +108,7 @@ public class Main extends Application {
 		controller.setMainApp(this);
 
 	}
-	
+
 	public void goBack(ActionEvent event) throws IOException{
 
 		FXMLLoader loader = new FXMLLoader();
@@ -119,6 +120,29 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		controller.setMainApp(this);
+	}
+
+	public void showPrint(ActionEvent event, int onr) throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("Print.fxml"));
+		Parent parent_print = loader.load();
+		Scene print = new Scene(parent_print,500,600);
+
+		PrintController controller = loader.getController();
+		Stage thirdStage = new Stage();
+		thirdStage.setScene(print);
+		controller.setOnr(onr);
+		setOnr(onr);
+		controller.setMainApp(this);
+		thirdStage.show();
+	}
+
+	public int getOnr() {
+		return onr;
+	}
+
+	public void setOnr(int onr) {
+		this.onr = onr;
 	}
 
 	public void setCustomer(Customer customer){

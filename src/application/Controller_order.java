@@ -258,6 +258,7 @@ public class Controller_order implements Initializable {
     	ordereditems.add(pizza);
     	String size = pizza.getItem();
     	double price = pizza.getPrice();
+
     	neu2 = new TreeItem<> ();
     	neu2.setValue(pizza);
     	neu2.setExpanded(true);
@@ -272,6 +273,7 @@ public class Controller_order implements Initializable {
     		value = value + top.getPrice();
     	}
     	totalcost.setText(Double.toString(value));
+    	orderedpizza.add(new Pizza(size,price,topps));
 		neu.getChildren().clear();
 		pizzaroot.getChildren().clear();
 		toplist.clear();
@@ -350,18 +352,9 @@ public class Controller_order implements Initializable {
     		System.out.println(orderedpizza.get(i).getToppings());
     		order.setToppings(pnr, orderedpizza.get(i).getToppings());
     	}
-    	mainApp.goBack(event);
 
-    	FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("Print.fxml"));
-		AnchorPane parent_print = (AnchorPane)loader.load();
-		Scene print = new Scene(parent_print,500,600);
-
-		PrintController controller = loader.getController();
-		Stage thirdStage = new Stage();
-		thirdStage.setScene(print);
-		thirdStage.show();
-		controller.setMainApp(this);
+		mainApp.showPrint(event,onr);
+		mainApp.goBack(event);
     }
 
 
