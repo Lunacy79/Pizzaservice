@@ -62,6 +62,7 @@ public class PrintController {
     	onrlabel.setText(""+onr);
     	ArrayList<Pizza> pizzas = new ArrayList<>(order.getPizzas(onr));
     	ArrayList<Drinks> drinks = new ArrayList<>(order.getDrinks(onr));
+    	System.out.println(drinks);
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);

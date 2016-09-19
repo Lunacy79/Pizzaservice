@@ -38,16 +38,16 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		customerlist.addAll(cust.getCustomers());
 		orderlist.addAll(orders.getOrders());
-		System.out.println(orderlist);
+		System.out.println(orders.getOrders());
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
 		Controller controller = loader.getController();
-		controller.setMainApp(this);
 		Scene scene = new Scene(root,1070,850);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Pizzaservice Alberto");
 		primaryStage.show();
+		controller.setMainApp(this);
 	}
 
 	public static void main(String[] args) {

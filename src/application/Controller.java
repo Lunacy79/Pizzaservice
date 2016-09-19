@@ -50,8 +50,8 @@ public class Controller implements Initializable {
     private Tab bestellungstab;
 
 	@FXML
-    private TableView<Order> ordertable;
-	 public ObservableList<Order> orderlist = FXCollections.observableArrayList();
+    public TableView<Order> ordertable;
+	public ObservableList<Order> orderlist = FXCollections.observableArrayList();
 
 	@FXML
     private TableColumn<Order, Integer> orderonr;
@@ -214,14 +214,13 @@ public class Controller implements Initializable {
 		this.mainApp = mainApp;
 		ordertable.setItems(mainApp.getOrderlist());
 		customertable.setItems(mainApp.getCustomerlist());
-
 	}
 
 	public void refresh(){
 
 		customertable.setItems(mainApp.getCustomerlist());
 		ordertable.setItems(mainApp.getOrderlist());
-		System.out.println(mainApp.getOrderlist());
+//		System.out.println(mainApp.getOrderlist());
 
 
 
