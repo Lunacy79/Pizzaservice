@@ -18,6 +18,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.util.Callback;
+import model.Drinks;
 import model.Order;
 import model.Pizza;
 
@@ -54,12 +55,13 @@ public class PrintController {
     private int onr;
     OrderDAO order = new OrderDAO();
 
-   
+
 	public void setPage(){
 		onr = mainApp.getOnr();
     	custshow.setText(order.getCustomerForOrder(onr));
     	onrlabel.setText(""+onr);
     	ArrayList<Pizza> pizzas = new ArrayList<>(order.getPizzas(onr));
+    	ArrayList<Drinks> drinks = new ArrayList<>(order.getDrinks(onr));
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
@@ -78,7 +80,10 @@ public class PrintController {
     			neu.getChildren().add(new TreeItem<Order>(new Order(pizzas.get(i).getToppings().get(j).getName(), pizzas.get(i).getToppings().get(j).getPrice())));
     		}
     	}
-
+    	for(int i=0;i<drinks.size();i++){
+    		TreeItem<Order> neu = new TreeItem<> (new Order(drinks.get(i).getName(), drinks.get(i).getPrice()));
+    		root.getChildren().add(neu);
+    	}
 
     	kitchenradiobtn.setToggleGroup(group);
     	customerradiobtn.setToggleGroup(group);

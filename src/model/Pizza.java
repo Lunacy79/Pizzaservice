@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Pizza {
 
 	private Topping topping;
 	private ArrayList<Topping> toppings = new ArrayList<Topping>();
-	private SimpleStringProperty name;
+	private SimpleIntegerProperty nr;
 	private SimpleStringProperty size;
 	private SimpleDoubleProperty price;
 	private double topping1;
@@ -20,7 +21,14 @@ public class Pizza {
 		this.size = new SimpleStringProperty(size);
 		this.price = new SimpleDoubleProperty(price);
 	}
-	
+
+	public Pizza(int nr, String size, double price, ArrayList<Topping> toppings){
+		this.nr=new SimpleIntegerProperty(nr);
+		this.size = new SimpleStringProperty(size);
+		this.price = new SimpleDoubleProperty(price);
+		this.toppings = toppings;
+	}
+
 	public Pizza(String size, double price, ArrayList<Topping> toppings){
 		this.size = new SimpleStringProperty(size);
 		this.price = new SimpleDoubleProperty(price);
@@ -54,7 +62,15 @@ public class Pizza {
 		this.toppings = toppings;
 	}
 
-	
+
+
+	public SimpleIntegerProperty getNr() {
+		return nr;
+	}
+
+	public void setNr(SimpleIntegerProperty nr) {
+		this.nr = nr;
+	}
 
 	public String getSize() {
 		return size.get();

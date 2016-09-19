@@ -1,4 +1,4 @@
-package model;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import DAO.ConnectDB;
 import model.Drinks;
 
 public class DrinkDAO {

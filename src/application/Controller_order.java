@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import DAO.DrinkDAO;
 import DAO.OrderDAO;
 import DAO.PizzaDAO;
 import DAO.ToppingDAO;
-import model.DrinkDAO;
 import model.Drinks;
 import model.Order;
 import model.Topping;
@@ -89,6 +90,7 @@ public class Controller_order implements Initializable {
     private Topping top;
     private ArrayList<Topping> toplist = new ArrayList<>();
     private ArrayList<Order> topslist = new ArrayList<>();
+    private ArrayList<Order> position = new ArrayList<>();
 
     @FXML
     private TreeTableColumn<Order, String> colpizza;
@@ -251,8 +253,9 @@ public class Controller_order implements Initializable {
     		value = value + top.getPrice();
     	}
     	totalcost.setText(Double.toString(value));
-    	orderedpizza.add(new Pizza(size,price,topps));
-		neu.getChildren().clear();
+    	orderedpizza.add(new Pizza(position.size(),size,price,topps));
+    	position.add(new Order(size,price));
+//		neu.getChildren().clear();
 		pizzaroot.getChildren().clear();
 		toplist.clear();
 		if(group.getSelectedToggle()!= null){
@@ -293,6 +296,7 @@ public class Controller_order implements Initializable {
 	    	}
 	    	root.getChildren().remove(index2);
 	    	orderedpizza.remove(index2);
+	    	position.remove(index2);
 
     	}
     }
@@ -310,33 +314,13 @@ public class Controller_order implements Initializable {
 	    	}
 	    	int index3 = root.getChildren().get(index2).getChildren().size();
 	    	root.getChildren().remove(index2);
-	    	orderedpizza.remove(index2);
-	    	for(int i = 0;i<=index3;i++){
-	    		ordereditems.remove(index);
+	    	for(int i = 0;i<orderedpizza.size();i++){
+	    		if(orderedpizza.get(i).getNr().equals(index2)){
+	    			orderedpizza.remove(i);
+	    		}
 	    	}
-    	}
-    }
-    
-    void chooseDrinks(){
-    	for( int i = 0; i<drinks.size(); i++){
-    		String name = drinks.get(i).getName();
-    		double price = drinks.get(i).getPrice();
-    		Drinks drink = drinks.get(i);
-			pls[i].setOnAction(new EventHandler<ActionEvent>() {
-	            @Override public void handle(ActionEvent e) {
-	            	drinkslist.add(new Drinks(name,price));
-	            	root.getChildren().add(new TreeItem<Order>(new Order(name,price)));
-	            }
-	        });
-			mns[i].setOnAction(new EventHandler<ActionEvent>() {
-	            @Override public void handle(ActionEvent e) {
-	            	int index = drinkslist.indexOf(drink);
-	            	drinkslist.remove(drink);
-	            	if(index>=0){
-	            		root.getChildren().remove(index);
-	            	}
-	            }
-	        });
+	    	position.remove(index2);
+	    	ordereditems.remove(index);
     	}
     }
 
@@ -344,11 +328,16 @@ public class Controller_order implements Initializable {
     void orderitems(ActionEvent event) throws IOException {
     	String size = "";
     	int pnr = -1;
+    	String name = "";
     	for(int i = 0; i<orderedpizza.size();i++){
     		size = orderedpizza.get(i).getSize();
     		order.setPizza(onr, size);
     		pnr = order.getPnr(onr);
     		order.setToppings(pnr, orderedpizza.get(i).getToppings());
+    	}
+    	for(int i = 0; i<drinkslist.size();i++){
+    		name = drinkslist.get(i).getName();
+    		order.setDrink(onr, name);
     	}
     	mainApp.goBack(event,order.getOrders());
 		mainApp.showPrint(event,onr);
@@ -429,7 +418,52 @@ public class Controller_order implements Initializable {
 			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
 			containerdrinks.getChildren().addAll(pls[i],lbl[i],mns[i],elbl);
 		}
-		
+
+		for( int i = 0; i<drinks.size(); i++){
+    		String name = drinks.get(i).getName();
+    		double price = drinks.get(i).getPrice();
+    		System.out.println(price);
+    		Drinks thisdrink = drinks.get(i);
+    		System.out.println(thisdrink);
+			pls[i].setOnAction(new EventHandler<ActionEvent>() {
+	            @Override public void handle(ActionEvent e) {
+	            	drinkslist.add(new Drinks(name,price));
+	            	ordereditems.add(new Order(name,price));
+	            	root.getChildren().add(new TreeItem<Order>(new Order(name,price)));
+	            }
+	        });
+			mns[i].setOnAction(new EventHandler<ActionEvent>() {
+	            @Override public void handle(ActionEvent e) {
+	            	int index = 0;
+	            	for(int j = 0;j<ordereditems.size();j++){
+	            		if(ordereditems.get(j).getItem().equalsIgnoreCase(thisdrink.getName())){
+		            		index = j;
+		            	}
+	            	}
+	            	int dindex = 0;
+	            	for(int j = 0;j<drinkslist.size();j++){
+	            		if(drinkslist.get(j).getName().equalsIgnoreCase(thisdrink.getName())){
+		            		dindex = j;
+		            	}
+	            	}
+	            	int lindex=0;
+	            	for(int j = 0;j<root.getChildren().size();j++){
+	            		if(root.getChildren().get(j).getValue().getItem().equalsIgnoreCase(thisdrink.getName())){
+	            			lindex = j;
+		            	}
+	            	}
+	            	System.out.println(thisdrink);
+	            	System.out.println(index);
+	            	System.out.println(dindex);
+	            	if(index>0){
+	            		root.getChildren().remove(lindex);
+	            		drinkslist.remove(dindex);
+		            	ordereditems.remove(index);
+	            	}
+	            }
+	        });
+    	}
+
 		pizzaroot.setExpanded(true);
     	pizzaorder.setRoot(pizzaroot);
     	pizzaorder.setShowRoot(false);
