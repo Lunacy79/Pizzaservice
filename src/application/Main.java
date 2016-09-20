@@ -71,6 +71,11 @@ public class Main extends Application {
 		customerlist.clear();
 		customerlist.addAll(cust.getCustomers());
 	}
+	public void setOrderlist(){
+		OrderDAO order = new OrderDAO();
+		orderlist.clear();
+		orderlist.addAll(order.getOrders());
+	}
 
 	public ObservableList<Order> getOrderlist(){
 		return this.orderlist;
@@ -105,6 +110,7 @@ public class Main extends Application {
 
 	public void goBack(ActionEvent event,ArrayList<Order> orders) throws IOException{
 		orderlist.addAll(orders);
+//		System.out.println(orderlist);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -113,8 +119,7 @@ public class Main extends Application {
 		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		controller.setMainApp(this);
-		controller.openBestellung(orderlist);
+		controller.openBestellung(this, orderlist);
 	}
 
 	public void showPrint(ActionEvent event, int onr) throws IOException{
@@ -122,7 +127,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("Print.fxml"));
 		AnchorPane parent_print =(AnchorPane) loader.load();
-		Scene print = new Scene(parent_print,500,600);
+		Scene print = new Scene(parent_print,450,600);
 
 		PrintController controller = loader.getController();
 		Stage thirdStage = new Stage();

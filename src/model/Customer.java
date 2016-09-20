@@ -41,6 +41,11 @@ public class Customer {
 		this.fname=fname;
 	}
 
+	public Customer(int cnr){
+		this.cnr=cnr;
+
+	}
+
 	public Customer(){
 
 	}

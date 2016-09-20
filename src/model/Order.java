@@ -10,8 +10,27 @@ import javafx.beans.value.ObservableValue;
 public class Order {
 
 	private int ordernumber;
-	private int customernumber;
 	private Customer customer;
+	private int cnr;
+	private String lname;
+	private String fname;
+	private int closed;
+	public String getLname() {
+		return lname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public String getFname() {
+		return fname;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
 	private Pizza pizza;
 	private ArrayList<Topping> toppings1 = new ArrayList<Topping>();
 	private Drinks drink;
@@ -21,15 +40,36 @@ public class Order {
 
 	public Order(){
 	}
-	
+
 	public Order(String item,Double price){
 		this.item = new SimpleStringProperty(item);
 		this.price = new SimpleDoubleProperty(price);
 	}
 
-	public Order(int ordernumber, int customernumber){
+	public Order(int ordernumber, int cnr, String lname, String fname, int closed){
 		this.ordernumber = ordernumber;
-		this.setCustomernumber(customernumber);
+		customer = new Customer(cnr,lname,fname);
+		this.cnr = customer.getCnr();
+		this.lname = customer.getLname();
+		this.fname = customer.getFname();
+		this.closed = closed;
+
+	}
+
+	public int getClosed() {
+		return closed;
+	}
+
+	public void setClosed(int closed) {
+		this.closed = closed;
+	}
+
+	public int getCnr() {
+		return cnr;
+	}
+
+	public void setCnr(int cnr) {
+		this.cnr = cnr;
 	}
 
 	public SimpleStringProperty itemProperty() {
@@ -107,13 +147,6 @@ public class Order {
 		this.price = price;
 	}
 
-	public int getCustomernumber() {
-		return customernumber;
-	}
-
-	public void setCustomernumber(int customernumber) {
-		this.customernumber = customernumber;
-	}
 
 
 

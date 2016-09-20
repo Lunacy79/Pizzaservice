@@ -7,6 +7,7 @@ import DAO.OrderDAO;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -62,7 +63,6 @@ public class PrintController {
     	onrlabel.setText(""+onr);
     	ArrayList<Pizza> pizzas = new ArrayList<>(order.getPizzas(onr));
     	ArrayList<Drinks> drinks = new ArrayList<>(order.getDrinks(onr));
-    	System.out.println(drinks);
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
@@ -77,6 +77,7 @@ public class PrintController {
     	for(int i=0;i<pizzas.size();i++){
     		TreeItem<Order> neu = new TreeItem<> (new Order(pizzas.get(i).getSize(), pizzas.get(i).getPrice()));
     		root.getChildren().add(neu);
+    		neu.setExpanded(true);
     		for(int j = 0; j<pizzas.get(i).getToppings().size();j++){
     			neu.getChildren().add(new TreeItem<Order>(new Order(pizzas.get(i).getToppings().get(j).getName(), pizzas.get(i).getToppings().get(j).getPrice())));
     		}
@@ -90,6 +91,10 @@ public class PrintController {
     	customerradiobtn.setToggleGroup(group);
     	kitchenradiobtn.setSelected(true);
 
+    	if(order.getClosedOrder(onr)==1){
+    		paidcheckbox.setSelected(true);
+    	}
+
     	group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 		      public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
 		    	  if (group.getSelectedToggle() != null) {
@@ -97,6 +102,24 @@ public class PrintController {
 		          }
 		      }
 		    });
+    	paidcheckbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+    	    @Override
+    	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+    	        closeOrder();
+    	    }
+    	});
+
+    }
+
+	@FXML
+    void closeOrder() {
+		 if(paidcheckbox.isSelected()){
+	        	order.closeOrder(onr);
+	     }
+		 else{
+			 order.openOrder(onr);
+		 }
+		 mainApp.setOrderlist();
     }
 
     public void choosePrint(){

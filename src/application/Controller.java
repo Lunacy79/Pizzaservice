@@ -66,6 +66,9 @@ public class Controller implements Initializable {
     private TableColumn<Order, String> orderfname;
 
 	@FXML
+    private TableColumn<Order, Integer> closed;
+
+	@FXML
     private TableColumn<Customer,String> colplz;
 
     @FXML
@@ -150,6 +153,15 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    void showPrint(ActionEvent event) throws IOException {
+    	int index = ordertable.getSelectionModel().getSelectedIndex();
+    	System.out.println(index);
+    	int onr = mainApp.getOrderlist().get(index).getOrdernumber();
+    	System.out.println(mainApp.getOrderlist());
+    	mainApp.showPrint(event, onr);
+    }
+
+    @FXML
     void searchCustomer(ActionEvent event) {
 
 		customertable.setItems(mainApp.getCustomer(searchfield.getText()));
@@ -175,12 +187,15 @@ public class Controller implements Initializable {
 		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 
-		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("onr"));
+		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("ordernumber"));
 		ordercnr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("cnr"));
+		orderlname.setCellValueFactory(new PropertyValueFactory <Order,String>("lname"));
+		orderfname.setCellValueFactory(new PropertyValueFactory <Order,String>("fname"));
+		closed.setCellValueFactory(new PropertyValueFactory <Order,Integer>("closed"));
 
 
 	}
-	
+
 	public void start(){
 
 		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
@@ -192,10 +207,11 @@ public class Controller implements Initializable {
 		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
 		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
 
-		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("onr"));
+		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("ordernumber"));
 		ordercnr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("cnr"));
-
-
+		orderlname.setCellValueFactory(new PropertyValueFactory <Order,String>("lname"));
+		orderfname.setCellValueFactory(new PropertyValueFactory <Order,String>("fname"));
+		closed.setCellValueFactory(new PropertyValueFactory <Order,Integer>("closed"));
 	}
 
 	@FXML
@@ -234,9 +250,11 @@ public class Controller implements Initializable {
 
 	}
 
-	public void openBestellung(ObservableList<Order> orderlist){
+	public void openBestellung(Main mainApp, ObservableList<Order> orderlist){
+		this.mainApp = mainApp;
 		tabpane.getSelectionModel().select(1);
 		ordertable.setItems(mainApp.getOrderlist());
+		System.out.println(orderlist);
 		start();
 	}
 

@@ -82,9 +82,9 @@ public class OrderDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select onr, cnr from orders");
+				erg = anweisung.executeQuery("Select onr, orders.cnr, lname, fname, closed from orders,customers where orders.cnr=customers.cnr");
 				while(erg.next()){
-					orders.add(new Order(erg.getInt(1),erg.getInt(2)));
+					orders.add(new Order(erg.getInt(1),erg.getInt(2),erg.getString(3), erg.getString(4), erg.getInt(5)));
 				}
 			}
 			catch (SQLException e) {
@@ -323,5 +323,55 @@ public class OrderDAO {
 			}
 		}
 		return drinks;
+	}
+
+	public void closeOrder(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung2 = this.dbConnect.createStatement();
+				anweisung2.executeUpdate("Update orders set closed=1 where onr = " + onr);
+				anweisung2.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void openOrder(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung2 = this.dbConnect.createStatement();
+				anweisung2.executeUpdate("Update orders set closed=0 where onr = " + onr);
+				anweisung2.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public int getClosedOrder(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		int closed = 0;
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select closed from orders where onr = " + onr);
+				while(erg.next()){
+					closed = erg.getInt(1);
+				}
+
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return closed;
 	}
 }

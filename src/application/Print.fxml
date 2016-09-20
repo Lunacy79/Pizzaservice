@@ -22,7 +22,7 @@
             <RadioButton fx:id="customerradiobtn" layoutX="180.0" layoutY="529.0" mnemonicParsing="false" text="Kundenexemplar" />
             <RadioButton fx:id="kitchenradiobtn" layoutX="18.0" layoutY="529.0" mnemonicParsing="false" text="Mitarbeiterexemplar" />
             <Button layoutX="369.0" layoutY="525.0" mnemonicParsing="false" text="Drucken" />
-            <CheckBox fx:id="paidcheckbox" layoutX="246.0" layoutY="479.0" mnemonicParsing="false" text="Bezahlung erhalten" />
+            <CheckBox fx:id="paidcheckbox" layoutX="246.0" layoutY="479.0" mnemonicParsing="false" onAction="#closeOrder" text="Bezahlung erhalten" />
          </children>
       </AnchorPane>
    </children>
