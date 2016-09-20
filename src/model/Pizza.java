@@ -2,10 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+
 
 public class Pizza {
 
@@ -103,22 +103,22 @@ public class Pizza {
 	public void setTopping2(double topping2) {
 		this.topping2 = topping2;
 	}
-
-	public void addTopping(String number, String name, int priceclass){
-		this.toppings.add(new Topping(name,priceclass));
-	}
-
-	public Topping deleteTopping(String name){
-		Iterator<Topping> iter = getToppings().iterator();
-		boolean found = false;
-		Topping topping = null;
-		while(iter.hasNext() && !found){
-			Topping top=iter.next();
-			if(top.getName() == name){
-				topping = top;
-				found = true;
-			}
-		}
-		return topping;
-	}
+//
+//	public void addTopping(String number, String name, int priceclass){
+//		this.toppings.add(new Topping(name,priceclass));
+//	}
+//
+//	public Topping deleteTopping(String name){
+//		Iterator<Topping> iter = getToppings().iterator();
+//		boolean found = false;
+//		Topping topping = null;
+//		while(iter.hasNext() && !found){
+//			Topping top=iter.next();
+//			if(top.getName() == name){
+//				topping = top;
+//				found = true;
+//			}
+//		}
+//		return topping;
+//	}
 }

@@ -1,13 +1,10 @@
 package application;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
+import java.util.ArrayList;
 import DAO.OrderDAO;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -23,35 +20,36 @@ import model.Drinks;
 import model.Order;
 import model.Pizza;
 
+
 public class PrintController {
+	
+	@FXML
+    private Label custshow;
+	
+	@FXML
+    private Label onrlabel;
+	
+	@FXML
+    private TreeTableView<Order> orderlist;
+    TreeItem<Order> root = new TreeItem<> (new Order("root",0.00));
 
     @FXML
     private TreeTableColumn<Order, String> ordercol;
-
+    
     @FXML
-    private RadioButton customerradiobtn;
-
-    @FXML
-    private Label custshow;
-
-    @FXML
-    private Label onrlabel;
-
+    private TreeTableColumn<Order, Double> pricecol;
+    
     @FXML
     private CheckBox paidcheckbox;
 
     @FXML
-    private TreeTableColumn<Order, Double> pricecol;
-
+    private RadioButton customerradiobtn;
+    
     @FXML
     private RadioButton kitchenradiobtn;
+    
     private ToggleGroup group = new ToggleGroup();
-
-    @FXML
-    private TreeTableView<Order> orderlist;
-    TreeItem<Order> root = new TreeItem<> (new Order("root",0.00));
     ArrayList<Pizza> pizzas;
-
     private Main mainApp;
     private int onr;
     OrderDAO order = new OrderDAO();
@@ -102,6 +100,7 @@ public class PrintController {
 		          }
 		      }
 		    });
+    	
     	paidcheckbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
     	    @Override
     	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {

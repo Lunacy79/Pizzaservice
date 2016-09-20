@@ -25,6 +25,7 @@ public class Main extends Application {
 
 	private Stage primaryStage;
 	private Stage secondStage;
+	
 	private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 	private CustomerDAO cust = new CustomerDAO();
 	private Customer customer;
@@ -32,13 +33,13 @@ public class Main extends Application {
 	private ObservableList<Order> orderlist = FXCollections.observableArrayList();
 	private OrderDAO orders = new OrderDAO();
 	private Order order = new Order();
+	
 	private int onr;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		customerlist.addAll(cust.getCustomers());
 		orderlist.addAll(orders.getOrders());
-		System.out.println(orders.getOrders());
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -94,23 +95,19 @@ public class Main extends Application {
 	}
 
 	public void openOrder(ActionEvent event) throws IOException{
-
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("Order.fxml"));
 		Parent parent_order = loader.load();
 		Scene order = new Scene(parent_order,1070,850);
-
 		Controller_order controller = loader.getController();
 		Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		primaryStage.setScene(order);
 		primaryStage.show();
 		controller.setMainApp(this);
-
 	}
 
 	public void goBack(ActionEvent event,ArrayList<Order> orders) throws IOException{
 		orderlist.addAll(orders);
-//		System.out.println(orderlist);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
 		AnchorPane root = (AnchorPane) loader.load();
@@ -128,7 +125,6 @@ public class Main extends Application {
 		loader.setLocation(getClass().getResource("Print.fxml"));
 		AnchorPane parent_print =(AnchorPane) loader.load();
 		Scene print = new Scene(parent_print,450,600);
-
 		PrintController controller = loader.getController();
 		Stage thirdStage = new Stage();
 		thirdStage.setScene(print);
@@ -174,7 +170,6 @@ public class Main extends Application {
 		Controller_NewCustomer controller = loader.getController();
 		Stage secondStage = new Stage();
 		secondStage.setScene(order);
-//		secondStage.initOwner(mainApp.getPrimaryStage());
 		secondStage.show();
 		controller.setMainApp(this);
     }

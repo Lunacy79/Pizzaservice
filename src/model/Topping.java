@@ -7,10 +7,8 @@ public class Topping {
 	private double price;
 
 	public Topping(String name, int priceclass){
-
 		this.name = name;
 		this.priceclass=priceclass;
-
 	}
 
 	public Topping(){

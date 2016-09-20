@@ -1,7 +1,5 @@
 package model;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 public class Customer {
 
@@ -39,11 +37,6 @@ public class Customer {
 		this.cnr=cnr;
 		this.lname=lname;
 		this.fname=fname;
-	}
-
-	public Customer(int cnr){
-		this.cnr=cnr;
-
 	}
 
 	public Customer(){
@@ -113,13 +106,4 @@ public class Customer {
 	public void setTelefon(String telefon) {
 		this.telefon = telefon;
 	}
-
-	@Override
-	public String toString() {
-		return "Customer [cnr=" + cnr + ", fname=" + fname + ", lname=" + lname + ", street=" + street + ", nr=" + nr
-				+ ", plz=" + plz + ", city=" + city + ", telefon=" + telefon + "]";
-	}
-
-
-
 }
