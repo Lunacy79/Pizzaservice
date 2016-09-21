@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import DAO.CustomerDAO;
 import DAO.DrinkDAO;
 import DAO.OrderDAO;
 import DAO.PizzaDAO;
@@ -38,6 +40,8 @@ import model.Pizza;
 public class Controller_order implements Initializable {
 
 	private OrderDAO order = new OrderDAO();
+	private CustomerDAO cust = new CustomerDAO();
+	private ToppingDAO topping = new ToppingDAO();
 
     @FXML
     private Label custshow;
@@ -141,7 +145,7 @@ public class Controller_order implements Initializable {
     private Main mainApp;
 
     void choosePizza() {
-    	
+
     	//Auswahl einer Pizza und Anzeige der entsprechenden Belagpreise
     	String size = "";
     	double price = 0.00;
@@ -157,10 +161,10 @@ public class Controller_order implements Initializable {
         		price = pizzalist.get(i).getPrice();
     		}
     	}
-    	
+
     	//Zwischenspeicherung der gewählten Pizzagröße
     	piz=new Pizza(size,price);
-    	
+
     	//Pizza -> Treetableview
     	neu=new TreeItem<>(new Order(size,price));
     	neu.setExpanded(true);
@@ -219,14 +223,14 @@ public class Controller_order implements Initializable {
 
     @FXML
     void orderPizza(ActionEvent event) {
-    	
+
     	//Pizza aus Treetableview in Bestellliste
     	ArrayList<Order> tops = new ArrayList<Order>();
     	ArrayList<Order> tops1 = new ArrayList<Order>();
     	ArrayList<Order> tops2 = new ArrayList<Order>();
     	ArrayList<Topping> toplist1 = new ArrayList<>();
     	Order top = null;
-    	
+
     	//Auslesen aus Treetableview
     	for(int i = 0; i<toplist.size();i++){
     		top = neu.getChildren().get(i).getValue();
@@ -245,20 +249,20 @@ public class Controller_order implements Initializable {
     			tops2.add(tops.get(i));
     		}
     	}
-    	
+
     	//Speicherung in Topping-Array für eine Pizza
     	toplist.clear();
     	toplist.addAll(toplist1);
     	toplist.addAll(toplist2);
-    	
+
     	//Speicherung in Order-Array für eine Pizza
     	tops.clear();
     	tops.addAll(tops1);
     	tops.addAll(tops2);
-    	
+
     	//?
     	ArrayList<Topping> topps = new ArrayList<>(toplist);
-    	
+
     	//Auslesen der Grundpizza aus Treetableview und Speicherung in Pizza-Order-Array
     	Order pizza = pizzaroot.getChildren().get(0).getValue();
     	ordereditems.add(pizza);
@@ -271,7 +275,7 @@ public class Controller_order implements Initializable {
     	neu2.setExpanded(true);
     	root.getChildren().add(neu2);
 //    	value = value + price;
-    	
+
     	//Berechnung der Belagpreise; ab dem 3. Belag gibts 10% Rabatt
     	for(int i = 0; i<toplist.size();i++){
     		ordereditems.add(top);
@@ -282,13 +286,13 @@ public class Controller_order implements Initializable {
     		value = value + top.getPrice();
     	}
     	totalcost.setText(Double.toString(value));
-    	
+
     	//Speichern der Pizza mit Belägen in Pizza-Arraylist
     	orderedpizza.add(new Pizza(position.size(),size,price,topps));
-    	
+
     	//zur Positionsbestimmung wird der Index in der Tabelle in dieser ArrayList gespeichert
     	position.add(new Order(size,price));
-    	
+
     	//Leeren des Treetableviews und der Pizza-Radiobuttons
 		pizzaroot.getChildren().clear();
 		toplist.clear();
@@ -322,8 +326,20 @@ public class Controller_order implements Initializable {
 //	    	pizzaroot.getChildren().clear();
 //	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
 	    	pizzaroot.getChildren().get(0).setExpanded(true);
+	    	neu = pizzaroot.getChildren().get(0);
 	    	for(int i = 1;i<=index3;i++){
-	    		pizzaroot.getChildren().get(0).getChildren().add(new TreeItem<Order>(ordereditems.get(index+i)));
+	    		neu.getChildren().add(new TreeItem<Order>(ordereditems.get(index+i)));
+
+	    		for(int j=0;j<toppinglist1.size();j++){
+	    			if(ordereditems.get(index+i).getItem().equalsIgnoreCase(toppinglist1.get(j).getName())){
+	    				toplist.add(toppinglist1.get(j));
+	    			}
+	    		}
+    			for(int j=0;j<toppinglist2.size();j++){
+	    			if(ordereditems.get(index+i).getItem().equalsIgnoreCase(toppinglist2.get(j).getName())){
+	    				toplist.add(toppinglist2.get(j));
+	    			}
+	    		}
 	    	}
 	    	for(int i = 0;i<=index3;i++){
 	    		ordereditems.remove(index);
@@ -349,7 +365,7 @@ public class Controller_order implements Initializable {
 	    	int index3 = root.getChildren().get(index2).getChildren().size();
 	    	root.getChildren().remove(index2);
 	    	for(int i = 0;i<orderedpizza.size();i++){
-	    		if(orderedpizza.get(i).getNr().equals(index2)){
+	    		if(orderedpizza.get(i).getNr().getValue()==index2){
 	    			orderedpizza.remove(i);
 	    		}
 	    	}
@@ -360,18 +376,19 @@ public class Controller_order implements Initializable {
 
     @FXML
     void orderitems(ActionEvent event) throws IOException {
+    	DrinkDAO drink = new DrinkDAO();
     	String size = "";
     	int pnr = -1;
     	String name = "";
     	for(int i = 0; i<orderedpizza.size();i++){
     		size = orderedpizza.get(i).getSize();
-    		order.setPizza(onr, size);
-    		pnr = order.getPnr(onr);
-    		order.setToppings(pnr, orderedpizza.get(i).getToppings());
+    		pizza.setPizza(onr, size);
+    		pnr = pizza.getPnr(onr);
+    		topping.setToppings(pnr, orderedpizza.get(i).getToppings());
     	}
     	for(int i = 0; i<drinkslist.size();i++){
     		name = drinkslist.get(i).getName();
-    		order.setDrink(onr, name);
+    		drink.setDrink(onr, name);
     	}
     	mainApp.goBack(event,order.getOrders());
 		mainApp.showPrint(event,onr);
@@ -379,8 +396,8 @@ public class Controller_order implements Initializable {
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
-
-    	custshow.setText(order.getCustomerForOrder());
+System.out.println(cust.getCustomerForOrder());
+    	custshow.setText(cust.getCustomerForOrder());
     	onr = order.getOnr();
 		PizzaDAO pizza = new PizzaDAO();
 		pizzalist.addAll(pizza.getPizzas());

@@ -6,12 +6,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import model.Customer;
 import model.Pizza;
+import model.Topping;
+
 import java.sql.Connection;
 
 
 public class PizzaDAO {
 	private Connection dbConnect;
 	private ArrayList<Pizza> pizzalist = new ArrayList<Pizza>();
+	private ToppingDAO topping = new ToppingDAO();
 
 	public ArrayList<Pizza> getPizzas(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
@@ -31,41 +34,59 @@ public class PizzaDAO {
 		return pizzalist;
 	}
 
-	public Pizza addPizza(String size, double price) throws SQLException{
+	public void setPizza(int onr, String size){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
-		Pizza pizza = new Pizza(size, price);
+
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung2 = this.dbConnect.createStatement();
+				anweisung2.executeUpdate("Insert into orderedpizza (onr,size) values (" + onr + ", '" + size + "')");
+				anweisung2.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<Pizza> getPizzas(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
+		ArrayList<Pizza> pizzas = new ArrayList<>();
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select * from pizza where size='" + size + "'");
+				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where orderedpizza.size = pizza.size and onr=" + onr);
 				while(erg.next()){
-					pizza=new Pizza(erg.getString(1),erg.getDouble(2));
+					int pnr = erg.getInt(3);
+					ArrayList<Topping> tops = topping.getToppings(pnr);
+					pizzas.add(new Pizza(erg.getString(1),erg.getDouble(2),tops));
 				}
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return pizza;
+		return pizzas;
 	}
 
-//	public Customer deletePizza(String lname){
-//		this.dbConnect = (Connection) ConnectDB.createConnection();
-//		Customer customer = new Customer();
-//		ResultSet erg = null;
-//		if(this.dbConnect != null){
-//			try{
-//				Statement anweisung = this.dbConnect.createStatement();
-//				erg = anweisung.executeQuery("Select * from customers where lname='" + lname + "'");
-//				while(erg.next()){
-//					customer=new Customer(erg.getInt(1),erg.getString(2),erg.getString(3),erg.getString(4),erg.getString(5),erg.getString(6), erg.getString(7),erg.getString(8));
-//				}
-//			}
-//			catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return customer;
-//	}
+	public int getPnr(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		int pnr = 0;
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select pnr from orderedpizza where onr=" + onr);
+				while(erg.next()){
+					pnr = erg.getInt(1);
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return pnr;
+	}
+
 }

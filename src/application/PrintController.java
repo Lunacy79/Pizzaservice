@@ -1,7 +1,11 @@
 package application;
 
 import java.util.ArrayList;
+
+import DAO.CustomerDAO;
+import DAO.DrinkDAO;
 import DAO.OrderDAO;
+import DAO.PizzaDAO;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,45 +26,48 @@ import model.Pizza;
 
 
 public class PrintController {
-	
+
 	@FXML
     private Label custshow;
-	
+
 	@FXML
     private Label onrlabel;
-	
+
 	@FXML
     private TreeTableView<Order> orderlist;
     TreeItem<Order> root = new TreeItem<> (new Order("root",0.00));
 
     @FXML
     private TreeTableColumn<Order, String> ordercol;
-    
+
     @FXML
     private TreeTableColumn<Order, Double> pricecol;
-    
+
     @FXML
     private CheckBox paidcheckbox;
 
     @FXML
     private RadioButton customerradiobtn;
-    
+
     @FXML
     private RadioButton kitchenradiobtn;
-    
+
     private ToggleGroup group = new ToggleGroup();
     ArrayList<Pizza> pizzas;
     private Main mainApp;
     private int onr;
     OrderDAO order = new OrderDAO();
+    DrinkDAO drink =new DrinkDAO();
+    CustomerDAO cust = new CustomerDAO();
+    PizzaDAO pizza = new PizzaDAO();
 
 
 	public void setPage(){
 		onr = mainApp.getOnr();
-    	custshow.setText(order.getCustomerForOrder(onr));
+    	custshow.setText(cust.getCustomerForOrder(onr));
     	onrlabel.setText(""+onr);
-    	ArrayList<Pizza> pizzas = new ArrayList<>(order.getPizzas(onr));
-    	ArrayList<Drinks> drinks = new ArrayList<>(order.getDrinks(onr));
+    	ArrayList<Pizza> pizzas = new ArrayList<>(pizza.getPizzas(onr));
+    	ArrayList<Drinks> drinks = new ArrayList<>(drink.getDrinks(onr));
     	root.setExpanded(true);
     	orderlist.setRoot(root);
     	orderlist.setShowRoot(false);
@@ -100,7 +107,7 @@ public class PrintController {
 		          }
 		      }
 		    });
-    	
+
     	paidcheckbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
     	    @Override
     	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {

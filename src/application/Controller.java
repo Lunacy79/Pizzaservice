@@ -32,10 +32,10 @@ public class Controller implements Initializable {
 
 	@FXML
     private Tab bestellungstab;
-	
+
 	@FXML
     private Tab custtab;
-   
+
 	@FXML
     public TableView<Order> ordertable;
 	public ObservableList<Order> orderlist = FXCollections.observableArrayList();
@@ -54,29 +54,29 @@ public class Controller implements Initializable {
 
 	@FXML
     private TableColumn<Order, Integer> closed;
-	
+
 	@FXML
     public TableView<Customer> customertable;
     public ObservableList<Customer> customerlist = FXCollections.observableArrayList();
-    
+
     @FXML
     private TableColumn<Customer,Integer> colcnr;
-    
+
     @FXML
     private TableColumn<Customer,String> collname;
-    
+
     @FXML
     private TableColumn<Customer,String> colfname;
-    
+
     @FXML
     private TableColumn<Customer,String> colstreet;
-    
+
     @FXML
     private TableColumn<Customer,String> colnr;
 
 	@FXML
     private TableColumn<Customer,String> colplz;
-	
+
 	@FXML
 	private TableColumn<Customer,String> colcity;
 
@@ -85,24 +85,24 @@ public class Controller implements Initializable {
 
     @FXML
     private Button custdel;
-    
+
     @FXML
     private Button custadd;
-    
+
     @FXML
     private Button custchange;
 
     @FXML
     private Button custlistorder;
-    
+
     @FXML
     private Button searchbtn;
 
     @FXML
     private TextField searchfield;
-    
+
     public Main mainApp;
-   
+
     @FXML
     void addCustomer(ActionEvent event) throws IOException {
     	mainApp.addCustomer(event);
@@ -124,7 +124,7 @@ public class Controller implements Initializable {
     void changeCustomer(ActionEvent event) throws IOException {
     	int index = customertable.getSelectionModel().getSelectedIndex();
 		int cnr = 0;
-    	if(index >= 0){	    	
+    	if(index >= 0){
 	    	cnr = mainApp.getCustomerlist().get(index).getCnr();
 	    	CustomerDAO cust = new CustomerDAO();
 	    	Customer customer = cust.getSingleCustomer(cnr);
@@ -190,6 +190,7 @@ public class Controller implements Initializable {
 		int knr = 0;
     	if(selectedIndex >= 0){
     		knr = customertable.getItems().get(selectedIndex).getCnr();
+    		System.out.println(customertable.getItems().get(selectedIndex).getCnr());
     		CustomerDAO cust = new CustomerDAO();
     		cust.setCustomerForOrder(knr);
     		mainApp.openOrder(event);

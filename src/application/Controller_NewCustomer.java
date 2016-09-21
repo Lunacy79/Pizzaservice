@@ -21,13 +21,13 @@ public class Controller_NewCustomer {
 
     @FXML
     private TextField lname;
-    
+
     @FXML
     private TextField street;
 
     @FXML
     private TextField nr;
-    
+
     @FXML
     private TextField plz;
 
@@ -39,13 +39,13 @@ public class Controller_NewCustomer {
 
     @FXML
     private Button addcustbtn;
-    
+
     @FXML
     void submitNewCustomer(ActionEvent event) throws SQLException, IOException {
     	CustomerDAO customer = new CustomerDAO();
     	String name = lname.getText();
-    	customer.addCustomer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
-		mainApp.getCustomerlist().add(new Customer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText()));
+    	int cnr = customer.addCustomer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
+		mainApp.getCustomerlist().add(new Customer(cnr, fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText()));
 		((Node)(event.getSource())).getScene().getWindow().hide();
     }
 

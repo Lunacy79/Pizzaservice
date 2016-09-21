@@ -16,7 +16,7 @@ public class ToppingDAO {
 	private ArrayList<Topping> toppinglist1 = new ArrayList<Topping>();
 	private ArrayList<Topping> toppinglist2 = new ArrayList<Topping>();
 	private ArrayList<Topping> toppinglist = new ArrayList<Topping>();
-	
+
 	public ArrayList<Topping> getTopping1(String size){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		ResultSet erg = null;
@@ -93,5 +93,47 @@ public class ToppingDAO {
 		toppinglist.addAll(getToppings1());
 		toppinglist.addAll(getToppings2());
 		return toppinglist;
+	}
+
+	public void setToppings(int pnr, ArrayList<Topping> toppings){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+
+		if(this.dbConnect != null){
+			try{
+				for(int i=0;i<toppings.size(); i++){
+				Statement anweisung2 = this.dbConnect.createStatement();
+				anweisung2.executeUpdate("Insert into orderedtopping (pnr,topping) values (" + pnr + ", '" + toppings.get(i).getName() + "')");
+				anweisung2.close();
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<Topping> getToppings(int pnr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		ArrayList<Topping> toppings = new ArrayList<Topping>();
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping1 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 1");
+				while(erg.next()){
+					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
+
+				}
+				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
+				while(erg.next()){
+					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
+
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return toppings;
 	}
 }

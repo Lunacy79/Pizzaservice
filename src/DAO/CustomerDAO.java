@@ -139,6 +139,25 @@ public class CustomerDAO {
 		return customer;
 	}
 
+	public String getCustomerForOrder(int onr){
+		this.dbConnect = (Connection) ConnectDB.createConnection();
+		ResultSet erg = null;
+		String customer = "";
+		if(this.dbConnect != null){
+			try{
+				Statement anweisung = this.dbConnect.createStatement();
+				erg = anweisung.executeQuery("Select orders.cnr,onr,lname,fname from customers,orders where customers.cnr = orders.cnr and onr=" +onr);
+				while(erg.next()){
+					customer=erg.getString(3) + ", " + erg.getString(4);
+				}
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return customer;
+	}
+
 	public void deleteCustomer(int cnr){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 		if(this.dbConnect != null){
@@ -152,4 +171,5 @@ public class CustomerDAO {
 			}
 		}
 	}
+
 }
