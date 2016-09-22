@@ -91,6 +91,10 @@ public class PrintController {
     		TreeItem<Order> neu = new TreeItem<> (new Order(drinks.get(i).getName(), drinks.get(i).getPrice()));
     		root.getChildren().add(neu);
     	}
+//    	double value = 0.00;
+//    	for(int i = 0; i<orderlist..getSelectionModel().selectLast().;i++){
+//
+//    	}
 
     	kitchenradiobtn.setToggleGroup(group);
     	customerradiobtn.setToggleGroup(group);

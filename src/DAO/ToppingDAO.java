@@ -127,7 +127,6 @@ public class ToppingDAO {
 				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
 				while(erg.next()){
 					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
-
 				}
 			}
 			catch (SQLException e) {

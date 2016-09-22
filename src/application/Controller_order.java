@@ -260,8 +260,6 @@ public class Controller_order implements Initializable {
     	tops.addAll(tops1);
     	tops.addAll(tops2);
 
-    	//?
-    	ArrayList<Topping> topps = new ArrayList<>(toplist);
 
     	//Auslesen der Grundpizza aus Treetableview und Speicherung in Pizza-Order-Array
     	Order pizza = pizzaroot.getChildren().get(0).getValue();
@@ -274,18 +272,24 @@ public class Controller_order implements Initializable {
     	neu2.setValue(pizza);
     	neu2.setExpanded(true);
     	root.getChildren().add(neu2);
-//    	value = value + price;
+    	value = value + price;
 
     	//Berechnung der Belagpreise; ab dem 3. Belag gibts 10% Rabatt
     	for(int i = 0; i<toplist.size();i++){
+    		top = new Order(tops.get(i).getItem(),tops.get(i).getPrice());
     		ordereditems.add(top);
     		if(i>=2){
     			tops.get(i).setPrice(tops.get(i).getPrice()*0.9);
     		}
     		neu2.getChildren().add(new TreeItem<>(tops.get(i)));
-    		value = value + top.getPrice();
+    		value = value + tops.get(i).getPrice();
     	}
     	totalcost.setText(Double.toString(value));
+
+    	ArrayList<Topping> topps = new ArrayList<>();
+    	for(int i = 0;i<tops.size();i++){
+    		topps.add(new Topping(tops.get(i).getItem(),tops.get(i).getPrice()));
+    	}
 
     	//Speichern der Pizza mit Belägen in Pizza-Arraylist
     	orderedpizza.add(new Pizza(position.size(),size,price,topps));
@@ -296,6 +300,11 @@ public class Controller_order implements Initializable {
     	//Leeren des Treetableviews und der Pizza-Radiobuttons
 		pizzaroot.getChildren().clear();
 		toplist.clear();
+		tops.clear();
+		toplist1.clear();
+		toplist2.clear();
+		tops1.clear();
+		tops2.clear();
 		if(group.getSelectedToggle()!= null){
 			group.getSelectedToggle().setSelected(false);
 		}
@@ -312,43 +321,57 @@ public class Controller_order implements Initializable {
 	@FXML
     void addTopping(ActionEvent event) {
     	int index = orderlist.getSelectionModel().getSelectedIndex();
-    	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
-	    	for(int i = 0;i<root.getChildren().size();i++){
-	    		root.getChildren().get(i).setExpanded(false);
-	    	}
-	    	int index2 = orderlist.getSelectionModel().getSelectedIndex();
-	    	for(int i = 0;i<root.getChildren().size();i++){
-	    		root.getChildren().get(i).setExpanded(true);
-	    	}
-	    	int index3 = root.getChildren().get(index2).getChildren().size();
-
-	    	group.getToggles().get(1).setSelected(true);
-//	    	pizzaroot.getChildren().clear();
-//	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
-	    	pizzaroot.getChildren().get(0).setExpanded(true);
-	    	neu = pizzaroot.getChildren().get(0);
-	    	for(int i = 1;i<=index3;i++){
-	    		neu.getChildren().add(new TreeItem<Order>(ordereditems.get(index+i)));
-
-	    		for(int j=0;j<toppinglist1.size();j++){
-	    			if(ordereditems.get(index+i).getItem().equalsIgnoreCase(toppinglist1.get(j).getName())){
-	    				toplist.add(toppinglist1.get(j));
-	    			}
-	    		}
-    			for(int j=0;j<toppinglist2.size();j++){
-	    			if(ordereditems.get(index+i).getItem().equalsIgnoreCase(toppinglist2.get(j).getName())){
-	    				toplist.add(toppinglist2.get(j));
-	    			}
-	    		}
-	    	}
-	    	for(int i = 0;i<=index3;i++){
-	    		ordereditems.remove(index);
-	    	}
-	    	root.getChildren().remove(index2);
-	    	orderedpizza.remove(index2);
-	    	position.remove(index2);
-
-    	}
+    	for(int j = 0; j<orderedpizza.size(); j++){
+    		if(orderlist.getSelectionModel().getModelItem(index).getValue().getItem().equalsIgnoreCase(orderedpizza.get(j).getSize())){
+		    	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
+			    	for(int i = 0;i<root.getChildren().size();i++){
+			    		root.getChildren().get(i).setExpanded(false);
+			    	}
+			    	int index2 = orderlist.getSelectionModel().getSelectedIndex();
+			    	for(int i = 0;i<root.getChildren().size();i++){
+			    		root.getChildren().get(i).setExpanded(true);
+			    	}
+			    	int index3 = root.getChildren().get(index2).getChildren().size();
+			    	int pizzaindex=0;
+			    	for(int i = 0;i<pizzalist.size();i++){
+			    		if(orderlist.getSelectionModel().getModelItem(index).getValue().getItem().equalsIgnoreCase(pizzalist.get(i).getSize())){
+			    			pizzaindex = i;
+			    		}
+			    	}
+			    	group.getToggles().get(pizzaindex).setSelected(true);
+		//	    	pizzaroot.getChildren().clear();
+		//	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
+			    	pizzaroot.getChildren().get(0).setExpanded(true);
+			    	neu = pizzaroot.getChildren().get(0);
+			    	for(int i = 1;i<=index3;i++){
+			    		neu.getChildren().add(new TreeItem<Order>(ordereditems.get(index+i)));
+			    		System.out.println(ordereditems.get(index+i));
+			    		for(int x=0;x<toppinglist1.size();x++){
+			    			if(ordereditems.get(index+i).getItem().equalsIgnoreCase(toppinglist1.get(x).getName())){
+			    				toplist.add(toppinglist1.get(x));
+			    			}
+			    		}
+		    			for(int x=0;x<toppinglist2.size();x++){
+			    			if(ordereditems.get(index+i).getItem().equalsIgnoreCase(toppinglist2.get(x).getName())){
+			    				toplist.add(toppinglist2.get(x));
+			    			}
+			    		}
+			    	}
+			    	for(int i = 0;i<=index3;i++){
+			    		ordereditems.remove(index);
+			    	}
+			    	double min = orderedpizza.get(index2).getPrice();
+			    	for (int i = 0;i<index3;i++){
+			    		min = min + orderedpizza.get(index2).getToppings().get(i).getPrice();
+			    	}
+			    	value = value-min;
+			    	totalcost.setText(Double.toString(value));
+			    	root.getChildren().remove(index2);
+			    	orderedpizza.remove(index2);
+			    	position.remove(index2);
+		    	}
+			}
+		}
     }
 
     @FXML
@@ -390,6 +413,7 @@ public class Controller_order implements Initializable {
     		name = drinkslist.get(i).getName();
     		drink.setDrink(onr, name);
     	}
+
     	mainApp.goBack(event,order.getOrders());
 		mainApp.showPrint(event,onr);
     }
