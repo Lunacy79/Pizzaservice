@@ -102,7 +102,7 @@ public class ToppingDAO {
 			try{
 				for(int i=0;i<toppings.size(); i++){
 				Statement anweisung2 = this.dbConnect.createStatement();
-				anweisung2.executeUpdate("Insert into orderedtopping (pnr,topping) values (" + pnr + ", '" + toppings.get(i).getName() + "')");
+				anweisung2.executeUpdate("Insert into orderedtopping (pnr,topping, price) values (" + pnr + ", '" + toppings.get(i).getName() + "', " + toppings.get(i).getPrice() +")");
 				anweisung2.close();
 				}
 			}
@@ -119,12 +119,7 @@ public class ToppingDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select orderedtopping.topping,topping1 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 1");
-				while(erg.next()){
-					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
-
-				}
-				erg = anweisung.executeQuery("Select orderedtopping.topping,topping2 from orderedtopping,topping,orderedpizza,pizza where orderedpizza.pnr=" + pnr + " and orderedtopping.topping = topping.topping and orderedpizza.pnr = orderedtopping.pnr and orderedpizza.size = pizza.size and priceclass = 2");
+				erg = anweisung.executeQuery("Select topping,price from orderedtopping where pnr=" + pnr);
 				while(erg.next()){
 					toppings.add(new Topping(erg.getString(1),erg.getDouble(2)));
 				}

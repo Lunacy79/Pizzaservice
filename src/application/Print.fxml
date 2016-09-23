@@ -9,7 +9,7 @@
    <children>
       <AnchorPane prefHeight="562.0" prefWidth="442.0">
          <children>
-            <TreeTableView fx:id="orderlist" layoutX="74.0" layoutY="53.0" prefHeight="411.0" prefWidth="295.0">
+            <TreeTableView fx:id="orderlist" layoutX="74.0" layoutY="53.0" prefHeight="386.0" prefWidth="295.0">
                <columns>
                   <TreeTableColumn fx:id="ordercol" prefWidth="183.0" text="Bestellung" />
                   <TreeTableColumn fx:id="pricecol" prefWidth="110.0" text="Preis" />
@@ -22,7 +22,9 @@
             <RadioButton fx:id="customerradiobtn" layoutX="180.0" layoutY="529.0" mnemonicParsing="false" text="Kundenexemplar" />
             <RadioButton fx:id="kitchenradiobtn" layoutX="18.0" layoutY="529.0" mnemonicParsing="false" text="Mitarbeiterexemplar" />
             <Button layoutX="369.0" layoutY="525.0" mnemonicParsing="false" text="Drucken" />
-            <CheckBox fx:id="paidcheckbox" layoutX="246.0" layoutY="479.0" mnemonicParsing="false" onAction="#closeOrder" text="Bezahlung erhalten" />
+            <CheckBox fx:id="paidcheckbox" layoutX="246.0" layoutY="468.0" mnemonicParsing="false" onAction="#closeOrder" text="Bezahlung erhalten" />
+            <Label fx:id="totalcost" layoutX="263.0" layoutY="441.0" text="0.00" />
+            <Label layoutX="82.0" layoutY="441.0" text="Gesamtpreis:" />
          </children>
       </AnchorPane>
    </children>

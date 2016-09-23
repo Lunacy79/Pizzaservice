@@ -51,30 +51,30 @@ public class OrderDAO {
 		}
 		return onr;
 	}
-
-	public ArrayList<Order> getOrder(int onr){
-		ArrayList<Order> order = new ArrayList<Order>();
-		ResultSet erg = null;
-		ResultSet erg2 = null;
-		if(this.dbConnect != null){
-			try{
-				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select size, price from orderedpizzas where onr = " + onr);
-				while(erg.next()){
-					order.add(new Order(erg.getString(1), erg.getDouble(2)));
-				}
-				Statement anweisung2 = this.dbConnect.createStatement();
-				erg2 = anweisung2.executeQuery("Select topping, price from orderedpizzas where onr = " + onr);
-				while(erg2.next()){
-					order.add(new Order(erg.getString(1), erg.getDouble(2)));
-				}
-			}
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return order;
-	}
+//
+//	public ArrayList<Order> getOrder(int onr){
+//		ArrayList<Order> order = new ArrayList<Order>();
+//		ResultSet erg = null;
+//		ResultSet erg2 = null;
+//		if(this.dbConnect != null){
+//			try{
+//				Statement anweisung = this.dbConnect.createStatement();
+//				erg = anweisung.executeQuery("Select size, price from orderedpizzas where onr = " + onr);
+//				while(erg.next()){
+//					order.add(new Order(erg.getString(1), erg.getDouble(2)));
+//				}
+//				Statement anweisung2 = this.dbConnect.createStatement();
+//				erg2 = anweisung2.executeQuery("Select topping, price from orderedpizzas where onr = " + onr);
+//				while(erg2.next()){
+//					order.add(new Order(erg.getString(1), erg.getDouble(2)));
+//				}
+//			}
+//			catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return order;
+//	}
 
 	public ArrayList<Order> getOrders(){
 		this.dbConnect = (Connection) ConnectDB.createConnection();

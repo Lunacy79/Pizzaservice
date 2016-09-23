@@ -34,13 +34,13 @@ public class PizzaDAO {
 		return pizzalist;
 	}
 
-	public void setPizza(int onr, String size){
+	public void setPizza(int onr, String size, double price){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung2 = this.dbConnect.createStatement();
-				anweisung2.executeUpdate("Insert into orderedpizza (onr,size) values (" + onr + ", '" + size + "')");
+				anweisung2.executeUpdate("Insert into orderedpizza (onr,size, price) values (" + onr + ", '" + size + "', " + price + ")");
 				anweisung2.close();
 			}
 			catch (SQLException e) {
@@ -56,7 +56,7 @@ public class PizzaDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select orderedpizza.size,price,pnr from orderedpizza,pizza where orderedpizza.size = pizza.size and onr=" + onr);
+				erg = anweisung.executeQuery("Select size,price,pnr from orderedpizza where onr=" + onr);
 				while(erg.next()){
 					int pnr = erg.getInt(3);
 					ArrayList<Topping> tops = topping.getToppings(pnr);

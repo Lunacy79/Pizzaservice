@@ -42,6 +42,9 @@ public class PrintController {
 
     @FXML
     private TreeTableColumn<Order, Double> pricecol;
+    
+    @FXML
+    private Label totalcost;
 
     @FXML
     private CheckBox paidcheckbox;
@@ -66,6 +69,7 @@ public class PrintController {
 		onr = mainApp.getOnr();
     	custshow.setText(cust.getCustomerForOrder(onr));
     	onrlabel.setText(""+onr);
+    	double value = 0;
     	ArrayList<Pizza> pizzas = new ArrayList<>(pizza.getPizzas(onr));
     	ArrayList<Drinks> drinks = new ArrayList<>(drink.getDrinks(onr));
     	root.setExpanded(true);
@@ -83,18 +87,17 @@ public class PrintController {
     		TreeItem<Order> neu = new TreeItem<> (new Order(pizzas.get(i).getSize(), pizzas.get(i).getPrice()));
     		root.getChildren().add(neu);
     		neu.setExpanded(true);
+    		value = value + pizzas.get(i).getPrice();
     		for(int j = 0; j<pizzas.get(i).getToppings().size();j++){
     			neu.getChildren().add(new TreeItem<Order>(new Order(pizzas.get(i).getToppings().get(j).getName(), pizzas.get(i).getToppings().get(j).getPrice())));
+    			value = value + pizzas.get(i).getToppings().get(j).getPrice();
     		}
     	}
     	for(int i=0;i<drinks.size();i++){
     		TreeItem<Order> neu = new TreeItem<> (new Order(drinks.get(i).getName(), drinks.get(i).getPrice()));
     		root.getChildren().add(neu);
     	}
-//    	double value = 0.00;
-//    	for(int i = 0; i<orderlist..getSelectionModel().selectLast().;i++){
-//
-//    	}
+    	totalcost.setText(Double.toString(value));
 
     	kitchenradiobtn.setToggleGroup(group);
     	customerradiobtn.setToggleGroup(group);

@@ -31,13 +31,13 @@ public class DrinkDAO {
 		return drinks;
 	}
 
-	public void setDrink(int onr, String name){
+	public void setDrink(int onr, String name, double price){
 		this.dbConnect = (Connection) ConnectDB.createConnection();
 
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung2 = this.dbConnect.createStatement();
-				anweisung2.executeUpdate("Insert into ordereddrinks (onr,name) values (" + onr + ", '" + name + "')");
+				anweisung2.executeUpdate("Insert into ordereddrinks (onr,name,price) values (" + onr + ", '" + name + "', " + price + ")");
 				anweisung2.close();
 			}
 			catch (SQLException e) {
@@ -53,7 +53,7 @@ public class DrinkDAO {
 		if(this.dbConnect != null){
 			try{
 				Statement anweisung = this.dbConnect.createStatement();
-				erg = anweisung.executeQuery("Select drinks.name,drinks.price from ordereddrinks,drinks where onr=" + onr + " and ordereddrinks.name = drinks.name");
+				erg = anweisung.executeQuery("Select name,price from ordereddrinks where onr=" + onr);
 				while(erg.next()){
 					drinks.add(new Drinks(erg.getString(1),erg.getDouble(2)));
 				}

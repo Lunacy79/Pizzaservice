@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import javafx.scene.control.TreeItem;
@@ -60,6 +61,7 @@ public class Controller_order implements Initializable {
     @FXML
     private FlowPane containertoppings;
     private ArrayList<Topping> toppinglist1 = new ArrayList<Topping>();
+    private HBox[] hbox1;
     private Button[] pls1;
     private Button[] mns1;
     private Label[] lbl1;
@@ -67,6 +69,7 @@ public class Controller_order implements Initializable {
     @FXML
     private FlowPane containertoppings2;
     private ArrayList<Topping> toppinglist2 = new ArrayList<Topping>();
+    private HBox[] hbox2;
     private Button[] pls2;
     private Button[] mns2;
     private Label[] lbl2;
@@ -84,6 +87,7 @@ public class Controller_order implements Initializable {
     private FlowPane containerdrinks;
     private ArrayList<Drinks> drinks = new ArrayList<>();
     private ArrayList<Drinks> drinkslist = new ArrayList<>();
+    private HBox[] drinkhbox;
     private Button[] pls;
     private Button[] mns;
     private Label[] lbl;
@@ -403,15 +407,24 @@ public class Controller_order implements Initializable {
     	String size = "";
     	int pnr = -1;
     	String name = "";
+    	double price = 0;
+    	if(value>=20){
+    		drinkslist.add(new Drinks("Cola",0.00));
+    	}
+    	if (value>=40){
+    		drinkslist.add(new Drinks("Wein",0.00));
+    	}
     	for(int i = 0; i<orderedpizza.size();i++){
     		size = orderedpizza.get(i).getSize();
-    		pizza.setPizza(onr, size);
+    		price = orderedpizza.get(i).getPrice();
+    		pizza.setPizza(onr, size, price);
     		pnr = pizza.getPnr(onr);
     		topping.setToppings(pnr, orderedpizza.get(i).getToppings());
     	}
     	for(int i = 0; i<drinkslist.size();i++){
     		name = drinkslist.get(i).getName();
-    		drink.setDrink(onr, name);
+    		price = drinkslist.get(i).getPrice();
+    		drink.setDrink(onr, name, price);
     	}
 
     	mainApp.goBack(event,order.getOrders());
@@ -443,10 +456,13 @@ System.out.println(cust.getCustomerForOrder());
 
 		ToppingDAO topping = new ToppingDAO();
 		toppinglist1 = topping.getToppings1();
+		hbox1 = new HBox[toppinglist1.size()];
 		pls1 = new Button[toppinglist1.size()];
 		lbl1 = new Label[toppinglist1.size()];
 		mns1 = new Button[toppinglist1.size()];
 		for( int i = 0; i<toppinglist1.size(); i++){
+			HBox hb =hbox1[i] = new HBox(5);
+			hbox1[i].setStyle("-fx-padding:2px; -fx-border-color: B2C0C0; -fx-border-radius:4;");
 			Button pls = pls1[i] = new Button("+");
 			pls1[i].setPadding(Insets.EMPTY);
 			pls1[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
@@ -454,16 +470,18 @@ System.out.println(cust.getCustomerForOrder());
 			Button mns = mns1[i] = new Button("-");
 			mns1[i].setPadding(Insets.EMPTY);
 			mns1[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
-			Label elbl = new Label("");
-			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
-			containertoppings.getChildren().addAll(pls1[i],lbl1[i],mns1[i],elbl);
+			hb.getChildren().addAll(pls1[i],lbl1[i],mns1[i]);
+			containertoppings.getChildren().addAll(hbox1[i]);
 		}
 
 		toppinglist2 = topping.getToppings2();
+		hbox2 = new HBox[toppinglist2.size()];
 		pls2 = new Button[toppinglist2.size()];
 		lbl2 = new Label[toppinglist2.size()];
 		mns2 = new Button[toppinglist2.size()];
 		for( int i = 0; i<toppinglist2.size(); i++){
+			HBox hb =hbox2[i] = new HBox(5);
+			hbox2[i].setStyle("-fx-padding:2px; -fx-border-color: B2C0C0; -fx-border-radius:4;");
 			Button pls = pls2[i] = new Button("+");
 			pls2[i].setPadding(Insets.EMPTY);
 			pls2[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
@@ -471,27 +489,28 @@ System.out.println(cust.getCustomerForOrder());
 			Button mns = mns2[i] = new Button("-");
 			mns2[i].setPadding(Insets.EMPTY);
 			mns2[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
-			Label elbl = new Label("");
-			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
-			containertoppings2.getChildren().addAll(pls2[i],lbl2[i],mns2[i],elbl);
+			hb.getChildren().addAll(pls2[i],lbl2[i],mns2[i]);
+			containertoppings2.getChildren().addAll(hbox2[i]);
 		}
 
 		DrinkDAO drink = new DrinkDAO();
 		drinks = drink.getDrinks();
+		drinkhbox = new HBox[drinks.size()];
 		pls = new Button[drinks.size()];
 		lbl = new Label[drinks.size()];
 		mns = new Button[drinks.size()];
 		for( int i = 0; i<drinks.size(); i++){
+			HBox hb =drinkhbox[i] = new HBox(5);
+			drinkhbox[i].setStyle("-fx-padding:2px; -fx-border-color: B2C0C0; -fx-border-radius:4;");
 			Button plus = pls[i] = new Button("+");
 			pls[i].setPadding(Insets.EMPTY);
-			pls[i].setStyle("-fx-margin:0 0 0 10px; -fx-pref-height:15px; -fx-pref-width:15px;");
+			pls[i].setStyle("-fx-pref-height:15px; -fx-pref-width:15px;");
 			Label lable = lbl[i] = new Label(drinks.get(i).getName());
 			Button minus = mns[i] = new Button("-");
 			mns[i].setPadding(Insets.EMPTY);
-			mns[i].setStyle("-fx-margin:0 10px 0 0; -fx-pref-height:15px; -fx-pref-width:15px;");
-			Label elbl = new Label("");
-			elbl.setStyle("-fx-padding: 0 10px 0 10px;");
-			containerdrinks.getChildren().addAll(pls[i],lbl[i],mns[i],elbl);
+			mns[i].setStyle("-fx-pref-height:15px; -fx-pref-width:15px;");
+			hb.getChildren().addAll(pls[i],lbl[i],mns[i]);
+			containerdrinks.getChildren().addAll(drinkhbox[i]);
 		}
 
 		for( int i = 0; i<drinks.size(); i++){
