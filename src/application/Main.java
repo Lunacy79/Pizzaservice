@@ -25,7 +25,7 @@ public class Main extends Application {
 
 	private Stage primaryStage;
 	private Stage secondStage;
-	
+
 	private ObservableList<Customer> customerlist = FXCollections.observableArrayList();
 	private CustomerDAO cust = new CustomerDAO();
 	private Customer customer;
@@ -33,7 +33,7 @@ public class Main extends Application {
 	private ObservableList<Order> orderlist = FXCollections.observableArrayList();
 	private OrderDAO orders = new OrderDAO();
 	private Order order = new Order();
-	
+
 	private int onr;
 
 	@Override
@@ -107,6 +107,7 @@ public class Main extends Application {
 	}
 
 	public void goBack(ActionEvent event,ArrayList<Order> orders) throws IOException{
+		orderlist.clear();
 		orderlist.addAll(orders);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("test.fxml"));
