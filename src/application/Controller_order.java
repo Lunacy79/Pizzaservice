@@ -233,6 +233,7 @@ public class Controller_order implements Initializable {
     	ArrayList<Order> tops1 = new ArrayList<Order>();
     	ArrayList<Order> tops2 = new ArrayList<Order>();
     	ArrayList<Topping> toplist1 = new ArrayList<>();
+    	ArrayList<Topping> toplist2 = new ArrayList<>();
     	Order top = null;
 
     	//Auslesen aus Treetableview
@@ -242,7 +243,6 @@ public class Controller_order implements Initializable {
     	}
 
     	//Sortierung der Beläge in Preiskategorien 1 und 2
-    	ArrayList<Topping> toplist2 = new ArrayList<>();
     	for(int i = 0;i<toplist.size();i++){
     		if(toplist.get(i).getPriceclass() == 1){
     			toplist1.add(toplist.get(i));
@@ -263,7 +263,6 @@ public class Controller_order implements Initializable {
     	tops.clear();
     	tops.addAll(tops1);
     	tops.addAll(tops2);
-
 
     	//Auslesen der Grundpizza aus Treetableview und Speicherung in Pizza-Order-Array
     	Order pizza = pizzaroot.getChildren().get(0).getValue();
@@ -390,12 +389,24 @@ public class Controller_order implements Initializable {
 	    		root.getChildren().get(i).setExpanded(true);
 	    	}
 	    	int index3 = root.getChildren().get(index2).getChildren().size();
-	    	root.getChildren().remove(index2);
-	    	for(int i = 0;i<orderedpizza.size();i++){
-	    		if(orderedpizza.get(i).getNr().getValue()==index2){
-	    			orderedpizza.remove(i);
+	    	for(int i = 0;i<pizzalist.size();i++){
+	    		if(orderlist.getSelectionModel().getModelItem(index).getValue().getItem().equalsIgnoreCase(pizzalist.get(i).getSize())){
+	    			for(int j = 0;j<orderedpizza.size();j++){
+	    	    		if(orderedpizza.get(j).getNr().getValue()==index2){
+	    	    			orderedpizza.remove(j);
+	    	    		}
+	    	    	}
+	    		}
+	    		else{
+	    			for(int j = 0;j<drinkslist.size();j++){
+	    	    		if(drinkslist.get(j).getName().equalsIgnoreCase(root.getChildren().get(index2).getValue().getItem())){
+	    	    			drinkslist.remove(j);
+	    	    		}
+	    	    	}
 	    		}
 	    	}
+	    	root.getChildren().remove(index2);
+
 	    	position.remove(index2);
 	    	ordereditems.remove(index);
     	}

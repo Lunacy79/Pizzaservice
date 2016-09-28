@@ -14,12 +14,13 @@ public class Order {
 	private int closed;
 	private Pizza pizza;
 	private Drinks drink;
+	private ArrayList<Pizza> pizzas = new ArrayList<Pizza>();
 	private ArrayList<Drinks> drinks = new ArrayList<Drinks>();
 	private SimpleStringProperty item;
 	private SimpleDoubleProperty price;
 
 	public Order(){
-		
+
 	}
 
 	public Order(String item,Double price){
@@ -33,6 +34,14 @@ public class Order {
 		this.cnr = customer.getCnr();
 		this.lname = customer.getLname();
 		this.fname = customer.getFname();
+		this.closed = closed;
+	}
+
+	public Order(int ordernumber, int cnr, ArrayList<Pizza> pizzas, ArrayList<Drinks> drinks, int closed){
+		this.ordernumber = ordernumber;
+		this.cnr = cnr;
+		this.pizzas = pizzas;
+		this.drinks = drinks;
 		this.closed = closed;
 	}
 
@@ -53,19 +62,19 @@ public class Order {
 	public int getOrdernumber() {
 		return ordernumber;
 	}
-	
+
 	public void setOrdernumber(int ordernumber) {
 		this.ordernumber = ordernumber;
 	}
-	
+
 	public Customer getCustomer() {
 		return customer;
 	}
-	
+
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
 	public int getCnr() {
 		return cnr;
 	}
@@ -89,7 +98,7 @@ public class Order {
 	public void setFname(String fname) {
 		this.fname = fname;
 	}
-	
+
 	public int getClosed() {
 		return closed;
 	}
@@ -97,26 +106,26 @@ public class Order {
 	public void setClosed(int closed) {
 		this.closed = closed;
 	}
-	
+
 	public Pizza getPizza() {
 		return pizza;
 	}
 	public void setPizza(Pizza pizza) {
 		this.pizza = pizza;
 	}
-	
+
 	public Drinks getDrink() {
 		return drink;
 	}
-	
+
 	public void setDrink(Drinks drink) {
 		this.drink = drink;
 	}
-	
+
 	public ArrayList<Drinks> getDrinks() {
 		return drinks;
 	}
-	
+
 	public void setDrinks(ArrayList<Drinks> drinks) {
 		this.drinks = drinks;
 	}
@@ -144,5 +153,15 @@ public class Order {
 	public Double getPrice() {
 		return price.get();
 	}
+
+	public ArrayList<Pizza> getPizzas() {
+		return pizzas;
+	}
+
+	public void setPizzas(ArrayList<Pizza> pizzas) {
+		this.pizzas = pizzas;
+	}
+
+
 
 }
