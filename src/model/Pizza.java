@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,7 +10,7 @@ public class Pizza {
 
 	private Topping topping;
 	private ArrayList<Topping> toppings = new ArrayList<Topping>();
-	private SimpleIntegerProperty nr;
+	private SimpleIntegerProperty pnr;
 	private SimpleStringProperty size;
 	private SimpleDoubleProperty price;
 	private double topping1;
@@ -22,8 +21,8 @@ public class Pizza {
 		this.price = new SimpleDoubleProperty(price);
 	}
 
-	public Pizza(int nr, String size, double price, ArrayList<Topping> toppings){
-		this.nr=new SimpleIntegerProperty(nr);
+	public Pizza(int pnr, String size, double price, ArrayList<Topping> toppings){
+		this.pnr=new SimpleIntegerProperty(pnr);
 		this.size = new SimpleStringProperty(size);
 		this.price = new SimpleDoubleProperty(price);
 		this.toppings = toppings;
@@ -62,14 +61,12 @@ public class Pizza {
 		this.toppings = toppings;
 	}
 
-
-
-	public SimpleIntegerProperty getNr() {
-		return nr;
+	public SimpleIntegerProperty getPnr() {
+		return pnr;
 	}
 
-	public void setNr(SimpleIntegerProperty nr) {
-		this.nr = nr;
+	public void setPnr(SimpleIntegerProperty pnr) {
+		this.pnr = pnr;
 	}
 
 	public String getSize() {
@@ -103,22 +100,5 @@ public class Pizza {
 	public void setTopping2(double topping2) {
 		this.topping2 = topping2;
 	}
-//
-//	public void addTopping(String number, String name, int priceclass){
-//		this.toppings.add(new Topping(name,priceclass));
-//	}
-//
-//	public Topping deleteTopping(String name){
-//		Iterator<Topping> iter = getToppings().iterator();
-//		boolean found = false;
-//		Topping topping = null;
-//		while(iter.hasNext() && !found){
-//			Topping top=iter.next();
-//			if(top.getName() == name){
-//				topping = top;
-//				found = true;
-//			}
-//		}
-//		return topping;
-//	}
+
 }

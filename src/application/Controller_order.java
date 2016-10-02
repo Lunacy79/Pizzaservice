@@ -43,6 +43,7 @@ public class Controller_order implements Initializable {
 	private OrderDAO order = new OrderDAO();
 	private CustomerDAO cust = new CustomerDAO();
 	private ToppingDAO topping = new ToppingDAO();
+	private Order thisorder = new Order();
 
     @FXML
     private Label custshow;
@@ -97,9 +98,7 @@ public class Controller_order implements Initializable {
     private TreeTableView<Order> pizzaorder;
     private TreeItem<Order> pizzaroot = new TreeItem<>(new Order("pizzaroot", 0.00));
     private TreeItem<Order> neu = new TreeItem<> ();
-    private Topping top;
     private ArrayList<Topping> toplist = new ArrayList<>();
-    private ArrayList<Order> topslist = new ArrayList<>();
     private ArrayList<Order> position = new ArrayList<>();
 
     @FXML
@@ -296,6 +295,7 @@ public class Controller_order implements Initializable {
 
     	//Speichern der Pizza mit Belägen in Pizza-Arraylist
     	orderedpizza.add(new Pizza(position.size(),size,price,topps));
+    	thisorder.setPizzas(orderedpizza);
 
     	//zur Positionsbestimmung wird der Index in der Tabelle in dieser ArrayList gespeichert
     	position.add(new Order(size,price));
@@ -342,8 +342,6 @@ public class Controller_order implements Initializable {
 			    		}
 			    	}
 			    	group.getToggles().get(pizzaindex).setSelected(true);
-		//	    	pizzaroot.getChildren().clear();
-		//	    	pizzaroot.getChildren().add(new TreeItem(ordereditems.get(index)));
 			    	pizzaroot.getChildren().get(0).setExpanded(true);
 			    	neu = pizzaroot.getChildren().get(0);
 			    	for(int i = 1;i<=index3;i++){
@@ -388,27 +386,18 @@ public class Controller_order implements Initializable {
 	    	for(int i = 0;i<root.getChildren().size();i++){
 	    		root.getChildren().get(i).setExpanded(true);
 	    	}
-	    	int index3 = root.getChildren().get(index2).getChildren().size();
 	    	for(int i = 0;i<pizzalist.size();i++){
 	    		if(orderlist.getSelectionModel().getModelItem(index).getValue().getItem().equalsIgnoreCase(pizzalist.get(i).getSize())){
 	    			for(int j = 0;j<orderedpizza.size();j++){
-	    	    		if(orderedpizza.get(j).getNr().getValue()==index2){
+	    	    		if(orderedpizza.get(j).getPnr().getValue()==index2){
 	    	    			orderedpizza.remove(j);
+	    	    			root.getChildren().remove(index2);
+	    	    	    	position.remove(index2);
+	    	    	    	ordereditems.remove(index);
 	    	    		}
 	    	    	}
-	    		}
-	    		else{
-	    			for(int j = 0;j<drinkslist.size();j++){
-	    	    		if(drinkslist.get(j).getName().equalsIgnoreCase(root.getChildren().get(index2).getValue().getItem())){
-	    	    			drinkslist.remove(j);
-	    	    		}
-	    	    	}
-	    		}
+	    		}	    		
 	    	}
-	    	root.getChildren().remove(index2);
-
-	    	position.remove(index2);
-	    	ordereditems.remove(index);
     	}
     }
 
