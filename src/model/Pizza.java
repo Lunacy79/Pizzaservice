@@ -21,6 +21,12 @@ public class Pizza {
 		this.price = new SimpleDoubleProperty(price);
 	}
 
+	public Pizza(int pnr, String size, double price){
+		this.pnr=new SimpleIntegerProperty(pnr);
+		this.size = new SimpleStringProperty(size);
+		this.price = new SimpleDoubleProperty(price);
+	}
+
 	public Pizza(int pnr, String size, double price, ArrayList<Topping> toppings){
 		this.pnr=new SimpleIntegerProperty(pnr);
 		this.size = new SimpleStringProperty(size);

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Order {
@@ -16,6 +17,7 @@ public class Order {
 	private Drinks drink;
 	private ArrayList<Pizza> pizzas = new ArrayList<Pizza>();
 	private ArrayList<Drinks> drinks = new ArrayList<Drinks>();
+	private SimpleIntegerProperty index;
 	private SimpleStringProperty item;
 	private SimpleDoubleProperty price;
 
@@ -24,6 +26,12 @@ public class Order {
 	}
 
 	public Order(String item,Double price){
+		this.item = new SimpleStringProperty(item);
+		this.price = new SimpleDoubleProperty(price);
+	}
+
+	public Order(int index,String item,Double price){
+		this.index = new SimpleIntegerProperty(index);
 		this.item = new SimpleStringProperty(item);
 		this.price = new SimpleDoubleProperty(price);
 	}
@@ -136,6 +144,14 @@ public class Order {
 
 	public void setPrice(SimpleDoubleProperty price) {
 		this.price = price;
+	}
+
+	public SimpleIntegerProperty getIndex() {
+		return index;
+	}
+
+	public void setIndex(SimpleIntegerProperty index) {
+		this.index = index;
 	}
 
 	public String getItem() {

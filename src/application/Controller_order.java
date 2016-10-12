@@ -167,10 +167,11 @@ public class Controller_order implements Initializable {
     	}
 
     	//Zwischenspeicherung der gewählten Pizzagröße
-    	piz=new Pizza(size,price);
+    	index = index + 1;
+    	piz=new Pizza(index,size,price);
 
     	//Pizza -> Treetableview
-    	neu=new TreeItem<>(new Order(size,price));
+    	neu=new TreeItem<>(new Order(index,size,price));
     	neu.setExpanded(true);
     	pizzaroot.getChildren().add(neu);
 
@@ -266,6 +267,7 @@ public class Controller_order implements Initializable {
 
     	//Auslesen der Grundpizza aus Treetableview und Speicherung in Pizza-Order-Array
     	Order pizza = pizzaroot.getChildren().get(0).getValue();
+    	System.out.println(pizza);
     	ordereditems.add(pizza);
     	String size = pizza.getItem();
     	double price = pizza.getPrice();
@@ -295,8 +297,7 @@ public class Controller_order implements Initializable {
     	}
 
     	//Speichern der Pizza mit Belägen in Pizza-Arraylist
-
-    	orderedpizza.add(new Pizza(position.size(),size,price,topps));
+    	orderedpizza.add(new Pizza(index,size,price,topps));
     	thisorder.setPizzas(orderedpizza);
 
     	//zur Positionsbestimmung wird der Index in der Tabelle in dieser ArrayList gespeichert
@@ -328,7 +329,8 @@ public class Controller_order implements Initializable {
     	int index = orderlist.getSelectionModel().getSelectedIndex();
     	for(int j = 0; j<orderedpizza.size(); j++){
     		if(orderlist.getSelectionModel().getModelItem(index).getValue().getItem().equalsIgnoreCase(orderedpizza.get(j).getSize())){
-		    	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
+    			int indexItem = orderlist.getSelectionModel().getModelItem(index).getValue().getIndex().get();
+//		    	if(orderlist.getTreeItemLevel(orderlist.getTreeItem(index))==1){
 			    	for(int i = 0;i<root.getChildren().size();i++){
 			    		root.getChildren().get(i).setExpanded(false);
 			    	}
@@ -373,7 +375,7 @@ public class Controller_order implements Initializable {
 			    	orderedpizza.remove(index2);
 			    	position.remove(index2);
 		    	}
-			}
+
 		}
     }
 
@@ -524,9 +526,10 @@ public class Controller_order implements Initializable {
     		System.out.println(thisdrink);
 			pls[i].setOnAction(new EventHandler<ActionEvent>() {
 	            @Override public void handle(ActionEvent e) {
-	            	drinkslist.add(new Drinks(name,price));
-	            	ordereditems.add(new Order(name,price));
-	            	root.getChildren().add(new TreeItem<Order>(new Order(name,price)));
+	            	index = index + 1;
+	            	drinkslist.add(new Drinks(index,name,price));
+	            	ordereditems.add(new Order(index,name,price));
+	            	root.getChildren().add(new TreeItem<Order>(new Order(index,name,price)));
 	            }
 	        });
 			mns[i].setOnAction(new EventHandler<ActionEvent>() {
