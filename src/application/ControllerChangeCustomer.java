@@ -19,13 +19,13 @@ public class ControllerChangeCustomer {
 
     @FXML
     private TextField lname;
-    
+
     @FXML
     private TextField street;
 
     @FXML
     private TextField nr;
-    
+
     @FXML
     private TextField plz;
 
@@ -45,12 +45,12 @@ public class ControllerChangeCustomer {
     void submitNewCustomer(ActionEvent event) throws SQLException, IOException {
     	CustomerDAO cust = new CustomerDAO();
     	String name = lname.getText();
-    	cust.addCustomer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
+//    	cust.addCustomer(fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
 		int cnr = customer.getCnr();
 		cust.changeCustomer(cnr, fname.getText(), name, street.getText() , nr.getText(), plz.getText(), city.getText(), telefon.getText());
 		mainApp.setCustomerlist();
 		((Node)(event.getSource())).getScene().getWindow().hide();
-    }	
+    }
 
     public void getCustomer(Customer customer){
     	this.customer = customer;
@@ -66,6 +66,7 @@ public class ControllerChangeCustomer {
     	plz.setText(this.customer.getPlz());
     	city.setText(this.customer.getCity());
     	telefon.setText(this.customer.getTelefon());
+
 	}
 
 }
