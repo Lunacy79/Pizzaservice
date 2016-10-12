@@ -1,8 +1,6 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import DAO.CustomerDAO;
 import application.Main;
 import model.Customer;
@@ -11,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -21,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
-public class Controller implements Initializable {
+public class Controller  {
 
 	public Controller(){
 
@@ -147,26 +144,6 @@ public class Controller implements Initializable {
 		customertable.setItems(mainApp.getCustomer(searchfield.getText()));
     }
 
-	@Override
-	public void initialize(final URL location, final ResourceBundle resources){
-		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
-		collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
-		colfname.setCellValueFactory(new PropertyValueFactory <Customer,String>("fname"));
-		colstreet.setCellValueFactory(new PropertyValueFactory <Customer,String>("street"));
-		colnr.setCellValueFactory(new PropertyValueFactory <Customer,String>("nr"));
-		colplz.setCellValueFactory(new PropertyValueFactory <Customer,String>("plz"));
-		colcity.setCellValueFactory(new PropertyValueFactory <Customer,String>("city"));
-		colphone.setCellValueFactory(new PropertyValueFactory <Customer,String>("telefon"));
-
-		orderonr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("ordernumber"));
-		ordercnr.setCellValueFactory(new PropertyValueFactory <Order,Integer>("cnr"));
-		orderlname.setCellValueFactory(new PropertyValueFactory <Order,String>("lname"));
-		orderfname.setCellValueFactory(new PropertyValueFactory <Order,String>("fname"));
-		closed.setCellValueFactory(new PropertyValueFactory <Order,Integer>("closed"));
-
-
-	}
-
 	public void start(){
 		colcnr.setCellValueFactory(new PropertyValueFactory <Customer,Integer>("cnr"));
 		collname.setCellValueFactory(new PropertyValueFactory <Customer,String>("lname"));
@@ -201,6 +178,7 @@ public class Controller implements Initializable {
 		this.mainApp = mainApp;
 		ordertable.setItems(mainApp.getOrderlist());
 		customertable.setItems(mainApp.getCustomerlist());
+		start();
 	}
 
 	public void refresh(){

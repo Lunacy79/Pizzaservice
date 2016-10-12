@@ -116,6 +116,7 @@ public class Controller_order implements Initializable {
     private TreeItem<Order> root = new TreeItem<>(new Order("root", 0.00));
     TreeItem<Order> neu2 = new TreeItem<> ();
     ArrayList<Order> ordereditems;
+    private int index;
 
     @FXML
     private TreeTableColumn<Order,String> ordercol;
@@ -294,6 +295,7 @@ public class Controller_order implements Initializable {
     	}
 
     	//Speichern der Pizza mit Belägen in Pizza-Arraylist
+
     	orderedpizza.add(new Pizza(position.size(),size,price,topps));
     	thisorder.setPizzas(orderedpizza);
 
@@ -396,7 +398,7 @@ public class Controller_order implements Initializable {
 	    	    	    	ordereditems.remove(index);
 	    	    		}
 	    	    	}
-	    		}	    		
+	    		}
 	    	}
     	}
     }
@@ -433,7 +435,8 @@ public class Controller_order implements Initializable {
 
     @Override
 	public void initialize(final URL location, final ResourceBundle resources){
-System.out.println(cust.getCustomerForOrder());
+    	System.out.println(cust.getCustomerForOrder());
+    	index = 0;
     	custshow.setText(cust.getCustomerForOrder());
     	onr = order.getOnr();
 		PizzaDAO pizza = new PizzaDAO();
